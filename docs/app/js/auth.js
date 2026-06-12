@@ -21,6 +21,13 @@ async function initAuth() {
   // Arriving via a reset link: show the recovery screen straight away rather
   // than waiting for the auth event, so the dashboard never flashes first.
   if (location.hash.includes('type=recovery')) showRecovery(true);
+  // Expired or already-used auth links arrive with an error in the hash.
+  const hashErr = new URLSearchParams(location.hash.slice(1)).get('error_description');
+  if (hashErr) {
+    document.getElementById('auth-hint').textContent = '⚠️ ' + hashErr + ' — request a new link below.';
+    showToast(hashErr);
+    history.replaceState({}, '', location.pathname);
+  }
   // Returning from Stripe Checkout: the webhook may land a moment after the
   // redirect, so poll the profile a few times before giving up.
   if (new URLSearchParams(location.search).get('checkout') === 'success') {
