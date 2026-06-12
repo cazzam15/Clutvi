@@ -111,8 +111,16 @@ async function forgotPassword() {
   const { error } = await sb.auth.resetPasswordForEmail(email, {
     redirectTo: location.origin + location.pathname,
   });
-  if (error) { showToast(error.message); return; }
-  document.getElementById('auth-hint').textContent = '📬 Reset link sent — check your inbox.';
+  const hint = document.getElementById('auth-hint');
+  if (error) {
+    const msg = /rate limit/i.test(error.message)
+      ? 'Too many emails sent recently — please wait an hour and try again.'
+      : error.message;
+    hint.textContent = '⚠️ ' + msg;
+    showToast(msg);
+    return;
+  }
+  hint.textContent = '📬 Reset link sent — check your inbox (and junk folder).';
   showToast('Reset link sent — check your inbox', 'success');
 }
 
