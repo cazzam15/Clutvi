@@ -3,299 +3,260 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>ReelRocket — AI Tools for Creators</title>
+<title>ReelRocket — AI Tools for Instagram & TikTok Creators</title>
+<meta name="description" content="Six AI-powered tools to write captions, score ideas, plan content and grow faster on Instagram & TikTok. 3 days free, then £9.99/month."/>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css">
+<style>
+:root {
+  --bg: #08080e;
+  --surface: #0f0f18;
+  --surface2: #16161f;
+  --border: rgba(255,255,255,0.07);
+  --border2: rgba(255,255,255,0.12);
+  --pink: #ff3cac;
+  --purple: #7b2fff;
+  --cyan: #00d4ff;
+  --grad: linear-gradient(135deg, #ff3cac, #7b2fff, #00d4ff);
+  --grad2: linear-gradient(135deg, #ff3cac, #7b2fff);
+  --text: #eeeeff;
+  --muted: #6b6b8a;
+  --muted2: #9494b8;
+  --green: #00e87a;
+  --radius: 16px;
+  --radius-sm: 10px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 16px;
+  line-height: 1.6;
+}
+.g { background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.container { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+
+/* NAV */
+nav {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(8,8,14,0.85);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+}
+.nav-inner { display: flex; align-items: center; justify-content: space-between; padding: 16px 24px; max-width: 1080px; margin: 0 auto; }
+.logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.3rem; letter-spacing: -0.03em; text-decoration: none; color: var(--text); }
+.nav-links { display: flex; align-items: center; gap: 20px; }
+.nav-links a { color: var(--muted2); text-decoration: none; font-size: 0.9rem; transition: color 0.15s; }
+.nav-links a:hover { color: var(--text); }
+.btn {
+  display: inline-block;
+  padding: 12px 28px;
+  background: var(--grad2);
+  border: none;
+  border-radius: var(--radius-sm);
+  color: #fff;
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: 0.95rem;
+  cursor: pointer;
+  text-decoration: none;
+  transition: opacity 0.2s, transform 0.1s;
+}
+.btn:hover { opacity: 0.9; }
+.btn:active { transform: scale(0.98); }
+.btn.nav-cta { padding: 9px 20px; font-size: 0.85rem; }
+.btn.big { padding: 16px 40px; font-size: 1.05rem; }
+
+/* HERO */
+.hero { text-align: center; padding: 96px 0 80px; position: relative; overflow: hidden; }
+.hero::before {
+  content: '';
+  position: absolute; top: -200px; left: 50%; transform: translateX(-50%);
+  width: 700px; height: 500px;
+  background: radial-gradient(ellipse, rgba(123,47,255,0.25), rgba(255,60,172,0.12) 50%, transparent 70%);
+  pointer-events: none;
+}
+.hero h1 {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: clamp(2.2rem, 6vw, 3.8rem);
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+  margin-bottom: 20px;
+  position: relative;
+}
+.hero p {
+  color: var(--muted2);
+  font-size: clamp(1rem, 2.5vw, 1.2rem);
+  max-width: 560px;
+  margin: 0 auto 36px;
+  position: relative;
+}
+.hero-note { font-size: 0.85rem; color: var(--muted); margin-top: 16px; position: relative; }
+
+/* TOOLS */
+section { padding: 72px 0; }
+.section-kicker { font-size: 0.78rem; font-weight: 600; color: var(--pink); text-transform: uppercase; letter-spacing: 0.12em; text-align: center; margin-bottom: 10px; }
+.section-title {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: clamp(1.6rem, 4vw, 2.3rem);
+  letter-spacing: -0.03em;
+  text-align: center;
+  margin-bottom: 48px;
+}
+.tools-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 18px; }
+.tool {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 26px;
+  transition: border-color 0.2s, transform 0.2s;
+}
+.tool:hover { border-color: var(--border2); transform: translateY(-3px); }
+.tool .emoji { font-size: 1.8rem; margin-bottom: 12px; display: block; }
+.tool h3 { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1.05rem; margin-bottom: 6px; }
+.tool p { color: var(--muted2); font-size: 0.9rem; }
+
+/* PRICING */
+.pricing-card {
+  max-width: 440px;
+  margin: 0 auto;
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  border-radius: 24px;
+  padding: 44px 40px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.pricing-card::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: var(--grad);
+}
+.trial-badge {
+  display: inline-block;
+  background: rgba(0,232,122,0.12);
+  color: var(--green);
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 6px 14px;
+  border-radius: 20px;
+  margin-bottom: 20px;
+}
+.price { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 3.2rem; letter-spacing: -0.03em; }
+.price .per { font-size: 1rem; font-weight: 400; color: var(--muted2); font-family: 'DM Sans', sans-serif; }
+.pricing-features { list-style: none; margin: 28px 0 32px; text-align: left; }
+.pricing-features li { padding: 9px 0; font-size: 0.92rem; color: var(--muted2); border-bottom: 1px solid var(--border); }
+.pricing-features li:last-child { border-bottom: none; }
+.pricing-features li::before { content: '✓  '; color: var(--green); font-weight: 700; }
+.pricing-note { font-size: 0.8rem; color: var(--muted); margin-top: 14px; }
+
+/* FOOTER */
+footer { border-top: 1px solid var(--border); padding: 32px 0; text-align: center; color: var(--muted); font-size: 0.85rem; }
+footer a { color: var(--muted2); text-decoration: none; }
+footer a:hover { color: var(--text); }
+
+@media (max-width: 600px) {
+  .hero { padding: 64px 0 52px; }
+  section { padding: 52px 0; }
+  .nav-links a.signin-link { display: none; }
+  .pricing-card { padding: 36px 24px; }
+}
+</style>
 </head>
 <body>
 
-<!-- AUTH SCREEN -->
-<div id="auth-screen" class="overlay-screen">
-  <div class="setup-card">
-    <div class="setup-logo">Reel<span class="g">Rocket</span> 🚀</div>
-    <div class="setup-sub">AI-powered tools for Instagram & TikTok creators</div>
-    <div class="auth-tabs">
-      <button class="auth-tab active" id="auth-tab-signin" onclick="setAuthMode('signin')">Sign In</button>
-      <button class="auth-tab" id="auth-tab-signup" onclick="setAuthMode('signup')">Create Account</button>
+<nav>
+  <div class="nav-inner">
+    <a class="logo" href="#">Reel<span class="g">Rocket</span> 🚀</a>
+    <div class="nav-links">
+      <a href="#tools">Tools</a>
+      <a href="#pricing">Pricing</a>
+      <a class="signin-link" href="app/">Sign In</a>
+      <a class="btn nav-cta" href="app/?signup=1">Start Free Trial</a>
     </div>
-    <div class="setup-label">Email</div>
-    <input type="email" class="setup-input" id="auth-email" placeholder="you@example.com" autocomplete="email"/>
-    <div class="setup-label">Password</div>
-    <input type="password" class="setup-input" id="auth-password" placeholder="••••••••" autocomplete="current-password"/>
-    <div class="setup-hint" id="auth-hint">Welcome back — sign in to launch your dashboard.</div>
-    <button class="btn-grad" id="auth-submit" onclick="submitAuth()">Sign In →</button>
-    <div class="setup-hint forgot-link"><a href="#" onclick="forgotPassword();return false;">Forgot password?</a></div>
-  </div>
-</div>
-
-<!-- PASSWORD RECOVERY SCREEN -->
-<div id="recovery-screen" class="overlay-screen" style="display:none">
-  <div class="setup-card">
-    <div class="setup-logo">Reel<span class="g">Rocket</span> 🚀</div>
-    <div class="setup-sub">Set a new password for your account</div>
-    <div class="setup-label">New password</div>
-    <input type="password" class="setup-input" id="recovery-password" placeholder="••••••••" autocomplete="new-password"/>
-    <div class="setup-label">Confirm new password</div>
-    <input type="password" class="setup-input" id="recovery-password2" placeholder="••••••••" autocomplete="new-password"/>
-    <button class="btn-grad" id="recovery-submit" onclick="submitNewPassword()">Save New Password →</button>
-  </div>
-</div>
-
-<!-- PAYWALL SCREEN -->
-<div id="paywall-screen" class="overlay-screen" style="display:none">
-  <div class="setup-card">
-    <div class="setup-logo">Reel<span class="g">Rocket</span> 🚀</div>
-    <div class="setup-sub">Unlock all 6 AI tools with ReelRocket Pro</div>
-    <ul class="paywall-features">
-      <li>✍️ Caption Writer with hooks & hashtags</li>
-      <li>📊 Algo Analyzer — score ideas before you post</li>
-      <li>📈 Post History Analyzer — find what's working</li>
-      <li>🧠 Brain Dump to Content — instant content plans</li>
-      <li>💬 Comment Reply Assistant</li>
-      <li>🔥 Viral Inspiration library & AI remix</li>
-    </ul>
-    <button class="btn-grad" id="subscribe-btn" onclick="startCheckout()">Subscribe →</button>
-    <div class="setup-hint paywall-foot">
-      Signed in as <span id="paywall-email"></span> · <a href="#" onclick="doSignOut();return false;">sign out</a>
-    </div>
-  </div>
-</div>
-
-<!-- SIDEBAR -->
-<nav id="sidebar">
-  <div class="sidebar-logo">Reel<span class="g">Rocket</span> 🚀</div>
-  <div class="sidebar-section">Main</div>
-  <div class="nav-item active" onclick="nav('home',this)"><span class="icon">🏠</span> Dashboard</div>
-  <div class="sidebar-section">AI Tools</div>
-  <div class="nav-item" onclick="nav('caption',this)"><span class="icon">✍️</span> Caption Writer</div>
-  <div class="nav-item" onclick="nav('algo',this)"><span class="icon">📊</span> Algo Analyzer</div>
-  <div class="nav-item" onclick="nav('history',this)"><span class="icon">📈</span> Post History</div>
-  <div class="nav-item" onclick="nav('brain',this)"><span class="icon">🧠</span> Brain Dump</div>
-  <div class="nav-item" onclick="nav('comment',this)"><span class="icon">💬</span> Comment Reply</div>
-  <div class="nav-item" onclick="nav('viral',this)"><span class="icon">🔥</span> Viral Inspiration</div>
-  <div class="sidebar-bottom">
-    <div class="account-email" id="account-email"></div>
-    <div class="api-badge" onclick="openBillingPortal()">
-      <div class="api-dot"></div>
-      Pro · Manage billing
-    </div>
-    <div class="api-badge signout" onclick="doSignOut()">↩ Sign out</div>
   </div>
 </nav>
 
-<!-- MAIN -->
-<main id="main">
+<header class="hero">
+  <div class="container">
+    <h1>Grow faster on Instagram<br>& TikTok with <span class="g">AI</span></h1>
+    <p>ReelRocket gives creators six AI-powered tools to write scroll-stopping captions, score ideas before posting, and turn messy thoughts into content plans — in seconds.</p>
+    <a class="btn big" href="app/?signup=1">Start Free Trial →</a>
+    <div class="hero-note">3 days free · then £9.99/month · cancel anytime</div>
+  </div>
+</header>
 
-  <!-- DASHBOARD -->
-  <div class="page active" id="page-home">
-    <div class="page-title">Dashboard</div>
-    <div class="page-sub">Welcome back. Here's your activity at a glance.</div>
-    <div class="stats-row">
-      <div class="stat-card">
-        <div class="stat-label">Content Generated</div>
-        <div class="stat-value pink" id="content-count">0</div>
+<section id="tools">
+  <div class="container">
+    <div class="section-kicker">The Toolkit</div>
+    <h2 class="section-title">Six tools. One <span class="g">creator engine</span>.</h2>
+    <div class="tools-grid">
+      <div class="tool">
+        <span class="emoji">✍️</span>
+        <h3>Caption Writer</h3>
+        <p>Scroll-stopping captions with hooks and hashtags, tuned to your platform and tone.</p>
       </div>
-      <div class="stat-card">
-        <div class="stat-label">Tools Available</div>
-        <div class="stat-value" style="color:var(--cyan)">6</div>
+      <div class="tool">
+        <span class="emoji">📊</span>
+        <h3>Algo Analyzer</h3>
+        <p>Score any content idea out of 100 for algorithm performance — before you post it.</p>
       </div>
-      <div class="stat-card">
-        <div class="stat-label">Status</div>
-        <div class="stat-value" style="color:var(--green);font-size:1.1rem;padding-top:8px">✓ Pro</div>
+      <div class="tool">
+        <span class="emoji">📈</span>
+        <h3>Post History Analyzer</h3>
+        <p>Paste your recent posts and find out exactly what's working and what to drop.</p>
       </div>
-    </div>
-    <div class="section-title">Recent Activity</div>
-    <div class="recent-card">
-      <div id="recent-list">
-        <div style="color:var(--muted);font-size:0.85rem;text-align:center;padding:24px 0;">Your AI-generated content will appear here.<br>Start with a tool to see your history.</div>
+      <div class="tool">
+        <span class="emoji">🧠</span>
+        <h3>Brain Dump to Content</h3>
+        <p>Turn a messy pile of ideas into a structured, ready-to-post content plan.</p>
+      </div>
+      <div class="tool">
+        <span class="emoji">💬</span>
+        <h3>Comment Reply Assistant</h3>
+        <p>Genuine, on-brand replies to your comments at speed — pick the tone, paste, done.</p>
+      </div>
+      <div class="tool">
+        <span class="emoji">🔥</span>
+        <h3>Viral Inspiration</h3>
+        <p>Save viral posts to your library and remix them for your own niche with AI.</p>
       </div>
     </div>
   </div>
+</section>
 
-  <!-- CAPTION WRITER -->
-  <div class="page" id="page-caption">
-    <div class="page-title">Caption Writer ✍️</div>
-    <div class="page-sub">Generate scroll-stopping captions with hashtags.</div>
-    <div class="tool-card">
-      <div class="field-label">Platform</div>
-      <div class="chip-row">
-        <div class="chip active" onclick="selectChip(this,'plat')">Instagram</div>
-        <div class="chip" onclick="selectChip(this,'plat')">TikTok</div>
-        <div class="chip" onclick="selectChip(this,'plat')">Both</div>
-      </div>
-      <div class="field-label">Tone</div>
-      <div class="chip-row">
-        <div class="chip active" onclick="selectChip(this,'tone')">Casual</div>
-        <div class="chip" onclick="selectChip(this,'tone')">Funny</div>
-        <div class="chip" onclick="selectChip(this,'tone')">Motivational</div>
-        <div class="chip" onclick="selectChip(this,'tone')">Educational</div>
-        <div class="chip" onclick="selectChip(this,'tone')">Aesthetic</div>
-      </div>
-      <div class="field-label">What's your post about?</div>
-      <textarea id="caption-input" rows="4" placeholder="Describe your post, product, or moment..."></textarea>
-      <button class="btn-run" onclick="runCaption()">Generate Captions →</button>
-      <div class="loading-dots" id="caption-loading"><div class="dot"></div><div class="dot"></div><div class="dot"></div> Generating...</div>
-      <div class="output-box" id="caption-output"></div>
-      <div class="output-actions" id="caption-actions" style="display:none">
-        <button class="btn-sm" onclick="copyOutput('caption-output')">Copy</button>
-        <button class="btn-sm" onclick="saveToHistory('caption-output','Caption Writer')">Save</button>
-      </div>
+<section id="pricing">
+  <div class="container">
+    <div class="section-kicker">Pricing</div>
+    <h2 class="section-title">One plan. <span class="g">Everything included</span>.</h2>
+    <div class="pricing-card">
+      <div class="trial-badge">3 days free</div>
+      <div class="price">£9.99 <span class="per">/ month</span></div>
+      <ul class="pricing-features">
+        <li>All six AI tools, unlimited access</li>
+        <li>Instagram & TikTok support</li>
+        <li>Viral post library & AI remixing</li>
+        <li>Content history dashboard</li>
+        <li>Cancel anytime — no contracts</li>
+      </ul>
+      <a class="btn big" href="app/?signup=1">Start Free Trial →</a>
+      <div class="pricing-note">No charge until your 3-day trial ends.</div>
     </div>
   </div>
+</section>
 
-  <!-- ALGO ANALYZER -->
-  <div class="page" id="page-algo">
-    <div class="page-title">Algo Analyzer 📊</div>
-    <div class="page-sub">Score your content idea for algorithm performance before you post.</div>
-    <div class="tool-card">
-      <div class="field-label">Platform</div>
-      <div class="chip-row">
-        <div class="chip active" onclick="selectChip(this,'algo-plat')">Instagram</div>
-        <div class="chip" onclick="selectChip(this,'algo-plat')">TikTok</div>
-      </div>
-      <div class="field-label">Describe your content idea</div>
-      <textarea id="algo-input" rows="4" placeholder="What are you planning to post? Include format (reel, carousel, static), topic, and hook idea..."></textarea>
-      <button class="btn-run" onclick="runAlgo()">Analyse →</button>
-      <div class="loading-dots" id="algo-loading"><div class="dot"></div><div class="dot"></div><div class="dot"></div> Analysing...</div>
-      <div id="algo-score-wrap" style="display:none">
-        <div class="field-label" style="margin-top:16px">Algorithm Score</div>
-        <div class="score-wrap">
-          <div class="score-bar-bg"><div class="score-bar-fill" id="algo-bar" style="width:0%"></div></div>
-          <div class="score-num" id="algo-score-num">—</div>
-        </div>
-      </div>
-      <div class="output-box" id="algo-output"></div>
-      <div class="output-actions" id="algo-actions" style="display:none">
-        <button class="btn-sm" onclick="copyOutput('algo-output')">Copy</button>
-      </div>
-    </div>
+<footer>
+  <div class="container">
+    Reel<span class="g">Rocket</span> 🚀 · AI tools for creators · <a href="app/">Sign in</a>
   </div>
+</footer>
 
-  <!-- POST HISTORY -->
-  <div class="page" id="page-history">
-    <div class="page-title">Post History Analyzer 📈</div>
-    <div class="page-sub">Paste your recent posts and find out what's actually working.</div>
-    <div class="tool-card">
-      <div class="field-label">Paste your recent posts (captions, stats, engagement — whatever you have)</div>
-      <textarea id="history-input" rows="8" placeholder="Post 1: 'Monday motivation...' — 2.4k likes, 300 comments&#10;Post 2: 'Behind the scenes...' — 890 likes, 45 comments&#10;..."></textarea>
-      <button class="btn-run" onclick="runHistory()">Analyse My Content →</button>
-      <div class="loading-dots" id="history-loading"><div class="dot"></div><div class="dot"></div><div class="dot"></div> Analysing patterns...</div>
-      <div class="output-box" id="history-output"></div>
-      <div class="output-actions" id="history-actions" style="display:none">
-        <button class="btn-sm" onclick="copyOutput('history-output')">Copy</button>
-        <button class="btn-sm" onclick="saveToHistory('history-output','Post History')">Save</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- BRAIN DUMP -->
-  <div class="page" id="page-brain">
-    <div class="page-title">Brain Dump to Content 🧠</div>
-    <div class="page-sub">Dump your raw ideas. Get a structured content plan out.</div>
-    <div class="tool-card">
-      <div class="field-label">Number of posts to plan</div>
-      <div class="chip-row">
-        <div class="chip active" onclick="selectChip(this,'dump-count')">5 posts</div>
-        <div class="chip" onclick="selectChip(this,'dump-count')">10 posts</div>
-        <div class="chip" onclick="selectChip(this,'dump-count')">30 days</div>
-      </div>
-      <div class="field-label">Platform</div>
-      <div class="chip-row">
-        <div class="chip active" onclick="selectChip(this,'dump-plat')">Instagram</div>
-        <div class="chip" onclick="selectChip(this,'dump-plat')">TikTok</div>
-        <div class="chip" onclick="selectChip(this,'dump-plat')">Both</div>
-      </div>
-      <div class="field-label">Brain dump — anything goes</div>
-      <textarea id="brain-input" rows="6" placeholder="I want to post about my morning routine, maybe some fitness stuff, I've been into cooking lately, thinking about doing a series on budget meals, also want to share my workspace setup..."></textarea>
-      <button class="btn-run" onclick="runBrain()">Build My Content Plan →</button>
-      <div class="loading-dots" id="brain-loading"><div class="dot"></div><div class="dot"></div><div class="dot"></div> Building your plan...</div>
-      <div class="output-box" id="brain-output"></div>
-      <div class="output-actions" id="brain-actions" style="display:none">
-        <button class="btn-sm" onclick="copyOutput('brain-output')">Copy</button>
-        <button class="btn-sm" onclick="saveToHistory('brain-output','Brain Dump')">Save</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- COMMENT REPLY -->
-  <div class="page" id="page-comment">
-    <div class="page-title">Comment Reply Assistant 💬</div>
-    <div class="page-sub">Generate genuine, on-brand replies to your comments at speed.</div>
-    <div class="tool-card">
-      <div class="field-label">Reply tone</div>
-      <div class="chip-row">
-        <div class="chip active" onclick="selectChip(this,'reply-tone')">Friendly</div>
-        <div class="chip" onclick="selectChip(this,'reply-tone')">Funny</div>
-        <div class="chip" onclick="selectChip(this,'reply-tone')">Professional</div>
-        <div class="chip" onclick="selectChip(this,'reply-tone')">Hype</div>
-      </div>
-      <div class="field-label">Paste comments (one per line)</div>
-      <textarea id="comment-input" rows="5" placeholder="omg where did you get that top&#10;this is so helpful thank you!!&#10;can you do a tutorial on this?&#10;I've been trying this for months and it never works"></textarea>
-      <button class="btn-run" onclick="runComment()">Generate Replies →</button>
-      <div class="loading-dots" id="comment-loading"><div class="dot"></div><div class="dot"></div><div class="dot"></div> Writing replies...</div>
-      <div class="output-box" id="comment-output"></div>
-      <div class="output-actions" id="comment-actions" style="display:none">
-        <button class="btn-sm" onclick="copyOutput('comment-output')">Copy All</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- VIRAL INSPIRATION -->
-  <div class="page" id="page-viral">
-    <div class="page-title">Viral Inspiration 🔥</div>
-    <div class="page-sub">Save viral posts, build a library, remix them for your niche.</div>
-    <div class="tab-row">
-      <button class="tab-btn active" onclick="switchTab('save',this)">Save Post</button>
-      <button class="tab-btn" onclick="switchTab('library',this)">My Library</button>
-      <button class="tab-btn" onclick="switchTab('remix',this)">Remix</button>
-    </div>
-
-    <div class="tab-panel active" id="tab-save">
-      <div class="tool-card">
-        <div class="field-label">Platform</div>
-        <div class="chip-row">
-          <div class="chip active" onclick="selectChip(this,'viral-plat')">Instagram</div>
-          <div class="chip" onclick="selectChip(this,'viral-plat')">TikTok</div>
-        </div>
-        <div class="field-label">Paste the caption or transcript</div>
-        <textarea id="viral-save-input" rows="5" placeholder="Paste the viral post caption, hook, or key text here..."></textarea>
-        <div class="field-label">Why did it go viral? (optional note)</div>
-        <textarea id="viral-note-input" rows="2" placeholder="Strong hook, relatable problem, trending audio..."></textarea>
-        <button class="btn-run" onclick="saveViralPost()">Save to Library →</button>
-      </div>
-    </div>
-
-    <div class="tab-panel" id="tab-library">
-      <div id="viral-lib-content">
-        <div style="color:var(--muted);font-size:0.85rem;text-align:center;padding:40px 0;">No saved posts yet. Save a viral post to start your library.</div>
-      </div>
-    </div>
-
-    <div class="tab-panel" id="tab-remix">
-      <div class="tool-card">
-        <div class="field-label">Your niche / topic</div>
-        <textarea id="remix-niche" rows="2" placeholder="e.g. UK home decor on a budget, fitness for busy mums, small business tips..."></textarea>
-        <div class="field-label">Paste the viral post to remix</div>
-        <textarea id="remix-input" rows="5" placeholder="Paste the viral content you want to adapt..."></textarea>
-        <button class="btn-run" onclick="runRemix()">Remix for My Niche →</button>
-        <div class="loading-dots" id="remix-loading"><div class="dot"></div><div class="dot"></div><div class="dot"></div> Remixing...</div>
-        <div class="output-box" id="remix-output"></div>
-        <div class="output-actions" id="remix-actions" style="display:none">
-          <button class="btn-sm" onclick="copyOutput('remix-output')">Copy</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-</main>
-
-<div class="toast" id="toast"></div>
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="js/config.js"></script>
-<script src="js/api.js"></script>
-<script src="js/auth.js"></script>
-<script src="js/app.js"></script>
 </body>
 </html>

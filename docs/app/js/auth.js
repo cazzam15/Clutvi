@@ -7,6 +7,11 @@ let authMode = 'signin';
 const ACTIVE_STATUSES = ['active', 'trialing'];
 
 async function initAuth() {
+  // Landing page CTA links here with ?signup=1
+  if (new URLSearchParams(location.search).get('signup') === '1') {
+    setAuthMode('signup');
+    history.replaceState({}, '', location.pathname);
+  }
   const { data: { session } } = await sb.auth.getSession();
   await handleSession(session);
   sb.auth.onAuthStateChange((event, session) => {
@@ -20,7 +25,7 @@ async function initAuth() {
   // redirect, so poll the profile a few times before giving up.
   if (new URLSearchParams(location.search).get('checkout') === 'success') {
     history.replaceState({}, '', location.pathname);
-    showToast('Payment received — activating your account...', 'success');
+    showToast('You\'re in — activating your account...', 'success');
     for (let i = 0; i < 10 && !isSubscribed(); i++) {
       await new Promise(r => setTimeout(r, 2000));
       await refreshProfile();

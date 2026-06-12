@@ -43,6 +43,7 @@ Deno.serve(async (req) => {
       customer: customerId,
       mode: 'subscription',
       line_items: [{ price: Deno.env.get('STRIPE_PRICE_ID')!, quantity: 1 }],
+      subscription_data: { trial_period_days: 3 },
       success_url: `${siteUrl}/?checkout=success`,
       cancel_url: `${siteUrl}/?checkout=cancelled`,
     });

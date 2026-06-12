@@ -60,7 +60,7 @@ API key, no auth). It still works on its own — just open it in a browser.
 
 1. Push this repo to GitHub.
 2. Repo Settings → Pages → deploy from branch `main`, folder `/docs`.
-   Site goes live at `https://<user>.github.io/ReelRocket/`.
+   Site goes live at `https://<user>.github.io/ReelRocket/` (landing page; the app is at `/app`).
 3. Put the final site URL into the `SITE_URL` secret (step 1.5) and into
    Supabase Auth → URL Configuration → Site URL (so confirmation emails link correctly).
 
@@ -76,5 +76,5 @@ polls the profile for up to ~20s while the webhook lands.
 
 - [ ] Move content history + viral library from localStorage into per-user Postgres tables
 - [ ] Usage metering / fair-use limits on `claude-proxy`
-- [ ] Marketing/landing page before the auth screen
+
 - [ ] Custom domain
