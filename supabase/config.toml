@@ -1,0 +1,6 @@
+project_id = "reelrocket"
+
+# Stripe calls this endpoint directly — it authenticates with the webhook
+# signing secret, not a Supabase JWT.
+[functions.stripe-webhook]
+verify_jwt = false

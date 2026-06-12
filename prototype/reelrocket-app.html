@@ -1,0 +1,949 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>ReelRocket — Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #08080e;
+  --surface: #0f0f18;
+  --surface2: #16161f;
+  --surface3: #1c1c28;
+  --border: rgba(255,255,255,0.07);
+  --border2: rgba(255,255,255,0.12);
+  --pink: #ff3cac;
+  --purple: #7b2fff;
+  --cyan: #00d4ff;
+  --grad: linear-gradient(135deg, #ff3cac, #7b2fff, #00d4ff);
+  --grad2: linear-gradient(135deg, #ff3cac, #7b2fff);
+  --text: #eeeeff;
+  --muted: #6b6b8a;
+  --muted2: #9494b8;
+  --green: #00e87a;
+  --yellow: #ffd700;
+  --red: #ff4f4f;
+  --sidebar-w: 240px;
+  --radius: 16px;
+  --radius-sm: 10px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; }
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 15px;
+  line-height: 1.6;
+  display: flex;
+  overflow: hidden;
+}
+
+/* SETUP SCREEN */
+#setup-screen {
+  position: fixed; inset: 0; z-index: 9999;
+  background: var(--bg);
+  display: flex; align-items: center; justify-content: center;
+}
+.setup-card {
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  border-radius: 24px;
+  padding: 48px;
+  width: 100%;
+  max-width: 480px;
+  box-shadow: 0 40px 80px rgba(0,0,0,0.5);
+  position: relative;
+  overflow: hidden;
+}
+.setup-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; height: 3px;
+  background: var(--grad);
+}
+.setup-logo {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: 1.8rem;
+  letter-spacing: -0.03em;
+  margin-bottom: 8px;
+}
+.setup-logo .g { background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.setup-sub { color: var(--muted2); font-size: 0.95rem; margin-bottom: 32px; }
+.setup-label { font-size: 0.8rem; font-weight: 500; color: var(--muted2); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 8px; }
+.setup-input {
+  width: 100%;
+  background: var(--surface2);
+  border: 1px solid var(--border2);
+  border-radius: var(--radius-sm);
+  padding: 14px 16px;
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.95rem;
+  outline: none;
+  margin-bottom: 16px;
+  transition: border-color 0.2s;
+}
+.setup-input:focus { border-color: var(--purple); }
+.setup-hint { font-size: 0.8rem; color: var(--muted); margin-bottom: 24px; }
+.setup-hint a { color: var(--cyan); text-decoration: none; }
+.btn-grad {
+  width: 100%;
+  padding: 14px;
+  background: var(--grad2);
+  border: none;
+  border-radius: var(--radius-sm);
+  color: #fff;
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: opacity 0.2s, transform 0.1s;
+}
+.btn-grad:hover { opacity: 0.9; }
+.btn-grad:active { transform: scale(0.98); }
+
+/* SIDEBAR */
+#sidebar {
+  width: var(--sidebar-w);
+  min-width: var(--sidebar-w);
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow-y: auto;
+  position: relative;
+}
+.sidebar-logo {
+  padding: 24px 20px 20px;
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: 1.3rem;
+  letter-spacing: -0.03em;
+  border-bottom: 1px solid var(--border);
+}
+.sidebar-logo .g { background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.sidebar-section {
+  padding: 16px 12px 8px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--muted);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px;
+  margin: 2px 8px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-size: 0.9rem;
+  color: var(--muted2);
+  transition: all 0.15s;
+  border: 1px solid transparent;
+}
+.nav-item:hover { background: var(--surface2); color: var(--text); }
+.nav-item.active { background: var(--surface3); color: var(--text); border-color: var(--border2); }
+.nav-item .icon { font-size: 1.1rem; width: 20px; text-align: center; }
+.sidebar-bottom {
+  margin-top: auto;
+  padding: 16px;
+  border-top: 1px solid var(--border);
+}
+.api-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.75rem;
+  color: var(--muted);
+  padding: 8px 12px;
+  background: var(--surface2);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+}
+.api-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); flex-shrink: 0; }
+
+/* MAIN */
+#main {
+  flex: 1;
+  overflow-y: auto;
+  height: 100vh;
+}
+.page { display: none; padding: 32px; max-width: 900px; }
+.page.active { display: block; }
+.page-title {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: 1.6rem;
+  letter-spacing: -0.03em;
+  margin-bottom: 4px;
+}
+.page-sub { color: var(--muted2); margin-bottom: 28px; font-size: 0.9rem; }
+
+/* DASHBOARD */
+.stats-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 28px; }
+.stat-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+}
+.stat-label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px; }
+.stat-value { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 2rem; }
+.stat-value.pink { background: var(--grad2); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.section-title { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1rem; margin-bottom: 16px; }
+.recent-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+}
+.recent-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+}
+.recent-item:last-child { border-bottom: none; }
+.recent-tool-badge {
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 3px 8px;
+  border-radius: 20px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.badge-caption { background: rgba(255,60,172,0.15); color: var(--pink); }
+.badge-algo { background: rgba(123,47,255,0.15); color: var(--purple); }
+.badge-history { background: rgba(0,212,255,0.15); color: var(--cyan); }
+.badge-brain { background: rgba(0,232,122,0.15); color: var(--green); }
+.badge-comment { background: rgba(255,215,0,0.15); color: var(--yellow); }
+.badge-viral { background: rgba(255,79,79,0.15); color: var(--red); }
+.recent-text { font-size: 0.85rem; color: var(--muted2); line-height: 1.4; }
+.recent-text strong { color: var(--text); display: block; font-size: 0.9rem; }
+.recent-time { font-size: 0.75rem; color: var(--muted); margin-top: 2px; }
+
+/* TOOL PAGES */
+.tool-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px;
+  margin-bottom: 20px;
+}
+.field-label { font-size: 0.8rem; font-weight: 500; color: var(--muted2); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 10px; }
+textarea {
+  width: 100%;
+  background: var(--surface2);
+  border: 1px solid var(--border2);
+  border-radius: var(--radius-sm);
+  padding: 14px 16px;
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.92rem;
+  line-height: 1.6;
+  outline: none;
+  resize: vertical;
+  transition: border-color 0.2s;
+  margin-bottom: 16px;
+}
+textarea:focus { border-color: var(--purple); }
+.chip-row { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+.chip {
+  padding: 6px 14px;
+  border-radius: 20px;
+  border: 1px solid var(--border2);
+  background: var(--surface2);
+  color: var(--muted2);
+  font-size: 0.82rem;
+  cursor: pointer;
+  transition: all 0.15s;
+  font-family: 'DM Sans', sans-serif;
+}
+.chip:hover { border-color: var(--purple); color: var(--text); }
+.chip.active { background: rgba(123,47,255,0.2); border-color: var(--purple); color: var(--text); }
+.btn-run {
+  padding: 12px 28px;
+  background: var(--grad2);
+  border: none;
+  border-radius: var(--radius-sm);
+  color: #fff;
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: opacity 0.2s, transform 0.1s;
+}
+.btn-run:hover { opacity: 0.9; }
+.btn-run:active { transform: scale(0.98); }
+.btn-run:disabled { opacity: 0.5; cursor: not-allowed; }
+.output-box {
+  background: var(--surface2);
+  border: 1px solid var(--border2);
+  border-radius: var(--radius-sm);
+  padding: 18px;
+  font-size: 0.88rem;
+  line-height: 1.7;
+  color: var(--text);
+  white-space: pre-wrap;
+  min-height: 80px;
+  margin-top: 16px;
+  display: none;
+}
+.output-box.visible { display: block; }
+.output-actions { display: flex; gap: 10px; margin-top: 10px; }
+.btn-sm {
+  padding: 7px 16px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border2);
+  background: var(--surface3);
+  color: var(--muted2);
+  font-size: 0.8rem;
+  cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+  transition: all 0.15s;
+}
+.btn-sm:hover { border-color: var(--purple); color: var(--text); }
+.loading-dots { display: none; padding: 16px 0; color: var(--muted); font-size: 0.88rem; }
+.loading-dots.visible { display: flex; align-items: center; gap: 8px; }
+.dot { width: 6px; height: 6px; border-radius: 50%; background: var(--purple); animation: bounce 1.2s infinite; }
+.dot:nth-child(2) { animation-delay: 0.2s; }
+.dot:nth-child(3) { animation-delay: 0.4s; }
+@keyframes bounce { 0%,80%,100%{transform:scale(0.7);opacity:0.5} 40%{transform:scale(1);opacity:1} }
+
+/* VIRAL TABS */
+.tab-row { display: flex; gap: 4px; margin-bottom: 20px; border-bottom: 1px solid var(--border); padding-bottom: 0; }
+.tab-btn {
+  padding: 8px 18px;
+  border: none;
+  background: none;
+  color: var(--muted2);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.88rem;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  transition: all 0.15s;
+}
+.tab-btn.active { color: var(--text); border-bottom-color: var(--pink); }
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+.viral-input-row { display: flex; gap: 10px; margin-bottom: 16px; }
+.viral-input-row textarea { margin-bottom: 0; flex: 1; }
+.viral-lib { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; }
+.viral-card {
+  background: var(--surface2);
+  border: 1px solid var(--border2);
+  border-radius: var(--radius-sm);
+  padding: 16px;
+  font-size: 0.85rem;
+  color: var(--muted2);
+}
+.viral-card-platform { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--pink); margin-bottom: 6px; }
+.viral-card-text { color: var(--text); margin-bottom: 10px; line-height: 1.5; }
+.viral-card-actions { display: flex; gap: 8px; }
+
+/* SCORE METER */
+.score-wrap { display: flex; align-items: center; gap: 16px; margin: 16px 0; }
+.score-bar-bg { flex: 1; height: 8px; background: var(--surface3); border-radius: 4px; overflow: hidden; }
+.score-bar-fill { height: 100%; border-radius: 4px; background: var(--grad); transition: width 0.6s ease; }
+.score-num { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.4rem; min-width: 48px; text-align: right; }
+.score-num.high { color: var(--green); }
+.score-num.mid { color: var(--yellow); }
+.score-num.low { color: var(--red); }
+
+/* TOAST */
+.toast {
+  position: fixed;
+  bottom: 24px; right: 24px;
+  background: var(--surface3);
+  border: 1px solid var(--border2);
+  border-radius: var(--radius-sm);
+  padding: 12px 20px;
+  font-size: 0.88rem;
+  color: var(--text);
+  z-index: 9998;
+  transform: translateY(80px);
+  opacity: 0;
+  transition: all 0.3s;
+  pointer-events: none;
+}
+.toast.visible { transform: translateY(0); opacity: 1; }
+.toast.success { border-color: var(--green); color: var(--green); }
+
+.fade-in { animation: fadeIn 0.3s ease; }
+@keyframes fadeIn { from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:none} }
+
+select {
+  background: var(--surface2);
+  border: 1px solid var(--border2);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.92rem;
+  outline: none;
+  cursor: pointer;
+  margin-bottom: 16px;
+}
+</style>
+</head>
+<body>
+
+<!-- SETUP SCREEN -->
+<div id="setup-screen">
+  <div class="setup-card">
+    <div class="setup-logo">Reel<span class="g">Rocket</span> 🚀</div>
+    <div class="setup-sub">AI-powered tools for Instagram & TikTok creators</div>
+    <div class="setup-label">Anthropic API Key</div>
+    <input type="password" class="setup-input" id="api-key-input" placeholder="sk-ant-api03-..." />
+    <div class="setup-hint">Get your key at <a href="https://console.anthropic.com" target="_blank">console.anthropic.com</a> — usage costs pennies per session.</div>
+    <button class="btn-grad" onclick="saveKey()">Launch Dashboard →</button>
+  </div>
+</div>
+
+<!-- SIDEBAR -->
+<nav id="sidebar">
+  <div class="sidebar-logo">Reel<span class="g">Rocket</span> 🚀</div>
+  <div class="sidebar-section">Main</div>
+  <div class="nav-item active" onclick="nav('home',this)"><span class="icon">🏠</span> Dashboard</div>
+  <div class="sidebar-section">AI Tools</div>
+  <div class="nav-item" onclick="nav('caption',this)"><span class="icon">✍️</span> Caption Writer</div>
+  <div class="nav-item" onclick="nav('algo',this)"><span class="icon">📊</span> Algo Analyzer</div>
+  <div class="nav-item" onclick="nav('history',this)"><span class="icon">📈</span> Post History</div>
+  <div class="nav-item" onclick="nav('brain',this)"><span class="icon">🧠</span> Brain Dump</div>
+  <div class="nav-item" onclick="nav('comment',this)"><span class="icon">💬</span> Comment Reply</div>
+  <div class="nav-item" onclick="nav('viral',this)"><span class="icon">🔥</span> Viral Inspiration</div>
+  <div class="sidebar-bottom">
+    <div class="api-badge" onclick="resetKey()">
+      <div class="api-dot"></div>
+      API Connected — reset
+    </div>
+  </div>
+</nav>
+
+<!-- MAIN -->
+<main id="main">
+
+  <!-- DASHBOARD -->
+  <div class="page active" id="page-home">
+    <div class="page-title">Dashboard</div>
+    <div class="page-sub">Welcome back. Here's your activity at a glance.</div>
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="stat-label">Content Generated</div>
+        <div class="stat-value pink" id="content-count">0</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Tools Available</div>
+        <div class="stat-value" style="color:var(--cyan)">6</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Status</div>
+        <div class="stat-value" style="color:var(--green);font-size:1.1rem;padding-top:8px">✓ Live</div>
+      </div>
+    </div>
+    <div class="section-title">Recent Activity</div>
+    <div class="recent-card">
+      <div id="recent-list">
+        <div style="color:var(--muted);font-size:0.85rem;text-align:center;padding:24px 0;">Your AI-generated content will appear here.<br>Start with a tool to see your history.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CAPTION WRITER -->
+  <div class="page" id="page-caption">
+    <div class="page-title">Caption Writer ✍️</div>
+    <div class="page-sub">Generate scroll-stopping captions with hashtags.</div>
+    <div class="tool-card">
+      <div class="field-label">Platform</div>
+      <div class="chip-row">
+        <div class="chip active" onclick="selectChip(this,'plat')">Instagram</div>
+        <div class="chip" onclick="selectChip(this,'plat')">TikTok</div>
+        <div class="chip" onclick="selectChip(this,'plat')">Both</div>
+      </div>
+      <div class="field-label">Tone</div>
+      <div class="chip-row">
+        <div class="chip active" onclick="selectChip(this,'tone')">Casual</div>
+        <div class="chip" onclick="selectChip(this,'tone')">Funny</div>
+        <div class="chip" onclick="selectChip(this,'tone')">Motivational</div>
+        <div class="chip" onclick="selectChip(this,'tone')">Educational</div>
+        <div class="chip" onclick="selectChip(this,'tone')">Aesthetic</div>
+      </div>
+      <div class="field-label">What's your post about?</div>
+      <textarea id="caption-input" rows="4" placeholder="Describe your post, product, or moment..."></textarea>
+      <button class="btn-run" onclick="runCaption()">Generate Captions →</button>
+      <div class="loading-dots" id="caption-loading"><div class="dot"></div><div class="dot"></div><div class="dot"></div> Generating...</div>
+      <div class="output-box" id="caption-output"></div>
+      <div class="output-actions" id="caption-actions" style="display:none">
+        <button class="btn-sm" onclick="copyOutput('caption-output')">Copy</button>
+        <button class="btn-sm" onclick="saveToHistory('caption-output','Caption Writer')">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ALGO ANALYZER -->
+  <div class="page" id="page-algo">
+    <div class="page-title">Algo Analyzer 📊</div>
+    <div class="page-sub">Score your content idea for algorithm performance before you post.</div>
+    <div class="tool-card">
+      <div class="field-label">Platform</div>
+      <div class="chip-row">
+        <div class="chip active" onclick="selectChip(this,'algo-plat')">Instagram</div>
+        <div class="chip" onclick="selectChip(this,'algo-plat')">TikTok</div>
+      </div>
+      <div class="field-label">Describe your content idea</div>
+      <textarea id="algo-input" rows="4" placeholder="What are you planning to post? Include format (reel, carousel, static), topic, and hook idea..."></textarea>
+      <button class="btn-run" onclick="runAlgo()">Analyse →</button>
+      <div class="loading-dots" id="algo-loading"><div class="dot"></div><div class="dot"></div><div class="dot"></div> Analysing...</div>
+      <div id="algo-score-wrap" style="display:none">
+        <div class="field-label" style="margin-top:16px">Algorithm Score</div>
+        <div class="score-wrap">
+          <div class="score-bar-bg"><div class="score-bar-fill" id="algo-bar" style="width:0%"></div></div>
+          <div class="score-num" id="algo-score-num">—</div>
+        </div>
+      </div>
+      <div class="output-box" id="algo-output"></div>
+      <div class="output-actions" id="algo-actions" style="display:none">
+        <button class="btn-sm" onclick="copyOutput('algo-output')">Copy</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- POST HISTORY -->
+  <div class="page" id="page-history">
+    <div class="page-title">Post History Analyzer 📈</div>
+    <div class="page-sub">Paste your recent posts and find out what's actually working.</div>
+    <div class="tool-card">
+      <div class="field-label">Paste your recent posts (captions, stats, engagement — whatever you have)</div>
+      <textarea id="history-input" rows="8" placeholder="Post 1: 'Monday motivation...' — 2.4k likes, 300 comments&#10;Post 2: 'Behind the scenes...' — 890 likes, 45 comments&#10;..."></textarea>
+      <button class="btn-run" onclick="runHistory()">Analyse My Content →</button>
+      <div class="loading-dots" id="history-loading"><div class="dot"></div><div class="dot"></div><div class="dot"></div> Analysing patterns...</div>
+      <div class="output-box" id="history-output"></div>
+      <div class="output-actions" id="history-actions" style="display:none">
+        <button class="btn-sm" onclick="copyOutput('history-output')">Copy</button>
+        <button class="btn-sm" onclick="saveToHistory('history-output','Post History')">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- BRAIN DUMP -->
+  <div class="page" id="page-brain">
+    <div class="page-title">Brain Dump to Content 🧠</div>
+    <div class="page-sub">Dump your raw ideas. Get a structured content plan out.</div>
+    <div class="tool-card">
+      <div class="field-label">Number of posts to plan</div>
+      <div class="chip-row">
+        <div class="chip active" onclick="selectChip(this,'dump-count')">5 posts</div>
+        <div class="chip" onclick="selectChip(this,'dump-count')">10 posts</div>
+        <div class="chip" onclick="selectChip(this,'dump-count')">30 days</div>
+      </div>
+      <div class="field-label">Platform</div>
+      <div class="chip-row">
+        <div class="chip active" onclick="selectChip(this,'dump-plat')">Instagram</div>
+        <div class="chip" onclick="selectChip(this,'dump-plat')">TikTok</div>
+        <div class="chip" onclick="selectChip(this,'dump-plat')">Both</div>
+      </div>
+      <div class="field-label">Brain dump — anything goes</div>
+      <textarea id="brain-input" rows="6" placeholder="I want to post about my morning routine, maybe some fitness stuff, I've been into cooking lately, thinking about doing a series on budget meals, also want to share my workspace setup..."></textarea>
+      <button class="btn-run" onclick="runBrain()">Build My Content Plan →</button>
+      <div class="loading-dots" id="brain-loading"><div class="dot"></div><div class="dot"></div><div class="dot"></div> Building your plan...</div>
+      <div class="output-box" id="brain-output"></div>
+      <div class="output-actions" id="brain-actions" style="display:none">
+        <button class="btn-sm" onclick="copyOutput('brain-output')">Copy</button>
+        <button class="btn-sm" onclick="saveToHistory('brain-output','Brain Dump')">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- COMMENT REPLY -->
+  <div class="page" id="page-comment">
+    <div class="page-title">Comment Reply Assistant 💬</div>
+    <div class="page-sub">Generate genuine, on-brand replies to your comments at speed.</div>
+    <div class="tool-card">
+      <div class="field-label">Reply tone</div>
+      <div class="chip-row">
+        <div class="chip active" onclick="selectChip(this,'reply-tone')">Friendly</div>
+        <div class="chip" onclick="selectChip(this,'reply-tone')">Funny</div>
+        <div class="chip" onclick="selectChip(this,'reply-tone')">Professional</div>
+        <div class="chip" onclick="selectChip(this,'reply-tone')">Hype</div>
+      </div>
+      <div class="field-label">Paste comments (one per line)</div>
+      <textarea id="comment-input" rows="5" placeholder="omg where did you get that top&#10;this is so helpful thank you!!&#10;can you do a tutorial on this?&#10;I've been trying this for months and it never works"></textarea>
+      <button class="btn-run" onclick="runComment()">Generate Replies →</button>
+      <div class="loading-dots" id="comment-loading"><div class="dot"></div><div class="dot"></div><div class="dot"></div> Writing replies...</div>
+      <div class="output-box" id="comment-output"></div>
+      <div class="output-actions" id="comment-actions" style="display:none">
+        <button class="btn-sm" onclick="copyOutput('comment-output')">Copy All</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- VIRAL INSPIRATION -->
+  <div class="page" id="page-viral">
+    <div class="page-title">Viral Inspiration 🔥</div>
+    <div class="page-sub">Save viral posts, build a library, remix them for your niche.</div>
+    <div class="tab-row">
+      <button class="tab-btn active" onclick="switchTab('save',this)">Save Post</button>
+      <button class="tab-btn" onclick="switchTab('library',this)">My Library</button>
+      <button class="tab-btn" onclick="switchTab('remix',this)">Remix</button>
+    </div>
+
+    <div class="tab-panel active" id="tab-save">
+      <div class="tool-card">
+        <div class="field-label">Platform</div>
+        <div class="chip-row">
+          <div class="chip active" onclick="selectChip(this,'viral-plat')">Instagram</div>
+          <div class="chip" onclick="selectChip(this,'viral-plat')">TikTok</div>
+        </div>
+        <div class="field-label">Paste the caption or transcript</div>
+        <textarea id="viral-save-input" rows="5" placeholder="Paste the viral post caption, hook, or key text here..."></textarea>
+        <div class="field-label">Why did it go viral? (optional note)</div>
+        <textarea id="viral-note-input" rows="2" placeholder="Strong hook, relatable problem, trending audio..."></textarea>
+        <button class="btn-run" onclick="saveViralPost()">Save to Library →</button>
+      </div>
+    </div>
+
+    <div class="tab-panel" id="tab-library">
+      <div id="viral-lib-content">
+        <div style="color:var(--muted);font-size:0.85rem;text-align:center;padding:40px 0;">No saved posts yet. Save a viral post to start your library.</div>
+      </div>
+    </div>
+
+    <div class="tab-panel" id="tab-remix">
+      <div class="tool-card">
+        <div class="field-label">Your niche / topic</div>
+        <textarea id="remix-niche" rows="2" placeholder="e.g. UK home decor on a budget, fitness for busy mums, small business tips..."></textarea>
+        <div class="field-label">Paste the viral post to remix</div>
+        <textarea id="remix-input" rows="5" placeholder="Paste the viral content you want to adapt..."></textarea>
+        <button class="btn-run" onclick="runRemix()">Remix for My Niche →</button>
+        <div class="loading-dots" id="remix-loading"><div class="dot"></div><div class="dot"></div><div class="dot"></div> Remixing...</div>
+        <div class="output-box" id="remix-output"></div>
+        <div class="output-actions" id="remix-actions" style="display:none">
+          <button class="btn-sm" onclick="copyOutput('remix-output')">Copy</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<div class="toast" id="toast"></div>
+
+<script>
+let apiKey = '';
+let contentCount = parseInt(localStorage.getItem('rr_count') || '0');
+let contentHistory = JSON.parse(localStorage.getItem('rr_history') || '[]');
+let viralLibrary = JSON.parse(localStorage.getItem('rr_viral') || '[]');
+
+function init() {
+  const saved = localStorage.getItem('rr_key');
+  if (saved) {
+    apiKey = saved;
+    document.getElementById('setup-screen').style.display = 'none';
+  }
+  document.getElementById('content-count').textContent = contentCount;
+  renderRecentList();
+  renderViralLib();
+}
+
+function saveKey() {
+  const val = document.getElementById('api-key-input').value.trim();
+  if (!val.startsWith('sk-ant-')) { showToast('Enter a valid Anthropic API key (starts with sk-ant-)'); return; }
+  apiKey = val;
+  localStorage.setItem('rr_key', val);
+  document.getElementById('setup-screen').style.display = 'none';
+}
+
+function resetKey() {
+  if (!confirm('Reset your API key?')) return;
+  localStorage.removeItem('rr_key');
+  apiKey = '';
+  document.getElementById('api-key-input').value = '';
+  document.getElementById('setup-screen').style.display = 'flex';
+}
+
+function nav(id, el) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + id).classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('main').scrollTop = 0;
+}
+
+function selectChip(el, group) {
+  const parent = el.closest('.chip-row') || el.parentElement;
+  parent.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+}
+
+function getActiveChip(group) {
+  const chips = document.querySelectorAll(`[onclick*="'${group}'"]`);
+  for (const c of chips) { if (c.classList.contains('active')) return c.textContent.trim(); }
+  return '';
+}
+
+async function callClaude(prompt) {
+  const resp = await fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'x-api-key': apiKey, 'anthropic-version': '2023-06-01', 'anthropic-dangerous-direct-browser-access': 'true' },
+    body: JSON.stringify({ model: 'claude-sonnet-4-6', max_tokens: 1000, messages: [{ role: 'user', content: prompt }] })
+  });
+  if (!resp.ok) { const e = await resp.json(); throw new Error(e.error?.message || 'API error'); }
+  const data = await resp.json();
+  return data.content[0].text;
+}
+
+function setLoading(id, on) {
+  document.getElementById(id + '-loading').classList.toggle('visible', on);
+  const btn = document.querySelector(`[onclick="run${id.charAt(0).toUpperCase()+id.slice(1)}()"]`) || document.querySelector(`[onclick*="run${id.charAt(0).toUpperCase()}"]`);
+  if (btn) btn.disabled = on;
+}
+
+function showOutput(id, text) {
+  const box = document.getElementById(id + '-output');
+  box.textContent = text;
+  box.classList.add('visible');
+  const acts = document.getElementById(id + '-actions');
+  if (acts) acts.style.display = 'flex';
+}
+
+async function runCaption() {
+  const text = document.getElementById('caption-input').value.trim();
+  if (!text) { showToast('Describe your post first'); return; }
+  const plat = getActiveChip('plat');
+  const tone = getActiveChip('tone');
+  setLoading('caption', true);
+  try {
+    const result = await callClaude(`You are a top social media content creator. Write 3 ${tone.toLowerCase()} captions for a ${plat} post about: "${text}". Each caption should have a strong hook, engaging body, and 10-15 relevant hashtags. Format as Caption 1, Caption 2, Caption 3 with clear spacing.`);
+    showOutput('caption', result);
+    incrementCount();
+    addToHistory('Caption Writer', text.substring(0,60), 'badge-caption');
+  } catch(e) { showToast(e.message); }
+  setLoading('caption', false);
+}
+
+async function runAlgo() {
+  const text = document.getElementById('algo-input').value.trim();
+  if (!text) { showToast('Describe your content idea first'); return; }
+  const plat = getActiveChip('algo-plat');
+  setLoading('algo', true);
+  try {
+    const result = await callClaude(`You are a ${plat} algorithm expert. Analyse this content idea and give it an algorithm score out of 100: "${text}". Start your response with SCORE: [number] on its own line, then provide: 1) Why it will/won't perform, 2) Specific improvements to boost the score, 3) Best time to post, 4) Recommended format. Be direct and specific.`);
+    const scoreMatch = result.match(/SCORE:\s*(\d+)/);
+    if (scoreMatch) {
+      const score = parseInt(scoreMatch[1]);
+      document.getElementById('algo-score-wrap').style.display = 'block';
+      document.getElementById('algo-bar').style.width = score + '%';
+      const numEl = document.getElementById('algo-score-num');
+      numEl.textContent = score + '/100';
+      numEl.className = 'score-num ' + (score >= 70 ? 'high' : score >= 45 ? 'mid' : 'low');
+    }
+    showOutput('algo', result.replace(/SCORE:\s*\d+\n?/, '').trim());
+    document.getElementById('algo-actions').style.display = 'flex';
+    incrementCount();
+    addToHistory('Algo Analyzer', text.substring(0,60), 'badge-algo');
+  } catch(e) { showToast(e.message); }
+  setLoading('algo', false);
+}
+
+async function runHistory() {
+  const text = document.getElementById('history-input').value.trim();
+  if (!text) { showToast('Paste your post history first'); return; }
+  setLoading('history', true);
+  try {
+    const result = await callClaude(`You are a social media strategist. Analyse these posts and engagement data: "${text}". Identify: 1) What content types perform best, 2) Patterns in top performers, 3) What to do more of, 4) What to stop doing, 5) Three specific content ideas based on what's working. Be direct with actionable insights.`);
+    showOutput('history', result);
+    incrementCount();
+    addToHistory('Post History', text.substring(0,60), 'badge-history');
+  } catch(e) { showToast(e.message); }
+  setLoading('history', false);
+}
+
+async function runBrain() {
+  const text = document.getElementById('brain-input').value.trim();
+  if (!text) { showToast('Do the brain dump first'); return; }
+  const count = getActiveChip('dump-count');
+  const plat = getActiveChip('dump-plat');
+  setLoading('brain', true);
+  try {
+    const result = await callClaude(`You are a social media content strategist. Take this brain dump and turn it into a structured ${plat} content plan for ${count}: "${text}". For each post include: post number, format (reel/carousel/static), hook, content outline, and best day to post. Make it specific and ready to execute.`);
+    showOutput('brain', result);
+    incrementCount();
+    addToHistory('Brain Dump', text.substring(0,60), 'badge-brain');
+  } catch(e) { showToast(e.message); }
+  setLoading('brain', false);
+}
+
+async function runComment() {
+  const text = document.getElementById('comment-input').value.trim();
+  if (!text) { showToast('Paste some comments first'); return; }
+  const tone = getActiveChip('reply-tone');
+  const comments = text.split('\n').filter(c => c.trim());
+  setLoading('comment', true);
+  try {
+    const result = await callClaude(`You are a social media manager. Write ${tone.toLowerCase()} replies to each of these comments. Keep replies genuine, concise (1-2 sentences), and engaging. Format as Comment: [original] → Reply: [your reply]\n\n${comments.map((c,i)=>`${i+1}. ${c}`).join('\n')}`);
+    showOutput('comment', result);
+    incrementCount();
+    addToHistory('Comment Reply', comments[0].substring(0,60), 'badge-comment');
+  } catch(e) { showToast(e.message); }
+  setLoading('comment', false);
+}
+
+function saveViralPost() {
+  const text = document.getElementById('viral-save-input').value.trim();
+  if (!text) { showToast('Paste a post to save'); return; }
+  const plat = getActiveChip('viral-plat');
+  const note = document.getElementById('viral-note-input').value.trim();
+  const post = { id: Date.now(), platform: plat, text, note, saved: new Date().toLocaleDateString() };
+  viralLibrary.unshift(post);
+  localStorage.setItem('rr_viral', JSON.stringify(viralLibrary));
+  document.getElementById('viral-save-input').value = '';
+  document.getElementById('viral-note-input').value = '';
+  renderViralLib();
+  showToast('✅ Saved to your library!', 'success');
+}
+
+function renderViralLib() {
+  const el = document.getElementById('viral-lib-content');
+  if (viralLibrary.length === 0) {
+    el.innerHTML = '<div style="color:var(--muted);font-size:0.85rem;text-align:center;padding:40px 0;">No saved posts yet. Save a viral post to start your library.</div>';
+    return;
+  }
+  el.innerHTML = '<div class="viral-lib">' + viralLibrary.map(p => `
+    <div class="viral-card">
+      <div class="viral-card-platform">${p.platform} · ${p.saved}</div>
+      <div class="viral-card-text">${escapeHtml(p.text.substring(0,120))}${p.text.length > 120 ? '...' : ''}</div>
+      ${p.note ? `<div style="font-size:0.75rem;color:var(--muted);margin-bottom:10px;">💡 ${escapeHtml(p.note)}</div>` : ''}
+      <div class="viral-card-actions">
+        <button class="btn-sm" data-text="${escapeAttr(p.text)}" onclick="copyText(this)">Copy</button>
+        <button class="btn-sm" onclick="prefillRemix(${p.id})">Remix</button>
+        <button class="btn-sm" onclick="deleteViral(${p.id})" style="color:var(--red)">Delete</button>
+      </div>
+    </div>
+  `).join('') + '</div>';
+}
+
+function prefillRemix(id) {
+  const post = viralLibrary.find(p => p.id === id);
+  if (!post) return;
+  document.getElementById('remix-input').value = post.text;
+  switchTab('remix', document.querySelector('.tab-btn:last-child'));
+}
+
+function deleteViral(id) {
+  viralLibrary = viralLibrary.filter(p => p.id !== id);
+  localStorage.setItem('rr_viral', JSON.stringify(viralLibrary));
+  renderViralLib();
+}
+
+async function runRemix() {
+  const niche = document.getElementById('remix-niche').value.trim();
+  const text = document.getElementById('remix-input').value.trim();
+  if (!text) { showToast('Paste a post to remix'); return; }
+  setLoading('remix', true);
+  try {
+    const result = await callClaude(`You are a viral content strategist. Take this viral post and remix it for ${niche || 'a general audience'}. Keep the same structure, hook style, and viral elements but completely adapt the content for the new niche. Provide 2 remix versions.\n\nOriginal viral post:\n${text}`);
+    showOutput('remix', result);
+    incrementCount();
+    addToHistory('Viral Inspiration', text.substring(0,60), 'badge-viral');
+  } catch(e) { showToast(e.message); }
+  setLoading('remix', false);
+}
+
+function switchTab(id, btn) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.add('active');
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+}
+
+function incrementCount() {
+  contentCount++;
+  localStorage.setItem('rr_count', contentCount);
+  document.getElementById('content-count').textContent = contentCount;
+}
+
+function addToHistory(tool, preview, badgeClass) {
+  const record = { tool, preview, badgeClass, time: new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'}) };
+  contentHistory.unshift(record);
+  if (contentHistory.length > 20) contentHistory.pop();
+  localStorage.setItem('rr_history', JSON.stringify(contentHistory));
+  renderRecentList();
+}
+
+function renderRecentList() {
+  const list = document.getElementById('recent-list');
+  if (contentHistory.length === 0) {
+    list.innerHTML = '<div style="color:var(--muted);font-size:0.85rem;text-align:center;padding:24px 0;">Your AI-generated content will appear here.<br>Start with a tool to see your history.</div>';
+    return;
+  }
+  list.innerHTML = contentHistory.slice(0,5).map(r => `
+    <div class="recent-item fade-in">
+      <span class="recent-tool-badge ${r.badgeClass}">${r.tool}</span>
+      <div class="recent-text">
+        <strong>${escapeHtml(r.tool)}</strong>
+        ${escapeHtml(r.preview)}...
+        <div class="recent-time">${r.time}</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function copyOutput(id) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  navigator.clipboard.writeText(el.textContent || el.innerText).then(() => {
+    showToast('✅ Copied to clipboard!', 'success');
+  });
+}
+
+function copyText(btn) {
+  navigator.clipboard.writeText(btn.dataset.text).then(() => {
+    btn.textContent = 'Copied!';
+    setTimeout(() => btn.textContent = 'Copy', 1500);
+  });
+}
+
+const toolBadges = {
+  'Caption Writer': 'badge-caption',
+  'Algo Analyzer': 'badge-algo',
+  'Post History': 'badge-history',
+  'Brain Dump': 'badge-brain',
+  'Comment Reply': 'badge-comment',
+  'Viral Inspiration': 'badge-viral'
+};
+
+function saveToHistory(id, tool) {
+  const text = document.getElementById(id)?.textContent;
+  if (text) addToHistory(tool, text.substring(0,60), toolBadges[tool] || 'badge-brain');
+  showToast('✅ Saved to your history!', 'success');
+}
+
+function showToast(msg, type = 'error') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast visible ' + (type === 'success' ? 'success' : '');
+  setTimeout(() => t.classList.remove('visible'), 3500);
+}
+
+function escapeHtml(str) {
+  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+function escapeAttr(str) {
+  return String(str).replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+}
+
+init();
+</script>
+</body>
+</html>
