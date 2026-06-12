@@ -1,3 +1,7 @@
+// Capture this BEFORE creating the client: supabase-js consumes the recovery
+// token and strips the hash as soon as it initializes, so checking later races.
+const arrivedViaRecovery = /type=recovery/.test(location.hash);
+
 const sb = supabase.createClient(RR_CONFIG.SUPABASE_URL, RR_CONFIG.SUPABASE_ANON_KEY);
 
 let currentUser = null;
@@ -20,7 +24,7 @@ async function initAuth() {
   });
   // Arriving via a reset link: show the recovery screen straight away rather
   // than waiting for the auth event, so the dashboard never flashes first.
-  if (location.hash.includes('type=recovery')) showRecovery(true);
+  if (arrivedViaRecovery) showRecovery(true);
   // Expired or already-used auth links arrive with an error in the hash.
   const hashErr = new URLSearchParams(location.hash.slice(1)).get('error_description');
   if (hashErr) {

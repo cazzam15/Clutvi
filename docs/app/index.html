@@ -39,6 +39,7 @@
     <div class="setup-label">Confirm new password</div>
     <input type="password" class="setup-input" id="recovery-password2" placeholder="••••••••" autocomplete="new-password"/>
     <button class="btn-grad" id="recovery-submit" onclick="submitNewPassword()">Save New Password →</button>
+    <div class="setup-hint forgot-link"><a href="#" onclick="showRecovery(false);return false;">Cancel</a></div>
   </div>
 </div>
 
@@ -80,6 +81,7 @@
       <div class="api-dot"></div>
       Pro · Manage billing
     </div>
+    <div class="api-badge signout" onclick="showRecovery(true)">🔑 Change password</div>
     <div class="api-badge signout" onclick="doSignOut()">↩ Sign out</div>
   </div>
 </nav>
