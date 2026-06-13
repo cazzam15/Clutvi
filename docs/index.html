@@ -4,265 +4,696 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <title>ReelRocket — AI Tools for Instagram & TikTok Creators</title>
-<meta name="description" content="Six AI-powered tools to write captions, score ideas, plan content and grow faster on Instagram & TikTok. 3 days free, then £9.99/month."/>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<meta name="description" content="Six AI-powered tools to write scroll-stopping captions, score ideas before you post, and grow faster on Instagram & TikTok. 3 days free, then £9.99/month."/>
+<meta property="og:title" content="ReelRocket — AI Tools for Creators"/>
+<meta property="og:description" content="Six AI tools in one dashboard. Write captions, score ideas, plan content. 3 days free."/>
+
+<!-- Forward auth deep-links that land on the root to the app -->
 <script>
-// Auth links (password reset, email confirm) from before the app moved to
-// /app — or with a misconfigured redirect — land here. Forward them, keeping
-// the token fragment intact.
 if (/access_token|type=recovery|error_description|type=signup/.test(location.hash)) {
   location.replace('app/' + location.hash);
 }
 </script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      fontFamily: {
+        sans:    ['DM Sans',  'ui-sans-serif', 'system-ui'],
+        display: ['Syne',     'ui-sans-serif'],
+      },
+    },
+  },
+}
+</script>
+<script src="https://cdn.tailwindcss.com"></script>
+
 <style>
-:root {
-  --bg: #08080e;
-  --surface: #0f0f18;
-  --surface2: #16161f;
-  --border: rgba(255,255,255,0.07);
-  --border2: rgba(255,255,255,0.12);
-  --pink: #ff3cac;
-  --purple: #7b2fff;
-  --cyan: #00d4ff;
-  --grad: linear-gradient(135deg, #ff3cac, #7b2fff, #00d4ff);
-  --grad2: linear-gradient(135deg, #ff3cac, #7b2fff);
-  --text: #eeeeff;
-  --muted: #6b6b8a;
-  --muted2: #9494b8;
-  --green: #00e87a;
-  --radius: 16px;
-  --radius-sm: 10px;
+/* ── Gradient utilities ──────────────────────────────────── */
+.g {
+  background: linear-gradient(135deg, #a78bfa 0%, #7C3AED 45%, #2DD4BF 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+.g-alt {
+  background: linear-gradient(135deg, #7C3AED 0%, #2DD4BF 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.btn-g {
+  background: linear-gradient(135deg, #7C3AED 0%, #5b21b6 50%, #2DD4BF 100%);
+  background-size: 200% auto;
+  transition: background-position 0.4s ease, transform 0.1s, opacity 0.2s;
+}
+.btn-g:hover  { background-position: right center; opacity: .94; }
+.btn-g:active { transform: scale(.98); }
+
+/* ── Glow / ambient effects ──────────────────────────────── */
+.hero-glow {
+  background: radial-gradient(ellipse 80% 60% at 50% -10%,
+    rgba(107,33,168,.32) 0%, rgba(45,212,191,.08) 50%, transparent 70%);
+}
+.card-glow:hover {
+  box-shadow: 0 0 0 1px rgba(124,58,237,.45),
+              0 24px 48px -12px rgba(107,33,168,.28);
+}
+.pricing-glow {
+  box-shadow: 0 0 0 1px rgba(124,58,237,.3),
+              0 40px 80px -20px rgba(107,33,168,.4);
+}
+
+/* ── Grid overlay texture ────────────────────────────────── */
+.grid-texture {
+  background-image:
+    linear-gradient(rgba(255,255,255,.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.04) 1px, transparent 1px);
+  background-size: 64px 64px;
+}
+
+/* ── Shimmer badge ───────────────────────────────────────── */
+@keyframes shimmer { to { background-position: -200% center; } }
+.badge-shimmer {
+  background: linear-gradient(90deg,
+    rgba(167,139,250,.6) 25%, rgba(167,139,250,1) 50%, rgba(167,139,250,.6) 75%);
+  background-size: 200% auto;
+  animation: shimmer 3s linear infinite;
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ── Float animation ─────────────────────────────────────── */
+@keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+.float { animation: float 5s ease-in-out infinite; }
+
+/* ── Pulse dot ───────────────────────────────────────────── */
+@keyframes pulse-dot { 0%,100% { opacity: 1; } 50% { opacity: .4; } }
+.pulse-dot { animation: pulse-dot 2s ease-in-out infinite; }
+
+/* ── Step connector line ─────────────────────────────────── */
+.step-line::after {
+  content: '';
+  position: absolute;
+  top: 24px; left: calc(50% + 32px);
+  width: calc(100% - 64px); height: 1px;
+  background: linear-gradient(90deg, rgba(124,58,237,.5), rgba(45,212,191,.5));
+}
+
+/* ── Testimonial card border glow ────────────────────────── */
+.testi-card:hover {
+  border-color: rgba(124,58,237,.4);
+  box-shadow: 0 8px 32px -8px rgba(107,33,168,.2);
+}
+
+/* ── Smooth scroll + scrollbar ───────────────────────────── */
 html { scroll-behavior: smooth; }
-body {
-  font-family: 'DM Sans', sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  font-size: 16px;
-  line-height: 1.6;
-}
-.g { background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-.container { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: #07070e; }
+::-webkit-scrollbar-thumb { background: rgba(124,58,237,.4); border-radius: 3px; }
 
-/* NAV */
-nav {
-  position: sticky; top: 0; z-index: 100;
-  background: rgba(8,8,14,0.85);
-  backdrop-filter: blur(12px);
-  border-bottom: 1px solid var(--border);
-}
-.nav-inner { display: flex; align-items: center; justify-content: space-between; padding: 16px 24px; max-width: 1080px; margin: 0 auto; }
-.logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.3rem; letter-spacing: -0.03em; text-decoration: none; color: var(--text); }
-.nav-links { display: flex; align-items: center; gap: 20px; }
-.nav-links a { color: var(--muted2); text-decoration: none; font-size: 0.9rem; transition: color 0.15s; }
-.nav-links a:hover { color: var(--text); }
-.btn {
-  display: inline-block;
-  padding: 12px 28px;
-  background: var(--grad2);
-  border: none;
-  border-radius: var(--radius-sm);
-  color: #fff;
-  font-family: 'Syne', sans-serif;
-  font-weight: 700;
-  font-size: 0.95rem;
-  cursor: pointer;
-  text-decoration: none;
-  transition: opacity 0.2s, transform 0.1s;
-}
-.btn:hover { opacity: 0.9; }
-.btn:active { transform: scale(0.98); }
-.btn.nav-cta { padding: 9px 20px; font-size: 0.85rem; }
-.btn.big { padding: 16px 40px; font-size: 1.05rem; }
-
-/* HERO */
-.hero { text-align: center; padding: 96px 0 80px; position: relative; overflow: hidden; }
-.hero::before {
-  content: '';
-  position: absolute; top: -200px; left: 50%; transform: translateX(-50%);
-  width: 700px; height: 500px;
-  background: radial-gradient(ellipse, rgba(123,47,255,0.25), rgba(255,60,172,0.12) 50%, transparent 70%);
-  pointer-events: none;
-}
-.hero h1 {
-  font-family: 'Syne', sans-serif;
-  font-weight: 800;
-  font-size: clamp(2.2rem, 6vw, 3.8rem);
-  letter-spacing: -0.03em;
-  line-height: 1.15;
-  margin-bottom: 20px;
-  position: relative;
-}
-.hero p {
-  color: var(--muted2);
-  font-size: clamp(1rem, 2.5vw, 1.2rem);
-  max-width: 560px;
-  margin: 0 auto 36px;
-  position: relative;
-}
-.hero-note { font-size: 0.85rem; color: var(--muted); margin-top: 16px; position: relative; }
-
-/* TOOLS */
-section { padding: 72px 0; }
-.section-kicker { font-size: 0.78rem; font-weight: 600; color: var(--pink); text-transform: uppercase; letter-spacing: 0.12em; text-align: center; margin-bottom: 10px; }
-.section-title {
-  font-family: 'Syne', sans-serif;
-  font-weight: 800;
-  font-size: clamp(1.6rem, 4vw, 2.3rem);
-  letter-spacing: -0.03em;
-  text-align: center;
-  margin-bottom: 48px;
-}
-.tools-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 18px; }
-.tool {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 26px;
-  transition: border-color 0.2s, transform 0.2s;
-}
-.tool:hover { border-color: var(--border2); transform: translateY(-3px); }
-.tool .emoji { font-size: 1.8rem; margin-bottom: 12px; display: block; }
-.tool h3 { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1.05rem; margin-bottom: 6px; }
-.tool p { color: var(--muted2); font-size: 0.9rem; }
-
-/* PRICING */
-.pricing-card {
-  max-width: 440px;
-  margin: 0 auto;
-  background: var(--surface);
-  border: 1px solid var(--border2);
-  border-radius: 24px;
-  padding: 44px 40px;
-  text-align: center;
-  position: relative;
-  overflow: hidden;
-}
-.pricing-card::before {
-  content: '';
-  position: absolute; top: 0; left: 0; right: 0; height: 3px;
-  background: var(--grad);
-}
-.trial-badge {
-  display: inline-block;
-  background: rgba(0,232,122,0.12);
-  color: var(--green);
-  font-size: 0.78rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  padding: 6px 14px;
-  border-radius: 20px;
-  margin-bottom: 20px;
-}
-.price { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 3.2rem; letter-spacing: -0.03em; }
-.price .per { font-size: 1rem; font-weight: 400; color: var(--muted2); font-family: 'DM Sans', sans-serif; }
-.pricing-features { list-style: none; margin: 28px 0 32px; text-align: left; }
-.pricing-features li { padding: 9px 0; font-size: 0.92rem; color: var(--muted2); border-bottom: 1px solid var(--border); }
-.pricing-features li:last-child { border-bottom: none; }
-.pricing-features li::before { content: '✓  '; color: var(--green); font-weight: 700; }
-.pricing-note { font-size: 0.8rem; color: var(--muted); margin-top: 14px; }
-
-/* FOOTER */
-footer { border-top: 1px solid var(--border); padding: 32px 0; text-align: center; color: var(--muted); font-size: 0.85rem; }
-footer a { color: var(--muted2); text-decoration: none; }
-footer a:hover { color: var(--text); }
-
-@media (max-width: 600px) {
-  .hero { padding: 64px 0 52px; }
-  section { padding: 52px 0; }
-  .nav-links a.signin-link { display: none; }
-  .pricing-card { padding: 36px 24px; }
+/* ── Reduced motion ──────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .float, .pulse-dot, .badge-shimmer { animation: none; }
 }
 </style>
 </head>
-<body>
+<body class="bg-[#07070e] text-zinc-100 font-sans antialiased overflow-x-hidden">
 
-<nav>
-  <div class="nav-inner">
-    <a class="logo" href="#">Reel<span class="g">Rocket</span> 🚀</a>
-    <div class="nav-links">
-      <a href="#tools">Tools</a>
-      <a href="#pricing">Pricing</a>
-      <a class="signin-link" href="app/">Sign In</a>
-      <a class="btn nav-cta" href="app/?signup=1">Start Free Trial</a>
+<!-- ══════════════════════════════════════════════════════════
+     NAV
+══════════════════════════════════════════════════════════ -->
+<nav class="sticky top-0 z-50 border-b border-white/[0.07]"
+     style="background:rgba(7,7,14,.88);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px)">
+  <div class="max-w-6xl mx-auto px-5 sm:px-8 flex items-center justify-between h-16">
+
+    <a href="#" class="font-display font-extrabold text-xl tracking-tight text-zinc-100 no-underline">
+      Reel<span class="g">Rocket</span> 🚀
+    </a>
+
+    <div class="hidden md:flex items-center gap-8">
+      <a href="#tools"    class="text-sm text-zinc-400 hover:text-zinc-100 transition-colors no-underline">Tools</a>
+      <a href="#how"      class="text-sm text-zinc-400 hover:text-zinc-100 transition-colors no-underline">How it works</a>
+      <a href="#stories"  class="text-sm text-zinc-400 hover:text-zinc-100 transition-colors no-underline">Stories</a>
+      <a href="#pricing"  class="text-sm text-zinc-400 hover:text-zinc-100 transition-colors no-underline">Pricing</a>
+    </div>
+
+    <div class="flex items-center gap-3">
+      <a href="app/" class="hidden sm:inline text-sm text-zinc-400 hover:text-zinc-100 transition-colors no-underline">Sign in</a>
+      <a href="app/?signup=1"
+         class="btn-g inline-block px-5 py-2.5 rounded-xl text-white font-display font-bold text-sm no-underline shadow-lg shadow-violet-950/40">
+        Start Free Trial
+      </a>
     </div>
   </div>
 </nav>
 
-<header class="hero">
-  <div class="container">
-    <h1>Grow faster on Instagram<br>& TikTok with <span class="g">AI</span></h1>
-    <p>ReelRocket gives creators six AI-powered tools to write scroll-stopping captions, score ideas before posting, and turn messy thoughts into content plans — in seconds.</p>
-    <a class="btn big" href="app/?signup=1">Start Free Trial →</a>
-    <div class="hero-note">3 days free · then £9.99/month · cancel anytime</div>
-  </div>
-</header>
+<!-- ══════════════════════════════════════════════════════════
+     HERO
+══════════════════════════════════════════════════════════ -->
+<section class="relative pt-20 pb-24 sm:pt-28 sm:pb-32 overflow-hidden">
 
-<section id="tools">
-  <div class="container">
-    <div class="section-kicker">The Toolkit</div>
-    <h2 class="section-title">Six tools. One <span class="g">creator engine</span>.</h2>
-    <div class="tools-grid">
-      <div class="tool">
-        <span class="emoji">✍️</span>
-        <h3>Caption Writer</h3>
-        <p>Scroll-stopping captions with hooks and hashtags, tuned to your platform and tone.</p>
-      </div>
-      <div class="tool">
-        <span class="emoji">📊</span>
-        <h3>Algo Analyzer</h3>
-        <p>Score any content idea out of 100 for algorithm performance — before you post it.</p>
-      </div>
-      <div class="tool">
-        <span class="emoji">📈</span>
-        <h3>Post History Analyzer</h3>
-        <p>Paste your recent posts and find out exactly what's working and what to drop.</p>
-      </div>
-      <div class="tool">
-        <span class="emoji">🧠</span>
-        <h3>Brain Dump to Content</h3>
-        <p>Turn a messy pile of ideas into a structured, ready-to-post content plan.</p>
-      </div>
-      <div class="tool">
-        <span class="emoji">💬</span>
-        <h3>Comment Reply Assistant</h3>
-        <p>Genuine, on-brand replies to your comments at speed — pick the tone, paste, done.</p>
-      </div>
-      <div class="tool">
-        <span class="emoji">🔥</span>
-        <h3>Viral Inspiration</h3>
-        <p>Save viral posts to your library and remix them for your own niche with AI.</p>
+  <!-- Ambient glow -->
+  <div class="hero-glow absolute inset-0 pointer-events-none"></div>
+  <!-- Subtle grid texture -->
+  <div class="grid-texture absolute inset-0 opacity-100 pointer-events-none"></div>
+
+  <div class="relative max-w-5xl mx-auto px-5 sm:px-8 text-center">
+
+    <!-- Badge -->
+    <div class="inline-flex items-center gap-2.5 rounded-full px-4 py-1.5 text-[11px] font-bold tracking-widest mb-8 border"
+         style="background:rgba(124,58,237,.1);border-color:rgba(124,58,237,.3)">
+      <span class="w-1.5 h-1.5 rounded-full bg-teal-400 pulse-dot"></span>
+      <span class="badge-shimmer">AI TOOLS FOR CREATORS · 6 TOOLS · ONE DASHBOARD</span>
+    </div>
+
+    <!-- Headline -->
+    <h1 class="font-display font-extrabold tracking-tight leading-[1.1] mb-6">
+      <span class="block text-[clamp(2.4rem,6vw,4.5rem)] text-zinc-100">Stop guessing.</span>
+      <span class="block text-[clamp(2.4rem,6vw,4.5rem)] g">Start growing.</span>
+    </h1>
+
+    <!-- Sub -->
+    <p class="text-zinc-400 text-lg sm:text-xl max-w-[600px] mx-auto mb-10 leading-relaxed">
+      ReelRocket gives busy creators <strong class="text-zinc-300 font-medium">6 AI tools</strong> to write
+      scroll-stopping captions, score ideas before you post, and turn a brain dump into a
+      full content calendar — in seconds.
+    </p>
+
+    <!-- CTA row -->
+    <div class="flex flex-col sm:flex-row gap-3 justify-center items-stretch sm:items-center mb-5">
+      <a href="app/?signup=1"
+         class="btn-g px-9 py-4 rounded-xl text-white font-display font-bold text-base no-underline text-center shadow-xl shadow-violet-950/50">
+        Start Free Trial →
+      </a>
+      <a href="#tools"
+         class="px-9 py-4 rounded-xl font-medium text-base no-underline text-center text-zinc-300 hover:text-white border border-white/10 hover:border-white/20 transition-all"
+         style="background:rgba(255,255,255,.04)">
+        See the tools ↓
+      </a>
+    </div>
+    <p class="text-sm text-zinc-600">3 days free &nbsp;·&nbsp; £9.99/month &nbsp;·&nbsp; cancel anytime</p>
+
+    <!-- Hero mockup card -->
+    <div class="float mt-16 sm:mt-20 max-w-xl mx-auto">
+      <div class="rounded-2xl border border-white/10 overflow-hidden text-left shadow-2xl shadow-violet-950/60"
+           style="background:rgba(13,13,24,.98)">
+
+        <!-- Browser chrome -->
+        <div class="flex items-center gap-1.5 px-4 py-3 border-b border-white/[0.06]"
+             style="background:rgba(255,255,255,.02)">
+          <div class="w-3 h-3 rounded-full bg-red-900/60"></div>
+          <div class="w-3 h-3 rounded-full bg-yellow-900/60"></div>
+          <div class="w-3 h-3 rounded-full bg-green-900/60"></div>
+          <span class="ml-3 text-[11px] text-zinc-600 font-mono">reelrocket.app · Caption Writer</span>
+          <div class="ml-auto flex items-center gap-1.5">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 pulse-dot"></span>
+            <span class="text-[11px] font-semibold text-emerald-400">Live</span>
+          </div>
+        </div>
+
+        <!-- Content -->
+        <div class="p-5 sm:p-6">
+          <!-- Tool header row -->
+          <div class="flex items-center gap-2.5 mb-5">
+            <div class="w-8 h-8 rounded-lg flex items-center justify-center text-base flex-shrink-0"
+                 style="background:linear-gradient(135deg,rgba(124,58,237,.4),rgba(45,212,191,.2))">✍️</div>
+            <div>
+              <div class="text-sm font-display font-bold text-zinc-100">Caption Writer</div>
+              <div class="text-[11px] text-zinc-500">Generated 3 captions in 4s</div>
+            </div>
+            <div class="ml-auto flex gap-1.5">
+              <span class="text-[11px] px-2.5 py-0.5 rounded-full font-semibold"
+                    style="background:rgba(124,58,237,.18);color:#a78bfa;border:1px solid rgba(124,58,237,.3)">TikTok</span>
+              <span class="text-[11px] px-2.5 py-0.5 rounded-full font-semibold"
+                    style="background:rgba(255,255,255,.06);color:#a1a1aa;border:1px solid rgba(255,255,255,.08)">Casual</span>
+            </div>
+          </div>
+
+          <!-- Caption output -->
+          <div class="rounded-xl p-4 mb-3 border border-white/[0.07]" style="background:rgba(255,255,255,.03)">
+            <div class="text-[10px] font-bold uppercase tracking-widest text-zinc-600 mb-2.5">Caption 1 of 3</div>
+            <p class="text-sm text-zinc-200 leading-relaxed mb-1">
+              POV: you finally cracked the morning skincare code ✨
+            </p>
+            <p class="text-sm text-zinc-400 leading-relaxed mb-3">
+              5 steps. 10 minutes. Zero greasy skin by noon. Oily girlies, this one's for you 🙋‍♀️ Save this before your next Sephora run.
+            </p>
+            <div class="flex flex-wrap gap-x-2 gap-y-1">
+              <span class="text-[12px] text-violet-400">#skintok</span>
+              <span class="text-[12px] text-violet-400">#morningroutine</span>
+              <span class="text-[12px] text-violet-400">#oilyskin</span>
+              <span class="text-[12px] text-violet-400">#skincaretips</span>
+              <span class="text-[12px] text-zinc-600">+11 more</span>
+            </div>
+          </div>
+
+          <!-- Actions row -->
+          <div class="flex items-center gap-2">
+            <button class="text-[12px] px-3 py-1.5 rounded-lg border border-white/[0.09] text-zinc-400 font-medium"
+                    style="background:rgba(255,255,255,.04)">Copy</button>
+            <button class="text-[12px] px-3 py-1.5 rounded-lg border border-white/[0.09] text-zinc-400 font-medium"
+                    style="background:rgba(255,255,255,.04)">Save</button>
+            <div class="ml-auto flex gap-1">
+              <div class="w-2 h-2 rounded-full bg-violet-500"></div>
+              <div class="w-2 h-2 rounded-full bg-violet-800"></div>
+              <div class="w-2 h-2 rounded-full bg-violet-800"></div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<section id="pricing">
-  <div class="container">
-    <div class="section-kicker">Pricing</div>
-    <h2 class="section-title">One plan. <span class="g">Everything included</span>.</h2>
-    <div class="pricing-card">
-      <div class="trial-badge">3 days free</div>
-      <div class="price">£9.99 <span class="per">/ month</span></div>
-      <ul class="pricing-features">
-        <li>All six AI tools, unlimited access</li>
-        <li>Instagram & TikTok support</li>
-        <li>Viral post library & AI remixing</li>
-        <li>Content history dashboard</li>
-        <li>Cancel anytime — no contracts</li>
-      </ul>
-      <a class="btn big" href="app/?signup=1">Start Free Trial →</a>
-      <div class="pricing-note">No charge until your 3-day trial ends.</div>
+<!-- ══════════════════════════════════════════════════════════
+     TRUST BAR
+══════════════════════════════════════════════════════════ -->
+<div class="border-y border-white/[0.06] py-12" style="background:rgba(255,255,255,.018)">
+  <div class="max-w-5xl mx-auto px-5 sm:px-8">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+      <div>
+        <div class="font-display font-extrabold text-3xl g">800+</div>
+        <div class="text-sm text-zinc-500 mt-1">active creators</div>
+      </div>
+      <div>
+        <div class="font-display font-extrabold text-3xl g">6</div>
+        <div class="text-sm text-zinc-500 mt-1">AI tools included</div>
+      </div>
+      <div>
+        <div class="font-display font-extrabold text-3xl g">&lt;5s</div>
+        <div class="text-sm text-zinc-500 mt-1">avg. generation time</div>
+      </div>
+      <div>
+        <div class="font-display font-extrabold text-3xl g">£9.99</div>
+        <div class="text-sm text-zinc-500 mt-1">per month, all tools</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     TOOLS
+══════════════════════════════════════════════════════════ -->
+<section id="tools" class="py-24 sm:py-32">
+  <div class="max-w-6xl mx-auto px-5 sm:px-8">
+
+    <div class="text-center mb-16">
+      <div class="text-[11px] font-bold uppercase tracking-widest text-violet-400 mb-3">The Toolkit</div>
+      <h2 class="font-display font-extrabold text-[clamp(1.9rem,4vw,3rem)] tracking-tight mb-4">
+        Six tools. One <span class="g">creator engine.</span>
+      </h2>
+      <p class="text-zinc-400 text-lg max-w-lg mx-auto">
+        Built for creators who post every day and can't afford to waste time on content that doesn't perform.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+
+      <!-- Caption Writer -->
+      <div class="card-glow group relative rounded-2xl border border-white/[0.08] p-6 transition-all duration-300 cursor-pointer hover:-translate-y-1"
+           style="background:rgba(13,13,24,.9)" onclick="location.href='app/?signup=1'">
+        <div class="absolute top-0 left-0 right-0 h-[2px] rounded-t-2xl"
+             style="background:linear-gradient(90deg,#7C3AED,#2DD4BF)"></div>
+        <div class="w-11 h-11 rounded-xl flex items-center justify-center text-xl mb-4 flex-shrink-0"
+             style="background:linear-gradient(135deg,rgba(124,58,237,.35),rgba(45,212,191,.15))">✍️</div>
+        <h3 class="font-display font-bold text-lg mb-2 text-zinc-100">Caption Writer</h3>
+        <p class="text-zinc-400 text-sm leading-relaxed mb-4">
+          Scroll-stopping captions with hooks and hashtags, tuned to your platform and tone. Pick Casual, Funny, Motivational — you get three options every time.
+        </p>
+        <span class="inline-flex items-center gap-1 text-xs font-semibold text-violet-400 group-hover:gap-2 transition-all">
+          Try it <span class="transition-transform group-hover:translate-x-0.5">→</span>
+        </span>
+      </div>
+
+      <!-- Algo Analyzer -->
+      <div class="card-glow group relative rounded-2xl border border-white/[0.08] p-6 transition-all duration-300 cursor-pointer hover:-translate-y-1"
+           style="background:rgba(13,13,24,.9)" onclick="location.href='app/?signup=1'">
+        <div class="w-11 h-11 rounded-xl flex items-center justify-center text-xl mb-4"
+             style="background:linear-gradient(135deg,rgba(45,212,191,.3),rgba(124,58,237,.15))">📊</div>
+        <h3 class="font-display font-bold text-lg mb-2 text-zinc-100">Algo Analyzer</h3>
+        <p class="text-zinc-400 text-sm leading-relaxed mb-4">
+          Score any content idea out of 100 for algorithm performance — before you film a single second. Get specific tips to boost your score and reach.
+        </p>
+        <span class="inline-flex items-center gap-1 text-xs font-semibold text-teal-400 group-hover:gap-2 transition-all">
+          Try it <span class="transition-transform group-hover:translate-x-0.5">→</span>
+        </span>
+      </div>
+
+      <!-- Post History -->
+      <div class="card-glow group relative rounded-2xl border border-white/[0.08] p-6 transition-all duration-300 cursor-pointer hover:-translate-y-1"
+           style="background:rgba(13,13,24,.9)" onclick="location.href='app/?signup=1'">
+        <div class="w-11 h-11 rounded-xl flex items-center justify-center text-xl mb-4"
+             style="background:linear-gradient(135deg,rgba(251,191,36,.25),rgba(124,58,237,.15))">📈</div>
+        <h3 class="font-display font-bold text-lg mb-2 text-zinc-100">Post History Analyzer</h3>
+        <p class="text-zinc-400 text-sm leading-relaxed mb-4">
+          Paste your recent posts and get a brutally honest breakdown of what's working, what to drop, and what your next best move is.
+        </p>
+        <span class="inline-flex items-center gap-1 text-xs font-semibold text-amber-400 group-hover:gap-2 transition-all">
+          Try it <span class="transition-transform group-hover:translate-x-0.5">→</span>
+        </span>
+      </div>
+
+      <!-- Brain Dump -->
+      <div class="card-glow group relative rounded-2xl border border-white/[0.08] p-6 transition-all duration-300 cursor-pointer hover:-translate-y-1"
+           style="background:rgba(13,13,24,.9)" onclick="location.href='app/?signup=1'">
+        <div class="w-11 h-11 rounded-xl flex items-center justify-center text-xl mb-4"
+             style="background:linear-gradient(135deg,rgba(52,211,153,.25),rgba(45,212,191,.15))">🧠</div>
+        <h3 class="font-display font-bold text-lg mb-2 text-zinc-100">Brain Dump to Content</h3>
+        <p class="text-zinc-400 text-sm leading-relaxed mb-4">
+          Word-vomit your ideas in one textarea. Get back a structured, ready-to-post content plan for 5 posts, 10 posts, or a full 30-day calendar.
+        </p>
+        <span class="inline-flex items-center gap-1 text-xs font-semibold text-emerald-400 group-hover:gap-2 transition-all">
+          Try it <span class="transition-transform group-hover:translate-x-0.5">→</span>
+        </span>
+      </div>
+
+      <!-- Comment Reply -->
+      <div class="card-glow group relative rounded-2xl border border-white/[0.08] p-6 transition-all duration-300 cursor-pointer hover:-translate-y-1"
+           style="background:rgba(13,13,24,.9)" onclick="location.href='app/?signup=1'">
+        <div class="w-11 h-11 rounded-xl flex items-center justify-center text-xl mb-4"
+             style="background:linear-gradient(135deg,rgba(96,165,250,.25),rgba(124,58,237,.15))">💬</div>
+        <h3 class="font-display font-bold text-lg mb-2 text-zinc-100">Comment Reply Assistant</h3>
+        <p class="text-zinc-400 text-sm leading-relaxed mb-4">
+          Paste a batch of comments and get on-brand, genuine replies in seconds. Pick your tone — Friendly, Funny, Hype — and reply to 100% of your comments.
+        </p>
+        <span class="inline-flex items-center gap-1 text-xs font-semibold text-blue-400 group-hover:gap-2 transition-all">
+          Try it <span class="transition-transform group-hover:translate-x-0.5">→</span>
+        </span>
+      </div>
+
+      <!-- Viral Inspiration -->
+      <div class="card-glow group relative rounded-2xl border border-white/[0.08] p-6 transition-all duration-300 cursor-pointer hover:-translate-y-1"
+           style="background:rgba(13,13,24,.9)" onclick="location.href='app/?signup=1'">
+        <div class="w-11 h-11 rounded-xl flex items-center justify-center text-xl mb-4"
+             style="background:linear-gradient(135deg,rgba(251,113,133,.25),rgba(124,58,237,.15))">🔥</div>
+        <h3 class="font-display font-bold text-lg mb-2 text-zinc-100">Viral Inspiration</h3>
+        <p class="text-zinc-400 text-sm leading-relaxed mb-4">
+          Save viral posts you love into a personal library. Then remix any of them for your own niche with AI — same format, your voice, your audience.
+        </p>
+        <span class="inline-flex items-center gap-1 text-xs font-semibold text-rose-400 group-hover:gap-2 transition-all">
+          Try it <span class="transition-transform group-hover:translate-x-0.5">→</span>
+        </span>
+      </div>
+
+    </div><!-- /grid -->
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════
+     HOW IT WORKS
+══════════════════════════════════════════════════════════ -->
+<section id="how" class="py-24 sm:py-32 border-t border-white/[0.06]">
+  <div class="max-w-5xl mx-auto px-5 sm:px-8">
+
+    <div class="text-center mb-16">
+      <div class="text-[11px] font-bold uppercase tracking-widest text-teal-400 mb-3">How it works</div>
+      <h2 class="font-display font-extrabold text-[clamp(1.9rem,4vw,3rem)] tracking-tight">
+        Up and running in <span class="g">under 2 minutes.</span>
+      </h2>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-8">
+
+      <!-- Step 1 -->
+      <div class="relative text-center md:text-left">
+        <div class="hidden md:block absolute top-6 left-1/2 w-full h-px"
+             style="background:linear-gradient(90deg,rgba(124,58,237,.5),rgba(45,212,191,.3));left:calc(50% + 36px);width:calc(100% - 36px)"></div>
+        <div class="inline-flex w-12 h-12 rounded-2xl items-center justify-center font-display font-extrabold text-lg text-white mb-5 relative"
+             style="background:linear-gradient(135deg,#7C3AED,#5b21b6)">1</div>
+        <h3 class="font-display font-bold text-lg mb-2 text-zinc-100">Sign up in 30 seconds</h3>
+        <p class="text-zinc-400 text-sm leading-relaxed">
+          Create your account — no credit card needed to start. Your 3-day free trial begins the moment you land in the dashboard.
+        </p>
+      </div>
+
+      <!-- Step 2 -->
+      <div class="relative text-center md:text-left">
+        <div class="hidden md:block absolute top-6 left-1/2 w-full h-px"
+             style="background:linear-gradient(90deg,rgba(45,212,191,.3),rgba(45,212,191,.5));left:calc(50% + 36px);width:calc(100% - 36px)"></div>
+        <div class="inline-flex w-12 h-12 rounded-2xl items-center justify-center font-display font-extrabold text-lg text-white mb-5"
+             style="background:linear-gradient(135deg,#5b21b6,#2DD4BF)">2</div>
+        <h3 class="font-display font-bold text-lg mb-2 text-zinc-100">Pick a tool and go</h3>
+        <p class="text-zinc-400 text-sm leading-relaxed">
+          Choose any of the 6 tools from your sidebar, describe your content or paste your posts, and hit generate. The AI does the rest in seconds.
+        </p>
+      </div>
+
+      <!-- Step 3 -->
+      <div class="text-center md:text-left">
+        <div class="inline-flex w-12 h-12 rounded-2xl items-center justify-center font-display font-extrabold text-lg text-zinc-900 mb-5"
+             style="background:linear-gradient(135deg,#2DD4BF,#0d9488)">3</div>
+        <h3 class="font-display font-bold text-lg mb-2 text-zinc-100">Post and watch it work</h3>
+        <p class="text-zinc-400 text-sm leading-relaxed">
+          Better captions. Higher-scoring ideas. Consistent posting. Your content history feeds back into your strategy — it compounds over time.
+        </p>
+      </div>
+
     </div>
   </div>
 </section>
 
-<footer>
-  <div class="container">
-    Reel<span class="g">Rocket</span> 🚀 · AI tools for creators · <a href="app/">Sign in</a>
+<!-- ══════════════════════════════════════════════════════════
+     TESTIMONIALS
+══════════════════════════════════════════════════════════ -->
+<section id="stories" class="py-24 sm:py-32 border-t border-white/[0.06]" style="background:rgba(255,255,255,.015)">
+  <div class="max-w-6xl mx-auto px-5 sm:px-8">
+
+    <div class="text-center mb-16">
+      <div class="text-[11px] font-bold uppercase tracking-widest text-violet-400 mb-3">Creator Stories</div>
+      <h2 class="font-display font-extrabold text-[clamp(1.9rem,4vw,3rem)] tracking-tight">
+        Real creators. <span class="g">Real results.</span>
+      </h2>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+
+      <!-- Testimonial 1 -->
+      <div class="testi-card rounded-2xl border border-white/[0.08] p-7 transition-all duration-300"
+           style="background:rgba(13,13,24,.9)">
+        <div class="flex gap-0.5 mb-4">
+          <span class="text-amber-400 text-sm">★★★★★</span>
+        </div>
+        <p class="text-zinc-300 text-[15px] leading-relaxed mb-6">
+          "I was spending 45 minutes writing captions that got 200 likes. Now I use Caption Writer,
+          tweak one line, and I'm posting content that consistently hits 2k+.
+          <strong class="text-zinc-100">It's embarrassing how much time I was wasting.</strong>"
+        </p>
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-full flex items-center justify-center text-base font-bold text-violet-300 flex-shrink-0"
+               style="background:linear-gradient(135deg,rgba(124,58,237,.3),rgba(45,212,191,.15))">AI</div>
+          <div>
+            <div class="text-sm font-semibold text-zinc-100">Aisha I.</div>
+            <div class="text-xs text-zinc-500">@aishalifts &nbsp;·&nbsp;
+              <span class="text-[11px] px-2 py-0.5 rounded-full font-medium"
+                    style="background:rgba(251,113,133,.12);color:#fb7185">TikTok creator</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Testimonial 2 -->
+      <div class="testi-card rounded-2xl border border-white/[0.08] p-7 transition-all duration-300"
+           style="background:rgba(13,13,24,.9)">
+        <div class="flex gap-0.5 mb-4">
+          <span class="text-amber-400 text-sm">★★★★★</span>
+        </div>
+        <p class="text-zinc-300 text-[15px] leading-relaxed mb-6">
+          "The Algo Analyzer told me my planned carousel was a 34/100. I wasn't going to bother changing it,
+          but followed the suggestions anyway.
+          <strong class="text-zinc-100">Highest-performing reel in three months.</strong> I use it before every post now."
+        </p>
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-full flex items-center justify-center text-base font-bold text-teal-300 flex-shrink-0"
+               style="background:linear-gradient(135deg,rgba(45,212,191,.3),rgba(124,58,237,.15))">JK</div>
+          <div>
+            <div class="text-sm font-semibold text-zinc-100">James K.</div>
+            <div class="text-xs text-zinc-500">@jkbuilds &nbsp;·&nbsp;
+              <span class="text-[11px] px-2 py-0.5 rounded-full font-medium"
+                    style="background:rgba(232,121,249,.12);color:#e879f9">Instagram creator</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Testimonial 3 -->
+      <div class="testi-card rounded-2xl border border-white/[0.08] p-7 transition-all duration-300"
+           style="background:rgba(13,13,24,.9)">
+        <div class="flex gap-0.5 mb-4">
+          <span class="text-amber-400 text-sm">★★★★★</span>
+        </div>
+        <p class="text-zinc-300 text-[15px] leading-relaxed mb-6">
+          "I was overwhelmed every Sunday trying to plan the week. Brain Dump changed everything.
+          I dump all my ideas in and get back a full content calendar.
+          <strong class="text-zinc-100">Planning now takes 10 minutes instead of two hours.</strong>"
+        </p>
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-full flex items-center justify-center text-base font-bold text-emerald-300 flex-shrink-0"
+               style="background:linear-gradient(135deg,rgba(52,211,153,.3),rgba(45,212,191,.15))">PV</div>
+          <div>
+            <div class="text-sm font-semibold text-zinc-100">Priya V.</div>
+            <div class="text-xs text-zinc-500">@priyacooks &nbsp;·&nbsp;
+              <span class="text-[11px] px-2 py-0.5 rounded-full font-medium"
+                    style="background:rgba(251,113,133,.12);color:#fb7185">TikTok &amp; Instagram</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Testimonial 4 -->
+      <div class="testi-card rounded-2xl border border-white/[0.08] p-7 transition-all duration-300"
+           style="background:rgba(13,13,24,.9)">
+        <div class="flex gap-0.5 mb-4">
+          <span class="text-amber-400 text-sm">★★★★★</span>
+        </div>
+        <p class="text-zinc-300 text-[15px] leading-relaxed mb-6">
+          "The Comment Reply tool is genuinely addictive. I reply to 100% of my comments now
+          — it takes minutes instead of an hour. My engagement rate has almost doubled
+          because <strong class="text-zinc-100">the algorithm loves it when you actually respond.</strong>"
+        </p>
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-full flex items-center justify-center text-base font-bold text-blue-300 flex-shrink-0"
+               style="background:linear-gradient(135deg,rgba(96,165,250,.3),rgba(124,58,237,.15))">LF</div>
+          <div>
+            <div class="text-sm font-semibold text-zinc-100">Leonie F.</div>
+            <div class="text-xs text-zinc-500">@leoniebeauty &nbsp;·&nbsp;
+              <span class="text-[11px] px-2 py-0.5 rounded-full font-medium"
+                    style="background:rgba(251,113,133,.12);color:#fb7185">TikTok creator</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════
+     PRICING
+══════════════════════════════════════════════════════════ -->
+<section id="pricing" class="py-24 sm:py-32 border-t border-white/[0.06]">
+  <div class="max-w-5xl mx-auto px-5 sm:px-8">
+
+    <div class="text-center mb-14">
+      <div class="text-[11px] font-bold uppercase tracking-widest text-teal-400 mb-3">Pricing</div>
+      <h2 class="font-display font-extrabold text-[clamp(1.9rem,4vw,3rem)] tracking-tight">
+        One plan. <span class="g">Everything included.</span>
+      </h2>
+    </div>
+
+    <!-- Single pricing card -->
+    <div class="pricing-glow max-w-md mx-auto rounded-3xl border border-violet-800/40 overflow-hidden"
+         style="background:rgba(13,13,24,.98)">
+
+      <!-- Gradient top bar -->
+      <div class="h-1" style="background:linear-gradient(90deg,#7C3AED,#2DD4BF)"></div>
+
+      <div class="p-8 sm:p-10">
+        <!-- Trial badge -->
+        <div class="inline-flex items-center gap-2 rounded-full px-4 py-1.5 mb-6 text-[11px] font-bold uppercase tracking-wider text-emerald-400"
+             style="background:rgba(52,211,153,.1);border:1px solid rgba(52,211,153,.25)">
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 pulse-dot"></span>
+          3 days free — no card required
+        </div>
+
+        <!-- Price -->
+        <div class="flex items-baseline gap-1 mb-1">
+          <span class="font-display font-extrabold text-5xl tracking-tight text-zinc-100">£9.99</span>
+          <span class="text-zinc-500 text-base font-medium">/ month</span>
+        </div>
+        <p class="text-zinc-500 text-sm mb-8">Billed monthly. Cancel in one click.</p>
+
+        <!-- Features -->
+        <ul class="space-y-3 mb-8">
+          <li class="flex items-start gap-3 text-sm">
+            <span class="text-teal-400 font-bold flex-shrink-0 mt-0.5">✓</span>
+            <span class="text-zinc-300">All 6 AI tools — unlimited generations</span>
+          </li>
+          <li class="flex items-start gap-3 text-sm">
+            <span class="text-teal-400 font-bold flex-shrink-0 mt-0.5">✓</span>
+            <span class="text-zinc-300">Instagram &amp; TikTok support across all tools</span>
+          </li>
+          <li class="flex items-start gap-3 text-sm">
+            <span class="text-teal-400 font-bold flex-shrink-0 mt-0.5">✓</span>
+            <span class="text-zinc-300">Viral post library &amp; AI remixing</span>
+          </li>
+          <li class="flex items-start gap-3 text-sm">
+            <span class="text-teal-400 font-bold flex-shrink-0 mt-0.5">✓</span>
+            <span class="text-zinc-300">Content history saved across devices</span>
+          </li>
+          <li class="flex items-start gap-3 text-sm">
+            <span class="text-teal-400 font-bold flex-shrink-0 mt-0.5">✓</span>
+            <span class="text-zinc-300">Algo Analyzer with scored recommendations</span>
+          </li>
+          <li class="flex items-start gap-3 text-sm">
+            <span class="text-teal-400 font-bold flex-shrink-0 mt-0.5">✓</span>
+            <span class="text-zinc-300">New tools added at no extra cost</span>
+          </li>
+        </ul>
+
+        <!-- CTA -->
+        <a href="app/?signup=1"
+           class="btn-g block w-full py-4 rounded-xl text-white font-display font-bold text-base no-underline text-center shadow-lg shadow-violet-950/50">
+          Start Free Trial →
+        </a>
+        <p class="text-center text-xs text-zinc-600 mt-4">No charge until your 3-day trial ends.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════
+     FINAL CTA
+══════════════════════════════════════════════════════════ -->
+<section class="py-24 sm:py-32 relative overflow-hidden border-t border-white/[0.06]">
+
+  <!-- Background glow -->
+  <div class="absolute inset-0 pointer-events-none"
+       style="background:radial-gradient(ellipse 70% 60% at 50% 50%,rgba(107,33,168,.22) 0%,rgba(45,212,191,.06) 50%,transparent 70%)"></div>
+  <div class="grid-texture absolute inset-0 opacity-60 pointer-events-none"></div>
+
+  <div class="relative max-w-3xl mx-auto px-5 sm:px-8 text-center">
+    <div class="text-[11px] font-bold uppercase tracking-widest text-violet-400 mb-4">Ready when you are</div>
+    <h2 class="font-display font-extrabold text-[clamp(2rem,5vw,3.5rem)] tracking-tight leading-tight mb-6">
+      Your next viral post<br>starts <span class="g">right here.</span>
+    </h2>
+    <p class="text-zinc-400 text-lg max-w-xl mx-auto mb-10">
+      Join 800+ creators who use ReelRocket to post smarter, grow faster, and spend less time staring at a blank screen.
+    </p>
+    <div class="flex flex-col sm:flex-row gap-3 justify-center">
+      <a href="app/?signup=1"
+         class="btn-g px-10 py-4 rounded-xl text-white font-display font-bold text-base no-underline text-center shadow-xl shadow-violet-950/60">
+        Start Free Trial →
+      </a>
+      <a href="app/"
+         class="px-10 py-4 rounded-xl font-medium text-base no-underline text-center text-zinc-400 hover:text-zinc-100 border border-white/10 hover:border-white/20 transition-all"
+         style="background:rgba(255,255,255,.04)">
+        Sign in instead
+      </a>
+    </div>
+    <p class="text-sm text-zinc-600 mt-5">3 days free &nbsp;·&nbsp; £9.99/month &nbsp;·&nbsp; cancel anytime</p>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════
+     FOOTER
+══════════════════════════════════════════════════════════ -->
+<footer class="border-t border-white/[0.06] py-10" style="background:rgba(0,0,0,.3)">
+  <div class="max-w-6xl mx-auto px-5 sm:px-8">
+    <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+      <a href="#" class="font-display font-extrabold text-lg tracking-tight text-zinc-100 no-underline">
+        Reel<span class="g">Rocket</span> 🚀
+      </a>
+      <div class="flex items-center gap-6 text-sm text-zinc-500">
+        <a href="#tools"   class="hover:text-zinc-300 transition-colors no-underline">Tools</a>
+        <a href="#pricing" class="hover:text-zinc-300 transition-colors no-underline">Pricing</a>
+        <a href="app/"     class="hover:text-zinc-300 transition-colors no-underline">Sign in</a>
+        <a href="app/?signup=1" class="hover:text-zinc-300 transition-colors no-underline">Sign up</a>
+      </div>
+      <p class="text-xs text-zinc-700">© 2026 ReelRocket · AI tools for creators</p>
+    </div>
   </div>
 </footer>
 
