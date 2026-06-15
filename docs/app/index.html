@@ -8,7 +8,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
 
 <script>
-  tailwind.config = {
+  window.tailwind = { config: {
     darkMode: 'class',
     theme: {
       extend: {
@@ -26,7 +26,7 @@
         },
       },
     },
-  }
+  }};
 </script>
 <script src="https://cdn.tailwindcss.com"></script>
 
@@ -331,10 +331,10 @@ body {
     </div>
 
     <div class="field-label">Email</div>
-    <input type="email" class="rr-input mb-4" id="auth-email" placeholder="you@example.com" autocomplete="email"/>
+    <input type="email" class="rr-input mb-4" id="auth-email" placeholder="you@example.com" autocomplete="email" onkeydown="if(event.key==='Enter')document.getElementById('auth-password').focus()"/>
 
     <div class="field-label">Password</div>
-    <input type="password" class="rr-input mb-3" id="auth-password" placeholder="••••••••" autocomplete="current-password"/>
+    <input type="password" class="rr-input mb-3" id="auth-password" placeholder="••••••••" autocomplete="current-password" onkeydown="if(event.key==='Enter')submitAuth()"/>
 
     <p class="text-sm mb-4" id="auth-hint" style="color:var(--muted2)">Welcome back — sign in to launch your dashboard.</p>
     <button class="btn-grad" id="auth-submit" onclick="submitAuth()">Sign In →</button>

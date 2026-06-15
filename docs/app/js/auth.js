@@ -85,9 +85,11 @@ function setAuthMode(mode) {
   document.getElementById('auth-tab-signin').classList.toggle('active', mode === 'signin');
   document.getElementById('auth-tab-signup').classList.toggle('active', mode === 'signup');
   document.getElementById('auth-submit').textContent = mode === 'signin' ? 'Sign In →' : 'Create Account →';
-  document.getElementById('auth-hint').textContent = mode === 'signin'
+  const hint = document.getElementById('auth-hint');
+  hint.textContent = mode === 'signin'
     ? 'Welcome back — sign in to launch your dashboard.'
     : 'Create your account, then subscribe to unlock the tools.';
+  hint.style.color = '';
   document.getElementById('auth-password').autocomplete = mode === 'signin' ? 'current-password' : 'new-password';
 }
 
@@ -111,7 +113,10 @@ async function submitAuth() {
       if (error) throw error;
     }
   } catch (e) {
-    showToast(e.message || 'Authentication failed');
+    const msg = e.message || 'Authentication failed';
+    document.getElementById('auth-hint').textContent = '⚠️ ' + msg;
+    document.getElementById('auth-hint').style.color = 'var(--red)';
+    showToast(msg);
   }
   btn.disabled = false;
 }
