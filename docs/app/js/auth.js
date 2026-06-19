@@ -48,13 +48,23 @@ async function initAuth() {
 async function handleSession(session) {
   currentUser = session?.user || null;
   currentProfile = null;
-  if (currentUser) await refreshProfile();
+  if (currentUser) {
+    try {
+      await refreshProfile();
+    } catch (e) {
+      console.error('Profile fetch error:', e);
+    }
+  }
   updateScreens();
 }
 
 async function refreshProfile() {
   if (!currentUser) return;
-  const { data } = await sb.from('profiles').select('subscription_status').eq('id', currentUser.id).single();
+  const { data, error } = await sb.from('profiles').select('subscription_status').eq('id', currentUser.id).single();
+  if (error) {
+    console.error('refreshProfile:', error.message);
+    return;
+  }
   currentProfile = data;
 }
 
