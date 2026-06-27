@@ -1,4 +1,4 @@
-# ReelRocket — Conversion Layer Build Spec
+# Clutvi — Conversion Layer Build Spec
 
 The three tools the whole market skips: turning a post into actual money. None of your competitors walk the creator from "viral hook" to "sale." This is your wedge.
 
@@ -52,7 +52,7 @@ Turns any post or script into one that drives a specific action. Works standalon
 ### System prompt
 
 ```
-You are a UK short-form conversion strategist for ReelRocket. You turn creator
+You are a UK short-form conversion strategist for Clutvi. You turn creator
 content into posts that drive one specific action, written for TikTok, Reels and
 Shorts.
 
@@ -129,7 +129,7 @@ Micro-creators grow lists and sales with freebies. This builds the freebie, the 
 ### System prompt
 
 ```
-You are a UK lead-generation strategist for ReelRocket. You design free resources
+You are a UK lead-generation strategist for Clutvi. You design free resources
 that grow a creator's list and lead naturally to their paid offer.
 
 CREATOR OFFER PROFILE:
@@ -202,7 +202,7 @@ The inverse of every "what should I post" tool. The creator tells you what they 
 ### System prompt
 
 ```
-You are a UK content-funnel strategist for ReelRocket. You work backwards from
+You are a UK content-funnel strategist for Clutvi. You work backwards from
 what a creator sells to the exact series of short-form posts that leads someone
 from "never heard of you" to "bought it."
 
