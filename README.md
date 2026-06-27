@@ -1,4 +1,4 @@
-# ReelRocket 🚀
+# Clutvi 🚀
 
 AI-powered tool suite for Instagram & TikTok creators. Six Claude-powered tools
 (Caption Writer, Algo Analyzer, Post History Analyzer, Brain Dump to Content,
@@ -14,7 +14,7 @@ Comment Reply Assistant, Viral Inspiration) behind a monthly subscription.
 | Payments | Stripe Checkout subscription, synced via `stripe-webhook` |
 | Database | Postgres `profiles` table (RLS), one row per user |
 
-`prototype/reelrocket-app.html` is the original standalone prototype (bring-your-own
+`prototype/clutvi-app.html` is the original standalone prototype (bring-your-own
 API key, no auth). It still works on its own — just open it in a browser.
 
 ## How the gating works
@@ -49,7 +49,7 @@ API key, no auth). It still works on its own — just open it in a browser.
 
 ### 2. Stripe
 
-1. Create a Product ("ReelRocket Pro") with a monthly recurring Price — copy the `price_...` ID into the secrets above.
+1. Create a Product ("Clutvi Pro") with a monthly recurring Price — copy the `price_...` ID into the secrets above.
 2. Add a webhook endpoint pointing to
    `https://<your-ref>.supabase.co/functions/v1/stripe-webhook`
    listening for: `checkout.session.completed`, `customer.subscription.updated`,
@@ -60,7 +60,7 @@ API key, no auth). It still works on its own — just open it in a browser.
 
 1. Push this repo to GitHub.
 2. Repo Settings → Pages → deploy from branch `main`, folder `/docs`.
-   Site goes live at `https://<user>.github.io/ReelRocket/` (landing page; the app is at `/app`).
+   Site goes live at `https://<user>.github.io/Clutvi/` (landing page; the app is at `/app`).
 3. Put the final site URL into the `SITE_URL` secret (step 1.5) and into
    Supabase Auth → URL Configuration → Site URL (so confirmation emails link correctly).
 

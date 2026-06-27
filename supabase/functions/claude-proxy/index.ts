@@ -33,7 +33,7 @@ Deno.serve(async (req) => {
       .eq('id', user.id)
       .single();
     if (!profile || !ACTIVE_STATUSES.includes(profile.subscription_status ?? '')) {
-      return json({ error: 'An active ReelRocket Pro subscription is required.' }, 403);
+      return json({ error: 'An active Clutvi Pro subscription is required.' }, 403);
     }
 
     // --- validate request ---

@@ -1,4 +1,4 @@
-project_id = "reelrocket"
+project_id = "clutvi"
 
 # Stripe calls this endpoint directly — it authenticates with the webhook
 # signing secret, not a Supabase JWT.

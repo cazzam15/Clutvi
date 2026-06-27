@@ -1,4 +1,4 @@
-// Creates a Stripe Checkout session for the ReelRocket Pro subscription.
+// Creates a Stripe Checkout session for the Clutvi Pro subscription.
 import { createClient } from 'npm:@supabase/supabase-js@2';
 import Stripe from 'npm:stripe@17';
 import { corsHeaders, json } from '../_shared/cors.ts';
