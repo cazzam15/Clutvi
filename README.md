@@ -49,12 +49,32 @@ API key, no auth). It still works on its own — just open it in a browser.
 
 ### 2. Stripe
 
-1. Create a Product ("Clutvi Pro") with a monthly recurring Price — copy the `price_...` ID into the secrets above.
+Products, webhook endpoints, and portal config are **per mode** — everything below
+must be done in live mode for production (and again in test mode if you want a
+sandbox). The code never hardcodes IDs; it reads them from the secrets above.
+
+1. Create a Product ("Clutvi Pro") with a monthly recurring Price (£9.99/month,
+   GBP) — copy the `price_...` ID into the secrets above. Checkout applies a
+   3-day trial (`trial_period_days` in `create-checkout`) and collects the card
+   upfront, so the customer converts automatically when the trial ends.
 2. Add a webhook endpoint pointing to
    `https://<your-ref>.supabase.co/functions/v1/stripe-webhook`
    listening for: `checkout.session.completed`, `customer.subscription.updated`,
    `customer.subscription.deleted`. Copy its signing secret (`whsec_...`) into the secrets above.
-3. Enable the **customer portal** (Settings → Billing → Customer portal) so "Manage billing" works.
+3. Configure and **save** the **customer portal** (Settings → Billing → Customer
+   portal) so "Manage billing" works — creating a portal session fails until a
+   config has been saved in that mode.
+4. Set the public business name, statement descriptor, support email, and logo
+   (Settings → Business details / Branding) — these appear on card statements,
+   receipts, and trial-reminder emails.
+5. Enable customer emails for receipts and the "trial is ending" reminder
+   (Settings → Subscriptions and emails).
+
+After swapping secrets to live values, redeploy so the functions pick them up:
+
+```sh
+supabase functions deploy create-checkout customer-portal stripe-webhook
+```
 
 ### 3. Hosting (GitHub Pages)
 
@@ -67,10 +87,15 @@ API key, no auth). It still works on its own — just open it in a browser.
 (`netlify.toml` is kept in the repo — importing the repo into Netlify also works,
 no build command needed.)
 
-### Testing the payment flow
+### Testing the payment flow (test mode only)
 
-Use Stripe test mode keys and card `4242 4242 4242 4242`. After checkout the app
-polls the profile for up to ~20s while the webhook lands.
+With `sk_test_...` keys set, use card `4242 4242 4242 4242`. After checkout the
+app polls the profile for up to ~20s while the webhook lands.
+
+To verify **live** mode end-to-end without spending money: subscribe with a real
+card, confirm the profile flips to `trialing` and the webhook endpoint shows
+200s in the Stripe dashboard, then cancel via "Manage billing" before the 3-day
+trial ends (£0 charged).
 
 ## Roadmap
 
