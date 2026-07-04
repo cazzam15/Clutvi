@@ -43,6 +43,57 @@ function showOutput(id, text) {
   if (acts) acts.style.display = 'flex';
 }
 
+// --- structured-output formatters -------------------------------------------
+// The proxy returns schema-shaped JSON per tool (see claude-proxy/tools.ts);
+// these turn it into the plain text the output boxes render.
+const DIVIDER = '\n\n────────────\n\n';
+
+function formatHashtags(tags) {
+  return (tags || []).map(t => '#' + String(t).replace(/^#/, '')).join(' ');
+}
+
+function formatCaptions(d) {
+  return d.captions.map((c, i) =>
+    `Caption ${i + 1}\n\n${c.hook}\n\n${c.body}\n\n${formatHashtags(c.hashtags)}`
+  ).join(DIVIDER);
+}
+
+function formatAlgo(d) {
+  return [
+    d.verdict,
+    'How to boost it:\n' + d.improvements.map(x => '• ' + x).join('\n'),
+    `Best time to post: ${d.best_time}`,
+    `Recommended format: ${d.format}`,
+  ].join('\n\n');
+}
+
+function formatHistoryAnalysis(d) {
+  const section = (title, items) => `${title}\n${(items || []).map(x => '• ' + x).join('\n')}`;
+  return [
+    section('What performs best', d.works),
+    section('Patterns in your top posts', d.patterns),
+    section('Do more of', d.do_more),
+    section('Stop doing', d.stop),
+    section('Three ideas based on what works', d.ideas),
+  ].join('\n\n');
+}
+
+function formatPlan(d) {
+  return d.posts.map((p, i) =>
+    `Post ${i + 1} — ${p.day} · ${p.format}\nHook: ${p.hook}\n${p.outline}`
+  ).join(DIVIDER);
+}
+
+function formatReplies(d) {
+  return d.replies.map(r => `💬 ${r.comment}\n→ ${r.reply}`).join('\n\n');
+}
+
+function formatRemixes(d) {
+  return d.remixes.map((r, i) =>
+    `Remix ${i + 1}\n\n${r.hook}\n\n${r.body}\n\n${formatHashtags(r.hashtags)}`
+  ).join(DIVIDER);
+}
+
 async function runCaption() {
   const text = document.getElementById('caption-input').value.trim();
   if (!text) { showToast('Describe your post first'); return; }
@@ -50,11 +101,11 @@ async function runCaption() {
   const tone = getActiveChip('tone');
   setLoading('caption', true);
   try {
-    const result = await callClaude(`You are a top social media content creator. Write 3 ${tone.toLowerCase()} captions for a ${plat} post about: "${text}". Each caption should have a strong hook, engaging body, and 10-15 relevant hashtags. Format as Caption 1, Caption 2, Caption 3 with clear spacing.`);
-    showOutput('caption', result);
+    const data = await callClaude('caption', text, { platform: plat, tone });
+    showOutput('caption', formatCaptions(data));
     incrementCount();
     addToHistory('Caption Writer', text.substring(0,60), 'badge-caption');
-  } catch(e) { showToast(e.message); }
+  } catch(e) { if (!e.handled) showToast(e.message); }
   setLoading('caption', false);
 }
 
@@ -64,21 +115,18 @@ async function runAlgo() {
   const plat = getActiveChip('algo-plat');
   setLoading('algo', true);
   try {
-    const result = await callClaude(`You are a ${plat} algorithm expert. Analyse this content idea and give it an algorithm score out of 100: "${text}". Start your response with SCORE: [number] on its own line, then provide: 1) Why it will/won't perform, 2) Specific improvements to boost the score, 3) Best time to post, 4) Recommended format. Be direct and specific.`);
-    const scoreMatch = result.match(/SCORE:\s*(\d+)/);
-    if (scoreMatch) {
-      const score = parseInt(scoreMatch[1]);
-      document.getElementById('algo-score-wrap').style.display = 'block';
-      document.getElementById('algo-bar').style.width = score + '%';
-      const numEl = document.getElementById('algo-score-num');
-      numEl.textContent = score + '/100';
-      numEl.className = 'score-num ' + (score >= 70 ? 'high' : score >= 45 ? 'mid' : 'low');
-    }
-    showOutput('algo', result.replace(/SCORE:\s*\d+\n?/, '').trim());
+    const data = await callClaude('algo', text, { platform: plat });
+    const score = data.score;
+    document.getElementById('algo-score-wrap').style.display = 'block';
+    document.getElementById('algo-bar').style.width = score + '%';
+    const numEl = document.getElementById('algo-score-num');
+    numEl.textContent = score + '/100';
+    numEl.className = 'score-num ' + (score >= 70 ? 'high' : score >= 45 ? 'mid' : 'low');
+    showOutput('algo', formatAlgo(data));
     document.getElementById('algo-actions').style.display = 'flex';
     incrementCount();
     addToHistory('Algo Analyzer', text.substring(0,60), 'badge-algo');
-  } catch(e) { showToast(e.message); }
+  } catch(e) { if (!e.handled) showToast(e.message); }
   setLoading('algo', false);
 }
 
@@ -87,11 +135,11 @@ async function runHistory() {
   if (!text) { showToast('Paste your post history first'); return; }
   setLoading('history', true);
   try {
-    const result = await callClaude(`You are a social media strategist. Analyse these posts and engagement data: "${text}". Identify: 1) What content types perform best, 2) Patterns in top performers, 3) What to do more of, 4) What to stop doing, 5) Three specific content ideas based on what's working. Be direct with actionable insights.`);
-    showOutput('history', result);
+    const data = await callClaude('history', text);
+    showOutput('history', formatHistoryAnalysis(data));
     incrementCount();
     addToHistory('Post History', text.substring(0,60), 'badge-history');
-  } catch(e) { showToast(e.message); }
+  } catch(e) { if (!e.handled) showToast(e.message); }
   setLoading('history', false);
 }
 
@@ -102,11 +150,11 @@ async function runBrain() {
   const plat = getActiveChip('dump-plat');
   setLoading('brain', true);
   try {
-    const result = await callClaude(`You are a social media content strategist. Take this brain dump and turn it into a structured ${plat} content plan for ${count}: "${text}". For each post include: post number, format (reel/carousel/static), hook, content outline, and best day to post. Make it specific and ready to execute.`);
-    showOutput('brain', result);
+    const data = await callClaude('brain', text, { platform: plat, plan: count });
+    showOutput('brain', formatPlan(data));
     incrementCount();
     addToHistory('Brain Dump', text.substring(0,60), 'badge-brain');
-  } catch(e) { showToast(e.message); }
+  } catch(e) { if (!e.handled) showToast(e.message); }
   setLoading('brain', false);
 }
 
@@ -117,11 +165,11 @@ async function runComment() {
   const comments = text.split('\n').filter(c => c.trim());
   setLoading('comment', true);
   try {
-    const result = await callClaude(`You are a social media manager. Write ${tone.toLowerCase()} replies to each of these comments. Keep replies genuine, concise (1-2 sentences), and engaging. Format as Comment: [original] → Reply: [your reply]\n\n${comments.map((c,i)=>`${i+1}. ${c}`).join('\n')}`);
-    showOutput('comment', result);
+    const data = await callClaude('comment', comments.join('\n'), { tone });
+    showOutput('comment', formatReplies(data));
     incrementCount();
     addToHistory('Comment Reply', comments[0].substring(0,60), 'badge-comment');
-  } catch(e) { showToast(e.message); }
+  } catch(e) { if (!e.handled) showToast(e.message); }
   setLoading('comment', false);
 }
 
@@ -178,11 +226,11 @@ async function runRemix() {
   if (!text) { showToast('Paste a post to remix'); return; }
   setLoading('remix', true);
   try {
-    const result = await callClaude(`You are a viral content strategist. Take this viral post and remix it for ${niche || 'a general audience'}. Keep the same structure, hook style, and viral elements but completely adapt the content for the new niche. Provide 2 remix versions.\n\nOriginal viral post:\n${text}`);
-    showOutput('remix', result);
+    const data = await callClaude('viral', text, { niche: niche || 'general' });
+    showOutput('remix', formatRemixes(data));
     incrementCount();
     addToHistory('Viral Inspiration', text.substring(0,60), 'badge-viral');
-  } catch(e) { showToast(e.message); }
+  } catch(e) { if (!e.handled) showToast(e.message); }
   setLoading('remix', false);
 }
 
@@ -253,6 +301,51 @@ function saveToHistory(id, tool) {
   const text = document.getElementById(id)?.textContent;
   if (text) addToHistory(tool, text.substring(0,60), toolBadges[tool] || 'badge-brain');
   showToast('✅ Saved to your history!', 'success');
+}
+
+// --- usage gate UI -----------------------------------------------------------
+// The server (claude-proxy + _shared/usage-gate.ts) is the source of truth;
+// this constant only mirrors LIMITS.trial.daily for the on-load indicator.
+const TRIAL_DAILY_LIMIT = 10;
+
+function showLimitModal(data) {
+  document.getElementById('limit-modal-msg').textContent = data.error || "You've hit your generation limit.";
+  // Pro users hit a fair-use cap — there's nothing to upgrade to, so no CTA.
+  document.getElementById('limit-modal-cta').style.display = data.plan === 'pro' ? 'none' : '';
+  document.getElementById('limit-modal').style.display = 'flex';
+  updateUsageIndicator(0, data.plan);
+}
+
+function hideLimitModal() {
+  document.getElementById('limit-modal').style.display = 'none';
+}
+
+function updateUsageIndicator(remaining, plan) {
+  const el = document.getElementById('usage-indicator');
+  const stat = document.getElementById('stat-plan');
+  if (plan === 'trial' && typeof remaining === 'number') {
+    el.textContent = remaining === 0
+      ? 'No trial generations left today'
+      : `⚡ ${remaining} trial generation${remaining === 1 ? '' : 's'} left today`;
+    el.style.display = '';
+    if (stat) stat.textContent = 'Trial';
+  } else {
+    el.style.display = 'none';
+    if (stat && plan === 'pro') stat.textContent = '✓ Pro';
+  }
+}
+
+// On load, read today's count directly (RLS scopes the query to the signed-in
+// user) so trial users see what's left before their first generation.
+async function loadUsageIndicator() {
+  if (!currentProfile) return;
+  const plan = currentProfile.subscription_status === 'trialing' ? 'trial'
+    : currentProfile.subscription_status === 'active' ? 'pro' : null;
+  if (!plan) return;
+  if (plan === 'pro') { updateUsageIndicator(null, 'pro'); return; }
+  const today = new Date().toISOString().slice(0, 10);
+  const { data } = await sb.from('usage').select('count').eq('date', today).maybeSingle();
+  updateUsageIndicator(Math.max(0, TRIAL_DAILY_LIMIT - (data?.count ?? 0)), 'trial');
 }
 
 function showToast(msg, type = 'error') {

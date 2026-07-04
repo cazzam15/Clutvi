@@ -84,6 +84,7 @@ function updateScreens() {
   document.getElementById('account-email').textContent = currentUser.email;
   document.getElementById('paywall-email').textContent = currentUser.email;
   paywall.style.display = isSubscribed() ? 'none' : 'flex';
+  if (isSubscribed()) loadUsageIndicator();
 }
 
 function showPaywall() {

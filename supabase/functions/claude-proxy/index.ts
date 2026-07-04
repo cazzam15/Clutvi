@@ -1,15 +1,16 @@
 // Proxies tool requests to the Anthropic API and returns STRUCTURED output.
 //
-// The key never reaches the browser; callers must be signed in AND subscribed.
+// The key never reaches the browser; callers must be signed in, subscribed
+// (trial or pro), and inside their plan's usage limits (see _shared/usage-gate.ts).
 // Instead of relaying a free-text prompt, callers send { tool, input, options }.
 // The proxy builds the prompt + an output schema (see tools.ts) and forces
 // Claude to emit JSON matching that schema via tool_choice — so the frontend
 // never parses free text. Response shape: { tool, data: <schema-shaped object> }.
 import { createClient } from 'npm:@supabase/supabase-js@2';
 import { corsHeaders, json } from '../_shared/cors.ts';
+import { checkAndIncrementUsage, planFromStatus } from '../_shared/usage-gate.ts';
 import { TOOLS } from './tools.ts';
 
-const ACTIVE_STATUSES = ['active', 'trialing'];
 const MAX_INPUT_CHARS = 12_000;
 
 Deno.serve(async (req) => {
@@ -22,7 +23,7 @@ Deno.serve(async (req) => {
       Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!,
     );
 
-    // --- auth + subscription gate (unchanged) ---
+    // --- auth + plan check ---
     const token = req.headers.get('Authorization')?.replace('Bearer ', '') ?? '';
     const { data: { user }, error: authError } = await supabase.auth.getUser(token);
     if (authError || !user) return json({ error: 'Please sign in.' }, 401);
@@ -32,7 +33,8 @@ Deno.serve(async (req) => {
       .select('subscription_status')
       .eq('id', user.id)
       .single();
-    if (!profile || !ACTIVE_STATUSES.includes(profile.subscription_status ?? '')) {
+    const plan = planFromStatus(profile?.subscription_status);
+    if (plan === 'free') {
       return json({ error: 'An active Clutvi Pro subscription is required.' }, 403);
     }
 
@@ -43,6 +45,13 @@ Deno.serve(async (req) => {
     if (typeof input !== 'string' || !input.trim()) return json({ error: 'Missing input.' }, 400);
     if (input.length > MAX_INPUT_CHARS) {
       return json({ error: 'That input is too long — trim it down and try again.' }, 400);
+    }
+
+    // --- usage gate: enforce plan limits before spending API budget ---
+    // Runs after validation so malformed requests never burn a generation.
+    const gate = await checkAndIncrementUsage(supabase, user.id, plan);
+    if (!gate.allowed) {
+      return json({ error: gate.reason, upgrade: true, remaining: 0, plan: gate.plan }, 429);
     }
 
     const { system, userPrompt } = spec.build(input, options ?? {});
@@ -78,7 +87,7 @@ Deno.serve(async (req) => {
       return json({ error: 'The AI returned an unexpected response — please try again.' }, 502);
     }
 
-    return json({ tool, data: block.input });
+    return json({ tool, data: block.input, remaining: gate.remaining, plan: gate.plan });
   } catch (e) {
     console.error('claude-proxy error', e);
     return json({ error: 'Something went wrong — please try again.' }, 500);

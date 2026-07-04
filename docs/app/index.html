@@ -389,6 +389,21 @@ body {
 </div>
 
 <!-- ══════════════════════════════════════════════════════════
+     USAGE LIMIT MODAL
+══════════════════════════════════════════════════════════ -->
+<div id="limit-modal" class="fixed inset-0 z-50 items-center justify-center px-4" style="display:none;background:rgba(0,0,0,.65)">
+  <div class="flex items-center justify-center w-full h-full">
+    <div class="w-full max-w-md relative overflow-hidden rounded-2xl p-10 shadow-2xl" style="background:var(--surface);border:1px solid var(--border2)">
+      <div class="absolute top-0 left-0 right-0 h-0.5" style="background:var(--grad)"></div>
+      <h1 class="font-display font-extrabold text-2xl mb-1 tracking-tight">You're on a roll ⚡</h1>
+      <p id="limit-modal-msg" class="text-sm mb-6" style="color:var(--muted2)"></p>
+      <button class="btn-grad" id="limit-modal-cta" onclick="openBillingPortal()">Manage your plan →</button>
+      <p class="paywall-foot"><a href="#" onclick="hideLimitModal();return false;">Back to the dashboard</a></p>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
      MOBILE BACKDROP
 ══════════════════════════════════════════════════════════ -->
 <div id="sidebar-backdrop"
@@ -441,6 +456,7 @@ body {
   <!-- Bottom -->
   <div class="mt-auto border-t px-2 py-3 flex-shrink-0" style="border-color:var(--border)">
     <div class="account-email" id="account-email"></div>
+    <div class="api-badge" id="usage-indicator" style="display:none;cursor:default"></div>
     <div class="api-badge" onclick="openBillingPortal()">
       <div class="api-dot"></div>Pro · Manage billing
     </div>
@@ -492,7 +508,7 @@ body {
       </div>
       <div class="stat-card">
         <div class="stat-label">Status</div>
-        <div class="stat-value green">✓ Pro</div>
+        <div class="stat-value green" id="stat-plan">✓ Pro</div>
       </div>
     </div>
 
