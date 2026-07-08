@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>TikTok Caption Generator UK — Hooks &amp; Hashtags in Seconds | Clutvi</title>
+<meta name="description" content="Free TikTok caption generator built for UK creators. Get scroll-stopping hooks, on-brand copy, and hashtag suggestions in under 5 seconds. Try Clutvi free for 3 days."/>
+<meta name="keywords" content="tiktok caption generator uk, tiktok caption ideas, reel caption generator, uk tiktok captions, hashtag generator tiktok"/>
+<link rel="canonical" href="https://cazzam15.github.io/Clutvi/tools/tiktok-caption-generator.html"/>
+<meta property="og:title" content="TikTok Caption Generator UK | Clutvi"/>
+<meta property="og:description" content="UK-toned TikTok captions with hooks and hashtags — three options in seconds. Part of Clutvi's 6-tool creator dashboard."/>
+<meta property="og:type" content="website"/>
+<meta property="og:url" content="https://cazzam15.github.io/Clutvi/tools/tiktok-caption-generator.html"/>
+<meta name="theme-color" content="#07070e"/>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      fontFamily: {
+        sans:    ['DM Sans',  'ui-sans-serif', 'system-ui'],
+        display: ['Syne',     'ui-sans-serif'],
+      },
+    },
+  },
+}
+</script>
+<script src="https://cdn.tailwindcss.com"></script>
+
+<style>
+.g {
+  background: linear-gradient(135deg, #c4b5fd 0%, #7C3AED 40%, #2DD4BF 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.btn-primary {
+  background: linear-gradient(135deg, #7C3AED 0%, #6B21A8 40%, #0d9488 100%);
+  background-size: 200% auto;
+  transition: background-position .45s ease, transform .12s, box-shadow .2s;
+  box-shadow: 0 0 32px rgba(107,33,168,.45), 0 4px 16px rgba(0,0,0,.4);
+}
+.btn-primary:hover {
+  background-position: right center;
+  box-shadow: 0 0 48px rgba(107,33,168,.6), 0 8px 24px rgba(0,0,0,.5);
+}
+.btn-primary:active { transform: scale(.97); }
+.btn-secondary {
+  background: rgba(255,255,255,.05);
+  border: 1px solid rgba(255,255,255,.12);
+  transition: background .2s, border-color .2s, color .2s;
+}
+.btn-secondary:hover {
+  background: rgba(255,255,255,.09);
+  border-color: rgba(255,255,255,.22);
+}
+.hero-glow {
+  background:
+    radial-gradient(ellipse 90% 70% at 50% -5%, rgba(107,33,168,.38) 0%, transparent 65%),
+    radial-gradient(ellipse 50% 40% at 80% 60%, rgba(45,212,191,.08) 0%, transparent 55%);
+}
+.faq-card {
+  background: rgba(12,12,22,.95);
+  border: 1px solid rgba(255,255,255,.07);
+}
+.example-card {
+  background: rgba(255,255,255,.03);
+  border: 1px solid rgba(255,255,255,.07);
+}
+html { scroll-behavior: smooth; }
+</style>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Is this TikTok caption generator free?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Clutvi offers a 3-day free trial with 10 caption generations per day. After the trial, Clutvi Pro is £9.99/month and includes all six creator tools with 100 generations per day."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does it work for UK TikTok creators?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Clutvi is tuned for UK short-form creators — British spelling, natural tone, and TikTok-native hooks instead of generic US copy."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I use it for Instagram Reels too?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Select TikTok or Instagram Reels when generating. The Caption Writer adjusts hook style and hashtag mix for each platform."
+      }
+    }
+  ]
+}
+</script>
+</head>
+<body class="bg-[#07070e] text-zinc-100 font-sans antialiased overflow-x-hidden">
+
+<!-- NAV -->
+<nav class="sticky top-0 z-50 border-b border-white/[0.065]"
+     style="background:rgba(7,7,14,.86);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px)">
+  <div class="max-w-6xl mx-auto px-5 sm:px-8 flex items-center justify-between h-16">
+    <a href="../" class="font-display font-extrabold text-xl tracking-tight text-zinc-100 no-underline flex items-center gap-1">
+      Clut<span class="g">vi</span>&nbsp;🚀
+    </a>
+    <div class="hidden md:flex items-center gap-7">
+      <a href="#how"     class="text-sm text-zinc-400 hover:text-zinc-100 transition-colors no-underline">How it works</a>
+      <a href="#examples" class="text-sm text-zinc-400 hover:text-zinc-100 transition-colors no-underline">Examples</a>
+      <a href="#faq"      class="text-sm text-zinc-400 hover:text-zinc-100 transition-colors no-underline">FAQ</a>
+    </div>
+    <div class="flex items-center gap-3">
+      <a href="../app/" class="hidden sm:inline text-sm text-zinc-400 hover:text-zinc-100 transition-colors no-underline">Sign in</a>
+      <a href="../app/?signup=1"
+         class="btn-primary inline-block px-5 py-2.5 rounded-xl text-white font-display font-bold text-sm no-underline">
+        Try free
+      </a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="relative pt-16 pb-20 sm:pt-24 sm:pb-28 overflow-hidden">
+  <div class="hero-glow absolute inset-0 pointer-events-none"></div>
+  <div class="relative max-w-4xl mx-auto px-5 sm:px-8 text-center">
+    <div class="inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-[11px] font-bold tracking-widest mb-8 border"
+         style="background:rgba(124,58,237,.1);border-color:rgba(124,58,237,.28)">
+      <span class="text-violet-400">✍️ CAPTION WRITER</span>
+      <span class="text-zinc-600">·</span>
+      <span class="text-zinc-500">BUILT FOR UK CREATORS</span>
+    </div>
+
+    <h1 class="font-display font-extrabold tracking-tight leading-[1.1] mb-6">
+      <span class="block text-[clamp(2rem,5.5vw,3.5rem)] text-zinc-50">TikTok Caption Generator</span>
+      <span class="block text-[clamp(2rem,5.5vw,3.5rem)] g mt-1">for UK creators</span>
+    </h1>
+
+    <p class="text-zinc-400 text-lg sm:text-xl max-w-2xl mx-auto mb-10 leading-relaxed">
+      Stop staring at a blank caption box. Describe your video in one line and get
+      <strong class="text-zinc-200 font-semibold">three scroll-stopping options</strong> —
+      hooks, body copy, and hashtags — tuned to TikTok and Reels. Under five seconds.
+    </p>
+
+    <div class="flex flex-col sm:flex-row gap-3 justify-center items-stretch sm:items-center mb-5">
+      <a href="../app/?signup=1"
+         class="btn-primary px-9 py-4 rounded-xl text-white font-display font-bold text-base no-underline text-center">
+        Generate captions free →
+      </a>
+      <a href="#how"
+         class="btn-secondary px-9 py-4 rounded-xl font-medium text-base no-underline text-center text-zinc-300 hover:text-white">
+        See how it works ↓
+      </a>
+    </div>
+    <p class="text-sm text-zinc-600">3-day trial · 10 generations/day · then £9.99/mo for all 6 tools</p>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section id="how" class="py-20 border-t border-white/[0.06]">
+  <div class="max-w-4xl mx-auto px-5 sm:px-8">
+    <div class="text-center mb-14">
+      <div class="text-[11px] font-bold uppercase tracking-widest text-violet-400 mb-3">How it works</div>
+      <h2 class="font-display font-extrabold text-3xl tracking-tight">From idea to posted in <span class="g">under a minute</span></h2>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div class="faq-card rounded-2xl p-6">
+        <div class="text-2xl mb-4">1️⃣</div>
+        <h3 class="font-display font-bold text-lg mb-2">Describe your video</h3>
+        <p class="text-zinc-400 text-sm leading-relaxed">
+          One sentence is enough — topic, angle, or the hook you're going for.
+          Pick TikTok or Reels, and your vibe: Casual, Funny, or Motivational.
+        </p>
+      </div>
+      <div class="faq-card rounded-2xl p-6">
+        <div class="text-2xl mb-4">2️⃣</div>
+        <h3 class="font-display font-bold text-lg mb-2">Get three options</h3>
+        <p class="text-zinc-400 text-sm leading-relaxed">
+          Each caption includes a hook line, body copy, and a hashtag set sized for
+          the platform. Copy the one you like — or remix with another vibe.
+        </p>
+      </div>
+      <div class="faq-card rounded-2xl p-6">
+        <div class="text-2xl mb-4">3️⃣</div>
+        <h3 class="font-display font-bold text-lg mb-2">Post with confidence</h3>
+        <p class="text-zinc-400 text-sm leading-relaxed">
+          Optional: score the same idea in the Algo Analyzer before you film.
+          Clutvi is the only £9.99 toolkit that does captions <em>and</em> pre-post scoring.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- UK ANGLE -->
+<section class="py-20 border-t border-white/[0.06]" style="background:rgba(255,255,255,.015)">
+  <div class="max-w-4xl mx-auto px-5 sm:px-8">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+      <div>
+        <div class="text-[11px] font-bold uppercase tracking-widest text-teal-400 mb-3">Why UK creators switch</div>
+        <h2 class="font-display font-extrabold text-2xl sm:text-3xl tracking-tight mb-5">
+          US caption tools sound wrong on <span class="g">British TikTok</span>
+        </h2>
+        <p class="text-zinc-400 leading-relaxed mb-4">
+          Generic AI gives you "y'all", autumn/fall confusion, and hooks that feel
+          imported from American creator playbooks. Clutvi is built for UK micro-creators
+          posting beauty, fitness, food, side-hustle, and local-business Reels.
+        </p>
+        <ul class="space-y-3 text-sm">
+          <li class="flex items-start gap-3">
+            <span class="text-teal-400 font-bold flex-shrink-0">✓</span>
+            <span class="text-zinc-300">British spelling and natural phrasing</span>
+          </li>
+          <li class="flex items-start gap-3">
+            <span class="text-teal-400 font-bold flex-shrink-0">✓</span>
+            <span class="text-zinc-300">TikTok-native hooks — POV, "save this", listicles</span>
+          </li>
+          <li class="flex items-start gap-3">
+            <span class="text-teal-400 font-bold flex-shrink-0">✓</span>
+            <span class="text-zinc-300">Hashtag mixes that match UK niches (#ukfoodtok, #sidehustleuk)</span>
+          </li>
+          <li class="flex items-start gap-3">
+            <span class="text-teal-400 font-bold flex-shrink-0">✓</span>
+            <span class="text-zinc-300">Five more tools in the same dashboard — no tool sprawl</span>
+          </li>
+        </ul>
+      </div>
+      <div class="example-card rounded-2xl p-6">
+        <div class="text-[10px] font-bold uppercase tracking-widest text-zinc-600 mb-3">Example output</div>
+        <p class="text-sm text-zinc-500 mb-4">Input: "morning skincare routine for oily skin, 5 products under £30"</p>
+        <div class="rounded-xl p-4 border border-white/[0.06]" style="background:rgba(124,58,237,.06)">
+          <p class="text-[15px] text-zinc-200 leading-relaxed mb-1">
+            POV: you finally cracked the morning skincare code ✨
+          </p>
+          <p class="text-[15px] text-zinc-400 leading-relaxed mb-3">
+            5 steps. 10 minutes. Zero greasy skin. Save this before your next Boots run 🙋‍♀️
+          </p>
+          <div class="flex flex-wrap gap-x-2 gap-y-1">
+            <span class="text-xs text-violet-400">#skintok</span>
+            <span class="text-xs text-violet-400">#oilyskin</span>
+            <span class="text-xs text-violet-400">#ukbeauty</span>
+          </div>
+        </div>
+        <p class="text-xs text-zinc-600 mt-4">Generated in ~4 seconds · Caption 1 of 3</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXAMPLES -->
+<section id="examples" class="py-20 border-t border-white/[0.06]">
+  <div class="max-w-4xl mx-auto px-5 sm:px-8">
+    <div class="text-center mb-14">
+      <div class="text-[11px] font-bold uppercase tracking-widest text-violet-400 mb-3">Caption ideas by niche</div>
+      <h2 class="font-display font-extrabold text-3xl tracking-tight">What UK creators generate</h2>
+      <p class="text-zinc-500 mt-4 max-w-lg mx-auto">Paste any of these as your video description — Clutvi expands them into full captions.</p>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <div class="example-card rounded-xl p-5">
+        <div class="text-xs font-bold text-pink-400 mb-2">BEAUTY / SKINCARE</div>
+        <p class="text-sm text-zinc-300">"Affordable retinol routine for beginners — drugstore only, sensitive skin"</p>
+      </div>
+      <div class="example-card rounded-xl p-5">
+        <div class="text-xs font-bold text-emerald-400 mb-2">FITNESS</div>
+        <p class="text-sm text-zinc-300">"15-minute home workout, no equipment, for busy mums"</p>
+      </div>
+      <div class="example-card rounded-xl p-5">
+        <div class="text-xs font-bold text-amber-400 mb-2">FOOD / RECIPES</div>
+        <p class="text-sm text-zinc-300">"One-pan dinner under £5, feeds family of four, Tesco ingredients"</p>
+      </div>
+      <div class="example-card rounded-xl p-5">
+        <div class="text-xs font-bold text-blue-400 mb-2">SIDE HUSTLE</div>
+        <p class="text-sm text-zinc-300">"How I made £200 this month selling printables on Etsy part-time"</p>
+      </div>
+      <div class="example-card rounded-xl p-5">
+        <div class="text-xs font-bold text-violet-400 mb-2">LOCAL BUSINESS</div>
+        <p class="text-sm text-zinc-300">"Salon owner — why I film every transformation Reel even when I'm knackered"</p>
+      </div>
+      <div class="example-card rounded-xl p-5">
+        <div class="text-xs font-bold text-teal-400 mb-2">PARENTING</div>
+        <p class="text-sm text-zinc-300">"School lunch hacks that actually get eaten — no Pinterest mum energy"</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VS GENERIC -->
+<section class="py-20 border-t border-white/[0.06]" style="background:rgba(255,255,255,.015)">
+  <div class="max-w-4xl mx-auto px-5 sm:px-8 text-center">
+    <h2 class="font-display font-extrabold text-2xl sm:text-3xl tracking-tight mb-4">
+      More than a <span class="g">caption generator</span>
+    </h2>
+    <p class="text-zinc-400 max-w-xl mx-auto mb-10">
+      ChatGPT needs prompting. Caption.ai stops at one tool. Clutvi gives you captions
+      plus algo scoring, post analysis, content planning, comment replies, and viral inspo —
+      all for £9.99/mo.
+    </p>
+    <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 max-w-2xl mx-auto text-sm">
+      <div class="faq-card rounded-xl px-4 py-3 text-zinc-400">📊 Algo Analyzer</div>
+      <div class="faq-card rounded-xl px-4 py-3 text-zinc-400">📈 Post History</div>
+      <div class="faq-card rounded-xl px-4 py-3 text-zinc-400">🧠 Brain Dump</div>
+      <div class="faq-card rounded-xl px-4 py-3 text-zinc-400">💬 Comment Reply</div>
+      <div class="faq-card rounded-xl px-4 py-3 text-zinc-400">🔥 Viral Inspiration</div>
+      <div class="faq-card rounded-xl px-4 py-3 text-violet-400 font-semibold">✍️ Caption Writer</div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq" class="py-20 border-t border-white/[0.06]">
+  <div class="max-w-2xl mx-auto px-5 sm:px-8">
+    <div class="text-center mb-12">
+      <div class="text-[11px] font-bold uppercase tracking-widest text-violet-400 mb-3">FAQ</div>
+      <h2 class="font-display font-extrabold text-3xl tracking-tight">Common questions</h2>
+    </div>
+
+    <div class="space-y-4">
+      <details class="faq-card rounded-xl p-5 group">
+        <summary class="font-semibold text-zinc-100 cursor-pointer list-none flex justify-between items-center">
+          Is this TikTok caption generator free?
+          <span class="text-zinc-600 group-open:rotate-45 transition-transform text-xl">+</span>
+        </summary>
+        <p class="text-zinc-400 text-sm mt-4 leading-relaxed">
+          Clutvi offers a 3-day free trial with 10 generations per day (captions, scores, or any tool).
+          After the trial, Clutvi Pro is £9.99/month and includes all six tools with 100 generations per day.
+        </p>
+      </details>
+
+      <details class="faq-card rounded-xl p-5 group">
+        <summary class="font-semibold text-zinc-100 cursor-pointer list-none flex justify-between items-center">
+          Does it work for UK TikTok creators?
+          <span class="text-zinc-600 group-open:rotate-45 transition-transform text-xl">+</span>
+        </summary>
+        <p class="text-zinc-400 text-sm mt-4 leading-relaxed">
+          Yes. Clutvi is tuned for UK short-form creators — British spelling, natural tone,
+          and TikTok-native hooks instead of generic US copy.
+        </p>
+      </details>
+
+      <details class="faq-card rounded-xl p-5 group">
+        <summary class="font-semibold text-zinc-100 cursor-pointer list-none flex justify-between items-center">
+          Can I use it for Instagram Reels too?
+          <span class="text-zinc-600 group-open:rotate-45 transition-transform text-xl">+</span>
+        </summary>
+        <p class="text-zinc-400 text-sm mt-4 leading-relaxed">
+          Yes. Select TikTok or Instagram Reels when generating. The Caption Writer adjusts
+          hook style and hashtag mix for each platform.
+        </p>
+      </details>
+
+      <details class="faq-card rounded-xl p-5 group">
+        <summary class="font-semibold text-zinc-100 cursor-pointer list-none flex justify-between items-center">
+          How is this different from ChatGPT?
+          <span class="text-zinc-600 group-open:rotate-45 transition-transform text-xl">+</span>
+        </summary>
+        <p class="text-zinc-400 text-sm mt-4 leading-relaxed">
+          No prompting. Pick your platform and vibe, paste your idea, get three formatted captions
+          with hooks and hashtags. Plus five other creator tools in the same dashboard — including
+          an Algo Analyzer that scores ideas before you film.
+        </p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="py-24 border-t border-white/[0.06] relative overflow-hidden">
+  <div class="hero-glow absolute inset-0 pointer-events-none"></div>
+  <div class="relative max-w-2xl mx-auto px-5 sm:px-8 text-center">
+    <h2 class="font-display font-extrabold text-[clamp(1.8rem,4vw,2.8rem)] tracking-tight mb-5">
+      Your next caption is <span class="g">two minutes away</span>
+    </h2>
+    <p class="text-zinc-400 mb-8">
+      Try the Caption Writer free for 3 days. No charge today — cancel anytime.
+    </p>
+    <a href="../app/?signup=1"
+       class="btn-primary inline-block px-10 py-4 rounded-xl text-white font-display font-bold text-base no-underline">
+      Start free trial →
+    </a>
+    <p class="text-sm text-zinc-600 mt-5">
+      <a href="../" class="text-zinc-500 hover:text-zinc-300 no-underline">← Back to Clutvi homepage</a>
+    </p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="border-t border-white/[0.06] py-10" style="background:rgba(0,0,0,.28)">
+  <div class="max-w-6xl mx-auto px-5 sm:px-8">
+    <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+      <a href="../" class="font-display font-extrabold text-lg tracking-tight text-zinc-100 no-underline">
+        Clut<span class="g">vi</span> 🚀
+      </a>
+      <div class="flex items-center gap-6 text-sm text-zinc-500">
+        <a href="../#tools"   class="hover:text-zinc-300 transition-colors no-underline">All tools</a>
+        <a href="../#pricing" class="hover:text-zinc-300 transition-colors no-underline">Pricing</a>
+        <a href="../app/"     class="hover:text-zinc-300 transition-colors no-underline">Sign in</a>
+      </div>
+      <p class="text-xs text-zinc-700">© 2026 Clutvi · TikTok caption generator UK</p>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

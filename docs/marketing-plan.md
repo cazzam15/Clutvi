@@ -24,7 +24,7 @@
 
 **New content priority (week 1):**
 1. Record 3 TikTok demos: Algo score reveal, caption in 47s, brain dump → calendar
-2. Publish `/docs/tools/tiktok-caption-generator.html` SEO page
+2. [x] Publish `/docs/tools/tiktok-caption-generator.html` SEO page
 3. Post in r/Tiktokhelp with genuine value-first comment strategy
 
 **Content kit:** `docs/marketing/tiktok-content-kit.md` — 10 scripts + batch filming workflow
@@ -159,7 +159,7 @@ Clutvi is not "another caption writer." It's the **pre-post intelligence + conte
 | Week | Actions |
 |------|---------|
 | **W3** | Post 1 TikTok/Reel/day; engage in creator communities |
-| **W4** | Publish first SEO page (`/tools/tiktok-caption-generator`); DM 10 micro-creators |
+| **W4** | [x] Publish first SEO page (`/tools/tiktok-caption-generator`); DM 10 micro-creators |
 | **W5** | Review funnel metrics; fix top friction |
 
 **Goal:** 30 trials, 5 paid, 3 real testimonials.
