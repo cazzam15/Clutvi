@@ -98,8 +98,8 @@ function setAuthMode(mode) {
   document.getElementById('auth-submit').textContent = mode === 'signin' ? 'Sign In →' : 'Create Account →';
   const hint = document.getElementById('auth-hint');
   hint.textContent = mode === 'signin'
-    ? 'Welcome back — sign in to launch your dashboard.'
-    : 'Create your account, then subscribe to unlock the tools.';
+    ? 'Welcome back — sign in to your dashboard.'
+    : 'Create your account · 3-day free trial, then £9.99/mo.';
   hint.style.color = '';
   document.getElementById('auth-password').autocomplete = mode === 'signin' ? 'current-password' : 'new-password';
 }

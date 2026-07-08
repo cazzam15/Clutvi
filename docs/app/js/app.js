@@ -6,7 +6,20 @@ function init() {
   document.getElementById('content-count').textContent = contentCount;
   renderRecentList();
   renderViralLib();
+  updateOnboarding();
   initAuth();
+}
+
+function updateOnboarding() {
+  const card = document.getElementById('onboard-card');
+  if (!card) return;
+  const dismissed = localStorage.getItem('clutvi_onboard_dismissed') === '1';
+  card.style.display = (dismissed || contentCount > 0) ? 'none' : 'block';
+}
+
+function dismissOnboarding() {
+  localStorage.setItem('clutvi_onboard_dismissed', '1');
+  updateOnboarding();
 }
 
 function nav(id, el) {
@@ -245,6 +258,7 @@ function incrementCount() {
   contentCount++;
   localStorage.setItem('rr_count', contentCount);
   document.getElementById('content-count').textContent = contentCount;
+  updateOnboarding();
 }
 
 function addToHistory(tool, preview, badgeClass) {

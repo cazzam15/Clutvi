@@ -306,6 +306,27 @@ body {
 .section-title { font-size: .75rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin: 0 0 14px; }
 .recent-card { background: var(--surface); border: 1px solid var(--border2); border-radius: 14px; padding: 4px 20px; }
 
+/* ── Onboarding banner ───────────────────────────────────── */
+.onboard-card {
+  background: linear-gradient(135deg, rgba(124,58,237,.12), rgba(45,212,191,.08));
+  border: 1px solid rgba(124,58,237,.25);
+  border-radius: 16px; padding: 22px 24px; margin-bottom: 28px;
+}
+.onboard-card h3 { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.1rem; margin-bottom: 6px; }
+.onboard-card p { font-size: .88rem; color: var(--muted2); margin-bottom: 14px; line-height: 1.55; }
+.onboard-steps { display: flex; flex-wrap: wrap; gap: 8px; }
+.onboard-step {
+  font-size: .78rem; font-weight: 600; padding: 6px 12px; border-radius: 999px;
+  background: var(--surface); border: 1px solid var(--border2); color: var(--text2);
+  cursor: pointer; transition: all .15s;
+}
+.onboard-step:hover { border-color: #7C3AED; color: #a78bfa; }
+.onboard-dismiss {
+  float: right; background: transparent; border: none; color: var(--muted);
+  cursor: pointer; font-size: 1.1rem; line-height: 1; padding: 2px 6px;
+}
+.onboard-dismiss:hover { color: var(--text); }
+
 /* ── Sidebar section label ────────────────────────────────── */
 .sidebar-section {
   font-size: .68rem; font-weight: 700; letter-spacing: .1em;
@@ -322,8 +343,8 @@ body {
   <div class="w-full max-w-md relative overflow-hidden rounded-2xl p-10 shadow-2xl" style="background:var(--surface);border:1px solid var(--border2)">
     <div class="absolute top-0 left-0 right-0 h-0.5" style="background:var(--grad)"></div>
 
-    <h1 class="font-display font-extrabold text-2xl mb-1 tracking-tight">Reel<span class="logo-g">Rocket</span> 🚀</h1>
-    <p class="text-sm mb-6" style="color:var(--muted2)">AI-powered tools for Instagram &amp; TikTok creators</p>
+    <h1 class="font-display font-extrabold text-2xl mb-1 tracking-tight">Clut<span class="logo-g">vi</span> 🚀</h1>
+    <p class="text-sm mb-6" style="color:var(--muted2)">6 AI tools for UK TikTok &amp; Reels creators</p>
 
     <div class="flex rounded-xl p-1 mb-6" style="background:var(--surface2)">
       <button class="auth-tab active" id="auth-tab-signin" onclick="setAuthMode('signin')">Sign In</button>
@@ -336,7 +357,7 @@ body {
     <div class="field-label">Password</div>
     <input type="password" class="rr-input mb-3" id="auth-password" placeholder="••••••••" autocomplete="current-password" onkeydown="if(event.key==='Enter')submitAuth()"/>
 
-    <p class="text-sm mb-4" id="auth-hint" style="color:var(--muted2)">Welcome back — sign in to launch your dashboard.</p>
+    <p class="text-sm mb-4" id="auth-hint" style="color:var(--muted2)">Welcome back — sign in to your dashboard.</p>
     <button class="btn-grad" id="auth-submit" onclick="submitAuth()">Sign In →</button>
     <p class="text-center mt-4 text-sm" style="color:var(--muted)">
       <a href="#" onclick="forgotPassword();return false;" style="color:#a78bfa;text-decoration:none">Forgot password?</a>
@@ -351,7 +372,7 @@ body {
   <div class="flex items-center justify-center w-full h-full">
     <div class="w-full max-w-md relative overflow-hidden rounded-2xl p-10 shadow-2xl" style="background:var(--surface);border:1px solid var(--border2)">
       <div class="absolute top-0 left-0 right-0 h-0.5" style="background:var(--grad)"></div>
-      <h1 class="font-display font-extrabold text-2xl mb-1 tracking-tight">Reel<span class="logo-g">Rocket</span> 🚀</h1>
+      <h1 class="font-display font-extrabold text-2xl mb-1 tracking-tight">Clut<span class="logo-g">vi</span> 🚀</h1>
       <p class="text-sm mb-6" style="color:var(--muted2)">Set a new password for your account</p>
       <div class="field-label">New password</div>
       <input type="password" class="rr-input mb-4" id="recovery-password" placeholder="••••••••" autocomplete="new-password"/>
@@ -372,17 +393,18 @@ body {
   <div class="flex items-center justify-center w-full h-full">
     <div class="w-full max-w-md relative overflow-hidden rounded-2xl p-10 shadow-2xl" style="background:var(--surface);border:1px solid var(--border2)">
       <div class="absolute top-0 left-0 right-0 h-0.5" style="background:var(--grad)"></div>
-      <h1 class="font-display font-extrabold text-2xl mb-1 tracking-tight">Clutvi 🚀</h1>
-      <p class="text-sm mb-6" style="color:var(--muted2)">Unlock all 6 AI tools with Clutvi Pro</p>
+      <h1 class="font-display font-extrabold text-2xl mb-1 tracking-tight">Clut<span class="logo-g">vi</span> Pro 🚀</h1>
+      <p class="text-sm mb-2" style="color:var(--muted2)">Try free for 3 days — then £9.99/mo</p>
+      <p class="text-xs mb-5" style="color:var(--muted)">No charge today · cancel anytime · shows as CLUTVI on your statement</p>
       <ul class="paywall-features">
-        <li>✍️ Caption Writer with hooks &amp; hashtags</li>
-        <li>📊 Algo Analyzer — score ideas before you post</li>
-        <li>📈 Post History Analyzer — find what's working</li>
-        <li>🧠 Brain Dump to Content — instant content plans</li>
-        <li>💬 Comment Reply Assistant</li>
-        <li>🔥 Viral Inspiration library &amp; AI remix</li>
+        <li>✍️ Caption Writer — hooks &amp; hashtags in seconds</li>
+        <li>📊 Algo Analyzer — score ideas <em>before</em> you film</li>
+        <li>📈 Post History — find what's actually working</li>
+        <li>🧠 Brain Dump — raw ideas → content calendar</li>
+        <li>💬 Comment Reply — on-brand replies at speed</li>
+        <li>🔥 Viral Inspiration — save &amp; remix winning formats</li>
       </ul>
-      <button class="btn-grad" id="subscribe-btn" onclick="startCheckout()">Subscribe →</button>
+      <button class="btn-grad" id="subscribe-btn" onclick="startCheckout()">Start 3-day free trial →</button>
       <p class="paywall-foot">Signed in as <span id="paywall-email"></span> · <a href="#" onclick="doSignOut();return false;">sign out</a></p>
     </div>
   </div>
@@ -419,7 +441,7 @@ body {
   <!-- Logo -->
   <div class="flex items-center gap-2 px-5 py-5 flex-shrink-0">
     <span class="font-display font-extrabold text-xl tracking-tight">
-      Reel<span class="logo-g">Rocket</span>
+      Clut<span class="logo-g">vi</span>
     </span>
     <span class="text-lg">🚀</span>
     <!-- Theme toggle -->
@@ -476,7 +498,7 @@ body {
     </svg>
   </button>
   <span class="font-display font-extrabold text-lg tracking-tight">
-    Reel<span class="logo-g">Rocket</span> 🚀
+    Clut<span class="logo-g">vi</span> 🚀
   </span>
   <button onclick="toggleTheme()" class="ml-auto rounded-lg p-1.5" style="background:transparent;border:none;cursor:pointer;color:var(--muted2)">
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -494,7 +516,20 @@ body {
   <!-- ── DASHBOARD ──────────────────────────────────────── -->
   <div class="page active" id="page-home">
     <div class="page-title">Dashboard</div>
-    <div class="page-sub">Welcome back. Here's your activity at a glance.</div>
+    <div class="page-sub" id="dashboard-sub">Your creator toolkit — pick a tool and go.</div>
+
+    <!-- Onboarding (hidden after first generation or dismiss) -->
+    <div class="onboard-card" id="onboard-card">
+      <button class="onboard-dismiss" onclick="dismissOnboarding()" title="Dismiss">×</button>
+      <h3>New here? Start with Algo Analyzer</h3>
+      <p>Paste your next post idea and get a score out of 100 before you film.
+         Most creators try this first — takes about 10 seconds.</p>
+      <div class="onboard-steps">
+        <span class="onboard-step" onclick="nav('algo', document.querySelector('[onclick*=algo]'))">📊 Score an idea</span>
+        <span class="onboard-step" onclick="nav('caption', document.querySelector('[onclick*=caption]'))">✍️ Write a caption</span>
+        <span class="onboard-step" onclick="nav('brain', document.querySelector('[onclick*=brain]'))">🧠 Plan content</span>
+      </div>
+    </div>
 
     <!-- Stats row -->
     <div class="stats-row">
