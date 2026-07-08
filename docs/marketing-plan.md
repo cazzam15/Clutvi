@@ -169,7 +169,7 @@ Clutvi is not "another caption writer." It's the **pre-post intelligence + conte
 | Week | Actions |
 |------|---------|
 | **W6** | Remix top-performing content; start weekly "Algo Score" series |
-| **W7** | Add email capture; publish SEO pages 2–3 |
+| **W7** | Add email capture; [x] publish SEO pages 2–4 + hub |
 | **W8–9** | Product Hunt launch |
 
 **Goal:** 100 trials cumulative, 20 paid, £200 MRR.
@@ -204,10 +204,11 @@ Clutvi is not "another caption writer." It's the **pre-post intelligence + conte
 ## 6. Acquisition Tactics
 
 ### SEO keywords (UK, low competition)
-- `tiktok caption generator uk`
-- `instagram reel caption ideas`
-- `tiktok algorithm checker`
-- `content calendar for tiktok`
+- [x] `tiktok caption generator uk` → `/tools/tiktok-caption-generator.html`
+- [x] `instagram reel caption ideas` → `/tools/instagram-reel-caption-ideas.html`
+- [x] `tiktok algorithm checker` → `/tools/tiktok-algorithm-checker.html`
+- [x] `content calendar for tiktok` → `/tools/tiktok-content-calendar.html`
+- Hub: `/tools/` indexes all four pages with internal cross-links
 
 ### Communities
 - r/Tiktokhelp, r/Instagram, r/ContentCreators
