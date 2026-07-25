@@ -12,9 +12,11 @@ import type { SupabaseClient } from 'npm:@supabase/supabase-js@2';
 export type Plan = 'trial' | 'pro' | 'free';
 
 export const LIMITS: Record<Plan, { daily: number; total: number }> = {
-  trial: { daily: 10, total: 50 },
-  pro: { daily: 100, total: Infinity }, // fair-use cap — still protects the budget
-  free: { daily: 0, total: 0 },         // no free tier: trial or pro only
+  // The trial total has to be under daily x trial length or it never fires:
+  // 3 days x 10 = 30, so 25 is what actually ends the trial early.
+  trial: { daily: 10, total: 25 },
+  pro: { daily: 40, total: Infinity }, // fair-use cap — still protects the budget
+  free: { daily: 0, total: 0 },        // no free tier: trial or pro only
 };
 
 export interface GateResult {

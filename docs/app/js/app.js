@@ -319,8 +319,10 @@ function saveToHistory(id, tool) {
 
 // --- usage gate UI -----------------------------------------------------------
 // The server (claude-proxy + _shared/usage-gate.ts) is the source of truth;
-// this constant only mirrors LIMITS.trial.daily for the on-load indicator.
+// these constants only mirror LIMITS.trial for the on-load indicator. Both caps
+// matter: the whole-trial total bites before the daily one on the last day.
 const TRIAL_DAILY_LIMIT = 10;
+const TRIAL_TOTAL_LIMIT = 25;
 
 function showLimitModal(data) {
   document.getElementById('limit-modal-msg').textContent = data.error || "You've hit your generation limit.";
@@ -334,13 +336,16 @@ function hideLimitModal() {
   document.getElementById('limit-modal').style.display = 'none';
 }
 
-function updateUsageIndicator(remaining, plan) {
+// `scope` says which cap is the binding one, so the wording stays truthful:
+// "left today" resets tomorrow, "left in your trial" does not.
+function updateUsageIndicator(remaining, plan, scope = 'today') {
   const el = document.getElementById('usage-indicator');
   const stat = document.getElementById('stat-plan');
   if (plan === 'trial' && typeof remaining === 'number') {
+    const when = scope === 'trial' ? 'left in your trial' : 'left today';
     el.textContent = remaining === 0
-      ? 'No trial generations left today'
-      : `⚡ ${remaining} trial generation${remaining === 1 ? '' : 's'} left today`;
+      ? `No trial generations ${when}`
+      : `⚡ ${remaining} trial generation${remaining === 1 ? '' : 's'} ${when}`;
     el.style.display = '';
     if (stat) stat.textContent = 'Trial';
   } else {
@@ -357,9 +362,20 @@ async function loadUsageIndicator() {
     : currentProfile.subscription_status === 'active' ? 'pro' : null;
   if (!plan) return;
   if (plan === 'pro') { updateUsageIndicator(null, 'pro'); return; }
+  // Pull every day's row (RLS scopes it to this user) so we can apply the same
+  // two caps the server does, and show whichever one is closer.
   const today = new Date().toISOString().slice(0, 10);
-  const { data } = await sb.from('usage').select('count').eq('date', today).maybeSingle();
-  updateUsageIndicator(Math.max(0, TRIAL_DAILY_LIMIT - (data?.count ?? 0)), 'trial');
+  const { data: rows } = await sb.from('usage').select('date, count');
+  const todayCount = (rows ?? []).find(r => r.date === today)?.count ?? 0;
+  const totalCount = (rows ?? []).reduce((sum, r) => sum + r.count, 0);
+
+  const leftToday = Math.max(0, TRIAL_DAILY_LIMIT - todayCount);
+  const leftTotal = Math.max(0, TRIAL_TOTAL_LIMIT - totalCount);
+  updateUsageIndicator(
+    Math.min(leftToday, leftTotal),
+    'trial',
+    leftTotal < leftToday ? 'trial' : 'today',
+  );
 }
 
 function showToast(msg, type = 'error') {
