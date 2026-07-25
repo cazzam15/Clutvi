@@ -1,5 +1,5 @@
 # Clutvi TikTok Content Kit
-**UK micro-creators · 15–45s videos · Link in bio → cazzam15.github.io/Clutvi**
+**UK micro-creators · 15–45s videos · Link in bio → clutvi.com**
 
 ---
 
@@ -57,7 +57,7 @@ Write every TikTok caption **using Clutvi Caption Writer**. Screenshot the tool 
 ### Link in bio
 
 TikTok → Linktree/Beacons (free) or direct to:
-`https://cazzam15.github.io/Clutvi/app/?signup=1`
+`https://clutvi.com/app/?signup=1`
 
 Bio text:
 ```
