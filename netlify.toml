@@ -7,3 +7,20 @@
     X-Frame-Options = "DENY"
     X-Content-Type-Options = "nosniff"
     Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=(), payment=(), usb=(), magnetometer=(), gyroscope=()"
+
+    # Content-Security-Policy. Every host listed is one the site genuinely uses:
+    #   cdn.jsdelivr.net  – the supabase-js fallback in app/index.html
+    #   fonts.googleapis  – the stylesheet; fonts.gstatic – the font files it pulls
+    #   *.supabase.co     – auth, database and edge functions (the only XHR target)
+    # Stripe isn't listed because checkout is a top-level redirect, not a fetch or
+    # an iframe, so no directive applies to it.
+    #
+    # NOTE: 'unsafe-inline' in script-src is required — the app uses ~90 inline
+    # onclick attributes and 3 inline <script> blocks, so a nonce/hash policy would
+    # mean rewriting all of them. That weakens CSP's protection against injected
+    # *inline* script, but this policy still blocks loading script from any other
+    # host and stops an injected script exfiltrating data anywhere but Supabase,
+    # which is the more realistic attack. Tightening it means moving the handlers
+    # into addEventListener calls first.
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://drpqugvauikvnnbsfmkr.supabase.co; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'"
