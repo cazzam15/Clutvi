@@ -1,16 +1,58 @@
-// Capture this BEFORE creating the client: supabase-js consumes the recovery
-// token and strips the hash as soon as it initializes, so checking later races.
-const arrivedViaRecovery = /type=recovery/.test(location.hash);
-
-const sb = supabase.createClient(CLUTVI_CONFIG.SUPABASE_URL, CLUTVI_CONFIG.SUPABASE_ANON_KEY);
-
+// State is declared FIRST, before anything that can throw.
+//
+// This file used to create the Supabase client on its second line. If that threw
+// — a failed CDN fetch left `supabase` undefined, say — the script aborted before
+// reaching `let authMode`, but the function declarations below were already
+// hoisted. So tapping a login tab called setAuthMode(), which assigned to a
+// binding still in its temporal dead zone, and the user got
+// "Cannot access 'authMode' before initialization" with no clue that a script had
+// failed to load. Declaring state up front makes that failure mode impossible.
 let currentUser = null;
 let currentProfile = null;
 let authMode = 'signin';
 
 const ACTIVE_STATUSES = ['active', 'trialing'];
 
+// Capture this BEFORE creating the client: supabase-js consumes the recovery
+// token and strips the hash as soon as it initializes, so checking later races.
+const arrivedViaRecovery = /type=recovery/.test(location.hash);
+
+// Surfaces a real message instead of dying silently if a dependency is missing.
+// Runs at script-execution time, before DOMContentLoaded, so the hint may not
+// exist yet — retry once the DOM is ready.
+function fatalLoadError(what) {
+  console.error('Clutvi failed to start:', what);
+  const show = () => {
+    const hint = document.getElementById('auth-hint');
+    if (!hint) return;
+    hint.textContent = "⚠️ Clutvi couldn't finish loading — check your connection and reload the page.";
+    hint.style.color = 'var(--red)';
+    document.querySelectorAll('#auth-screen button').forEach(b => { b.disabled = true; });
+  };
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', show);
+  else show();
+}
+
+const sb = (() => {
+  if (typeof supabase === 'undefined' || !supabase?.createClient) {
+    fatalLoadError('supabase-js did not load');
+    return null;
+  }
+  if (typeof CLUTVI_CONFIG === 'undefined') {
+    fatalLoadError('config.js did not load');
+    return null;
+  }
+  try {
+    return supabase.createClient(CLUTVI_CONFIG.SUPABASE_URL, CLUTVI_CONFIG.SUPABASE_ANON_KEY);
+  } catch (e) {
+    fatalLoadError(e.message);
+    return null;
+  }
+})();
+
 async function initAuth() {
+  // fatalLoadError() has already told the user; don't compound it with a crash.
+  if (!sb) return;
   // Landing page CTA links here with ?signup=1
   if (new URLSearchParams(location.search).get('signup') === '1') {
     setAuthMode('signup');
@@ -110,6 +152,7 @@ function setAuthMode(mode) {
 }
 
 async function submitAuth() {
+  if (!sb) { fatalLoadError('client unavailable'); return; }
   const email = document.getElementById('auth-email').value.trim();
   const password = document.getElementById('auth-password').value;
   if (!email || !password) { showToast('Enter your email and password'); return; }
@@ -138,6 +181,7 @@ async function submitAuth() {
 }
 
 async function forgotPassword() {
+  if (!sb) { fatalLoadError('client unavailable'); return; }
   const email = document.getElementById('auth-email').value.trim();
   if (!email) { showToast('Type your email in the box above, then click forgot password'); return; }
   const { error } = await sb.auth.resetPasswordForEmail(email, {

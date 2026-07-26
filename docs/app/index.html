@@ -807,7 +807,14 @@ body {
 <div id="toast"></div>
 
 <!-- Scripts -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<!-- Self-hosted and version-pinned on purpose. This used to load
+     @supabase/supabase-js@2 from jsdelivr, which meant (a) a flaky mobile
+     connection could fail the request and take the whole app down, and (b) the
+     floating @2 tag could ship a new minor release into a live payment app with
+     no change on our side. Served from our own origin now, so it can't fail
+     independently of the page. To upgrade: drop in a new pinned file and change
+     this one line. -->
+<script src="vendor/supabase-js-2.110.8.min.js"></script>
 <script src="js/config.js"></script>
 <script src="js/api.js"></script>
 <script src="js/auth.js"></script>
