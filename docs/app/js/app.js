@@ -359,6 +359,7 @@ async function addToHistory(slug, input, output) {
     row.id = saved.id;
     row.created_at = saved.created_at;
     lastGenIds[slug] = saved.id;
+    renderRecentList(); // it now has an id, so it becomes tappable
   }
 }
 
@@ -368,20 +369,99 @@ function renderRecentList() {
     list.innerHTML = '<div style="color:var(--muted);font-size:0.85rem;text-align:center;padding:24px 0;">Your AI-generated content will appear here.<br>Start with a tool to see your history.</div>';
     return;
   }
-  list.innerHTML = contentHistory.slice(0,5).map(r => {
+  // Rows without an id haven't finished saving yet, so there's nothing to open.
+  list.innerHTML = contentHistory.slice(0, 8).map(r => {
     const meta = TOOL_META[r.tool] || { label: r.tool, badge: 'badge-brain' };
-    const time = new Date(r.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    const d = new Date(r.created_at);
+    const time = d.toDateString() === new Date().toDateString()
+      ? d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+      : d.toLocaleDateString([], { day: 'numeric', month: 'short' }) + ' · ' +
+        d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    const open = r.id ? ` onclick="viewGeneration('${escapeAttr(r.id)}')" style="cursor:pointer"` : '';
     return `
-    <div class="recent-item fade-in">
+    <div class="recent-item fade-in"${open}>
       <span class="recent-tool-badge ${meta.badge}">${escapeHtml(meta.label)}</span>
       <div class="recent-text">
-        <strong>${escapeHtml(meta.label)}</strong>
-        ${escapeHtml(r.preview || '')}...
-        <div class="recent-time">${time}${r.saved ? ' · ★ saved' : ''}</div>
+        <strong>${escapeHtml(r.preview || meta.label)}${r.preview ? '…' : ''}</strong>
+        <div class="recent-time">${time}${r.saved ? ' · ★ saved' : ''}${r.id ? ' · tap to view' : ' · saving…'}</div>
       </div>
     </div>`;
   }).join('');
 }
+
+// --- generation viewer -------------------------------------------------------
+// Every tool's structured output already has a formatter (used to render the
+// live result), so re-use those rather than inventing a second rendering path.
+const TOOL_FORMATTERS = {
+  caption: formatCaptions,
+  algo:    formatAlgo,
+  history: formatHistoryAnalysis,
+  brain:   formatPlan,
+  comment: formatReplies,
+  viral:   formatRemixes,
+};
+
+let openGenerationId = null;
+
+function viewGeneration(id) {
+  const row = contentHistory.find(r => r.id === id);
+  if (!row) { showToast("Couldn't find that one"); return; }
+  openGenerationId = id;
+
+  const meta = TOOL_META[row.tool] || { label: row.tool, badge: 'badge-brain' };
+  document.getElementById('gen-modal-title').textContent = meta.label;
+  document.getElementById('gen-modal-time').textContent =
+    new Date(row.created_at).toLocaleString([], {
+      weekday: 'short', day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit',
+    });
+  document.getElementById('gen-modal-input').textContent = row.input || '(no input recorded)';
+
+  // A formatter can throw if an older row's shape doesn't match what it expects —
+  // fall back to the raw JSON rather than showing the user an empty box.
+  let text;
+  try {
+    const fmt = TOOL_FORMATTERS[row.tool];
+    text = fmt ? fmt(row.output) : JSON.stringify(row.output, null, 2);
+  } catch (e) {
+    console.error('viewGeneration format', e);
+    text = typeof row.output === 'string' ? row.output : JSON.stringify(row.output, null, 2);
+  }
+  document.getElementById('gen-modal-output').textContent = text;
+  document.getElementById('gen-modal-star').textContent = row.saved ? '★ Saved — unsave' : '☆ Save';
+  document.getElementById('gen-modal').style.display = 'block';
+}
+
+function hideGeneration() {
+  document.getElementById('gen-modal').style.display = 'none';
+  openGenerationId = null;
+}
+
+async function toggleSavedFromModal() {
+  const row = contentHistory.find(r => r.id === openGenerationId);
+  if (!row) return;
+  const next = !row.saved;
+  await setSaved(row.id, next);
+  row.saved = next;
+  document.getElementById('gen-modal-star').textContent = next ? '★ Saved — unsave' : '☆ Save';
+  renderRecentList();
+}
+
+async function deleteFromModal() {
+  const row = contentHistory.find(r => r.id === openGenerationId);
+  if (!row) return;
+  await deleteGeneration(row.id);
+  contentHistory = contentHistory.filter(r => r.id !== row.id);
+  contentCount = Math.max(0, contentCount - 1);
+  document.getElementById('content-count').textContent = contentCount;
+  hideGeneration();
+  renderRecentList();
+  showToast('Deleted', 'success');
+}
+
+// Escape closes the viewer, matching the click-outside behaviour.
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape' && openGenerationId) hideGeneration();
+});
 
 function copyOutput(id) {
   const el = document.getElementById(id);
