@@ -505,7 +505,16 @@ body {
       <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
     </svg>
   </button>
-  <span class="font-display font-extrabold text-lg tracking-tight">
+  <!-- Shown by nav() on any page except the dashboard. Without it the only way
+       back was the drawer, and the browser back button left the app entirely. -->
+  <button id="mobile-back" onclick="nav('home')" aria-label="Back to dashboard"
+          style="display:none;align-items:center;gap:4px;background:transparent;border:none;cursor:pointer;color:var(--brand);padding:4px;font-family:inherit;font-size:.85rem;font-weight:600">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+      <polyline points="15 18 9 12 15 6"/>
+    </svg>
+    Dashboard
+  </button>
+  <span class="font-display font-extrabold text-lg tracking-tight" id="mobile-title">
     Clut<span class="logo-g">vi</span> 🚀
   </span>
   <button onclick="toggleTheme()" class="ml-auto rounded-lg p-1.5" style="background:transparent;border:none;cursor:pointer;color:var(--muted2)">

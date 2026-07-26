@@ -57,7 +57,7 @@ function dismissOnboarding() {
 // parser as an escaped backslash that closed the string early — a syntax error,
 // so the handler never ran. The card still lit up on tap (that's just CSS), which
 // made it look like a dead click rather than a broken script.
-function nav(id, el) {
+function nav(id, el, push = true) {
   const page = document.getElementById('page-' + id);
   if (!page) { console.error('nav: no page for', id); return; }
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
@@ -66,9 +66,31 @@ function nav(id, el) {
   const item = el || document.querySelector(`.nav-item[onclick*="'${id}'"]`);
   if (item) item.classList.add('active');
   document.getElementById('main').scrollTop = 0;
+
+  // Mobile has no persistent sidebar, so without this there's no way back to the
+  // dashboard except reopening the drawer.
+  const back = document.getElementById('mobile-back');
+  const title = document.getElementById('mobile-title');
+  if (back)  back.style.display  = id === 'home' ? 'none' : 'inline-flex';
+  if (title) title.style.display = id === 'home' ? '' : 'none';
+
+  // Give the browser/phone back gesture something to go back to *inside* the app.
+  // Deliberately no hash or query change: Supabase puts auth tokens in the hash
+  // and checkout returns on ?checkout=success, and we must not disturb either.
+  if (push) {
+    try { history.pushState({ clutviPage: id }, ''); } catch (e) { /* non-fatal */ }
+  }
+
   // closeSidebar() lives in the inline script at the end of index.html.
   if (window.innerWidth < 768 && typeof closeSidebar === 'function') closeSidebar();
 }
+
+// Back/forward moves between app pages instead of leaving the app. A null state
+// means we've reached the entry the app started on, which is the dashboard.
+window.addEventListener('popstate', e => {
+  const id = e.state?.clutviPage || 'home';
+  if (document.getElementById('page-' + id)) nav(id, null, false);
+});
 
 function selectChip(el, group) {
   const parent = el.closest('.chip-row') || el.parentElement;

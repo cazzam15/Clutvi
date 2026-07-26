@@ -151,33 +151,60 @@ function setAuthMode(mode) {
   document.getElementById('auth-password').autocomplete = mode === 'signin' ? 'current-password' : 'new-password';
 }
 
+// Every exit path from here must leave a visible message. A tap that produces
+// silence is unreportable — the user can't tell a hung request from a dead
+// button, and on a phone there's no console to check.
+function setHint(text, colour) {
+  const hint = document.getElementById('auth-hint');
+  if (!hint) return;
+  hint.textContent = text;
+  hint.style.color = colour || '';
+}
+
 async function submitAuth() {
   if (!sb) { fatalLoadError('client unavailable'); return; }
   const email = document.getElementById('auth-email').value.trim();
   const password = document.getElementById('auth-password').value;
-  if (!email || !password) { showToast('Enter your email and password'); return; }
+  if (!email || !password) {
+    setHint('⚠️ Enter your email and password.', 'var(--red)');
+    showToast('Enter your email and password');
+    return;
+  }
   const btn = document.getElementById('auth-submit');
+  const label = btn.textContent;
   btn.disabled = true;
+  btn.textContent = authMode === 'signup' ? 'Creating account…' : 'Signing in…';
+  setHint(authMode === 'signup' ? 'Creating your account…' : 'Signing in…');
+
+  // supabase-js has no request timeout of its own, so on a flaky mobile
+  // connection the promise can simply never settle and the UI sits there
+  // looking broken. Surface that instead of hanging forever.
+  const timeout = new Promise((_, reject) =>
+    setTimeout(() => reject(new Error('TIMEOUT')), 20000));
+
   try {
     if (authMode === 'signup') {
-      const { data, error } = await sb.auth.signUp({ email, password });
+      const { data, error } = await Promise.race([sb.auth.signUp({ email, password }), timeout]);
       if (error) throw error;
       if (!data.session) {
-        document.getElementById('auth-hint').textContent = '📬 Check your inbox to confirm your email, then sign in.';
+        setHint('📬 Check your inbox to confirm your email, then sign in.');
         setAuthMode('signin');
         showToast('Confirmation email sent!', 'success');
       }
     } else {
-      const { error } = await sb.auth.signInWithPassword({ email, password });
+      const { error } = await Promise.race([sb.auth.signInWithPassword({ email, password }), timeout]);
       if (error) throw error;
+      setHint('✅ Signed in — loading your dashboard…');
     }
   } catch (e) {
-    const msg = e.message || 'Authentication failed';
-    document.getElementById('auth-hint').textContent = '⚠️ ' + msg;
-    document.getElementById('auth-hint').style.color = 'var(--red)';
+    const msg = e.message === 'TIMEOUT'
+      ? "That's taking longer than it should — check your connection and try again."
+      : (e.message || 'Authentication failed');
+    setHint('⚠️ ' + msg, 'var(--red)');
     showToast(msg);
   }
   btn.disabled = false;
+  btn.textContent = label;
 }
 
 async function forgotPassword() {
