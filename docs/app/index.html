@@ -533,9 +533,9 @@ body {
       <p>Paste your next post idea and get a score out of 100 before you film.
          Most creators try this first — takes about 10 seconds.</p>
       <div class="onboard-steps">
-        <span class="onboard-step" onclick="nav('algo', document.querySelector('[onclick*=algo]'))">📊 Score an idea</span>
-        <span class="onboard-step" onclick="nav('caption', document.querySelector('[onclick*=caption]'))">✍️ Write a caption</span>
-        <span class="onboard-step" onclick="nav('brain', document.querySelector('[onclick*=brain]'))">🧠 Plan content</span>
+        <span class="onboard-step" onclick="nav('algo')">📊 Score an idea</span>
+        <span class="onboard-step" onclick="nav('caption')">✍️ Write a caption</span>
+        <span class="onboard-step" onclick="nav('brain')">🧠 Plan content</span>
       </div>
     </div>
 
@@ -558,32 +558,32 @@ body {
     <!-- Tool quick-launch grid -->
     <div class="section-title">AI Tools</div>
     <div class="tool-grid">
-      <div class="tool-grid-card" onclick="nav('caption', document.querySelector('[onclick*=\\'caption\\']'))">
+      <div class="tool-grid-card" onclick="nav('caption')">
         <span class="tg-icon">✍️</span>
         <div class="tg-title">Caption Writer</div>
         <div class="tg-sub">Scroll-stopping captions with hashtags</div>
       </div>
-      <div class="tool-grid-card" onclick="nav('algo', document.querySelector('[onclick*=\\'algo\\']'))">
+      <div class="tool-grid-card" onclick="nav('algo')">
         <span class="tg-icon">📊</span>
         <div class="tg-title">Algo Analyzer</div>
         <div class="tg-sub">Score ideas before you post</div>
       </div>
-      <div class="tool-grid-card" onclick="nav('history', document.querySelector('[onclick*=\\'history\\']'))">
+      <div class="tool-grid-card" onclick="nav('history')">
         <span class="tg-icon">📈</span>
         <div class="tg-title">Post History</div>
         <div class="tg-sub">Find what's actually working</div>
       </div>
-      <div class="tool-grid-card" onclick="nav('brain', document.querySelector('[onclick*=\\'brain\\']'))">
+      <div class="tool-grid-card" onclick="nav('brain')">
         <span class="tg-icon">🧠</span>
         <div class="tg-title">Brain Dump</div>
         <div class="tg-sub">Raw ideas → structured content plan</div>
       </div>
-      <div class="tool-grid-card" onclick="nav('comment', document.querySelector('[onclick*=\\'comment\\']'))">
+      <div class="tool-grid-card" onclick="nav('comment')">
         <span class="tg-icon">💬</span>
         <div class="tg-title">Comment Reply</div>
         <div class="tg-sub">On-brand replies at speed</div>
       </div>
-      <div class="tool-grid-card" onclick="nav('viral', document.querySelector('[onclick*=\\'viral\\']'))">
+      <div class="tool-grid-card" onclick="nav('viral')">
         <span class="tg-icon">🔥</span>
         <div class="tg-title">Viral Inspiration</div>
         <div class="tg-sub">Save, library &amp; remix viral posts</div>
@@ -815,6 +815,15 @@ body {
      independently of the page. To upgrade: drop in a new pinned file and change
      this one line. -->
 <script src="vendor/supabase-js-2.110.8.min.js"></script>
+<!-- Fallback to the CDN if the local copy didn't make it (a dropped request on
+     mobile data is enough). document.write is deliberate: it loads synchronously
+     during parsing, so `supabase` is guaranteed to exist by the time auth.js runs
+     a few lines below. Same pinned version, so behaviour is identical either way. -->
+<script>
+  if (typeof supabase === 'undefined') {
+    document.write('<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.110.8"><\/script>');
+  }
+</script>
 <script src="js/config.js"></script>
 <script src="js/api.js"></script>
 <script src="js/auth.js"></script>

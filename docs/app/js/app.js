@@ -49,12 +49,25 @@ function dismissOnboarding() {
   updateOnboarding();
 }
 
+// `el` is the sidebar item to highlight. Callers that aren't themselves a sidebar
+// item (dashboard tool cards, onboarding chips) can omit it and we find the
+// matching one here. They used to pass a document.querySelector() call written
+// inline in the HTML attribute, which is what broke the whole dashboard: HTML
+// doesn't process backslash escapes, so `[onclick*=\\'algo\\']` reached the JS
+// parser as an escaped backslash that closed the string early — a syntax error,
+// so the handler never ran. The card still lit up on tap (that's just CSS), which
+// made it look like a dead click rather than a broken script.
 function nav(id, el) {
+  const page = document.getElementById('page-' + id);
+  if (!page) { console.error('nav: no page for', id); return; }
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.getElementById('page-' + id).classList.add('active');
+  page.classList.add('active');
   document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-  el.classList.add('active');
+  const item = el || document.querySelector(`.nav-item[onclick*="'${id}'"]`);
+  if (item) item.classList.add('active');
   document.getElementById('main').scrollTop = 0;
+  // closeSidebar() lives in the inline script at the end of index.html.
+  if (window.innerWidth < 768 && typeof closeSidebar === 'function') closeSidebar();
 }
 
 function selectChip(el, group) {
