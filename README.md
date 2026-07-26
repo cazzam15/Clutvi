@@ -97,6 +97,29 @@ card, confirm the profile flips to `trialing` and the webhook endpoint shows
 200s in the Stripe dashboard, then cancel via "Manage billing" before the 3-day
 trial ends (£0 charged).
 
+## CSS build (Tailwind)
+
+The site used to load `cdn.tailwindcss.com`, the Play CDN, which Tailwind itself
+warns against in production — it shipped the whole compiler to every visitor,
+compiled the CSS on their device, and made every page depend on a third party
+being reachable. It's now compiled ahead of time.
+
+```bash
+npm install       # one-time
+npm run build:css # after ANY markup or class-name change
+```
+
+That reads `tailwind.config.js` (which holds the config that used to sit inline
+in `docs/app/index.html`) and writes **`docs/css/tailwind.css`**, linked by all
+nine pages as `/css/tailwind.css`.
+
+**The output is committed on purpose.** Netlify only serves `docs/` and runs no
+build step, so the compiled CSS has to be built here and checked in. If you
+change markup and forget to rebuild, any *newly used* class silently won't be
+styled — the classes are scanned out of `docs/**/*.html` and `docs/app/js/*.js`,
+so a class name assembled from fragments in JS won't be found. Write class names
+out in full.
+
 ## Roadmap
 
 - [ ] Move content history + viral library from localStorage into per-user Postgres tables

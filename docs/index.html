@@ -21,19 +21,7 @@ if (/access_token|type=recovery|error_description|type=signup/.test(location.has
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
 
-<script>
-tailwind.config = {
-  theme: {
-    extend: {
-      fontFamily: {
-        sans:    ['DM Sans',  'ui-sans-serif', 'system-ui'],
-        display: ['Syne',     'ui-sans-serif'],
-      },
-    },
-  },
-}
-</script>
-<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="/css/tailwind.css">
 
 <style>
 /* ─── Gradient text ──────────────────────────────────────── */
@@ -216,7 +204,7 @@ html { scroll-behavior: smooth; }
     <span class="flex gap-12 px-6">
       <span>✍️ Caption Writer</span><span>·</span>
       <span>📊 Algo Analyzer</span><span>·</span>
-      <span>📈 Post History Analyzer</span><span>·</span>
+      <span>📈 What's Working</span><span>·</span>
       <span>🧠 Brain Dump to Content</span><span>·</span>
       <span>💬 Comment Reply Assistant</span><span>·</span>
       <span>🔥 Viral Inspiration</span><span>·</span>
@@ -226,7 +214,7 @@ html { scroll-behavior: smooth; }
     <span class="flex gap-12 px-6" aria-hidden="true">
       <span>✍️ Caption Writer</span><span>·</span>
       <span>📊 Algo Analyzer</span><span>·</span>
-      <span>📈 Post History Analyzer</span><span>·</span>
+      <span>📈 What's Working</span><span>·</span>
       <span>🧠 Brain Dump to Content</span><span>·</span>
       <span>💬 Comment Reply Assistant</span><span>·</span>
       <span>🔥 Viral Inspiration</span><span>·</span>
@@ -317,7 +305,7 @@ html { scroll-behavior: smooth; }
               <span>📊</span> Algo Score
             </div>
             <div class="flex items-center gap-2 px-2 py-1.5 rounded-md text-[11px] text-zinc-500">
-              <span>📈</span> Post History
+              <span>📈</span> What's Working
             </div>
             <div class="flex items-center gap-2 px-2 py-1.5 rounded-md text-[11px] text-zinc-500">
               <span>🧠</span> Brain Dump
@@ -457,12 +445,12 @@ html { scroll-behavior: smooth; }
         </span>
       </a>
 
-      <!-- 3. Post History Analyzer -->
+      <!-- 3. What's Working -->
       <a href="app/?signup=1" class="tool-card rounded-2xl p-6 block no-underline group cursor-pointer">
         <div class="tool-bar" style="background:linear-gradient(90deg,#fbbf24,#7C3AED)"></div>
         <div class="w-12 h-12 rounded-2xl flex items-center justify-center text-2xl mb-5"
              style="background:linear-gradient(135deg,rgba(251,191,36,.22),rgba(124,58,237,.15))">📈</div>
-        <h3 class="font-display font-bold text-lg mb-2 text-zinc-100">Post History Analyzer</h3>
+        <h3 class="font-display font-bold text-lg mb-2 text-zinc-100">What's Working</h3>
         <p class="text-zinc-400 text-sm leading-relaxed mb-5">
           Paste your recent posts and get a brutally honest breakdown of what's working, what to drop,
           and your next best move based on your actual data.

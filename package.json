@@ -1,0 +1,11 @@
+{
+  "name": "clutvi",
+  "private": true,
+  "description": "Clutvi — AI tools for UK TikTok & Reels creators. Static site in docs/, served by Netlify.",
+  "scripts": {
+    "build:css": "tailwindcss -c tailwind.config.js -i build/tailwind-input.css -o docs/css/tailwind.css --minify"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.19"
+  }
+}

@@ -12,15 +12,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
 
-<script>
-tailwind.config = {
-  theme: { extend: { fontFamily: {
-    sans:    ['DM Sans', 'ui-sans-serif', 'system-ui'],
-    display: ['Syne',    'ui-sans-serif'],
-  } } },
-}
-</script>
-<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="/css/tailwind.css">
 
 <style>
   .g { background: linear-gradient(135deg,#c4b5fd 0%,#7C3AED 40%,#2DD4BF 100%);
@@ -134,9 +126,11 @@ tailwind.config = {
   API to generate a response. Anthropic does not use data submitted through its API to train
   its models. Even so, please don't paste anything genuinely sensitive or confidential into
   any AI tool, including this one.</p>
-  <p>This site also loads fonts from Google Fonts and code libraries from jsDelivr and
-  Tailwind's CDN. Loading those files reveals your IP address to those providers, as it does on
-  most websites. No account information is shared with them.</p>
+  <p>This site also loads fonts from Google Fonts, which reveals your IP address to Google as it
+  does on most websites. No account information is shared with them. Everything else the site
+  needs — its stylesheet and code libraries — is served from clutvi.com itself, with one
+  exception: if the app's copy of a library fails to download, it falls back to fetching the same
+  file from jsDelivr, which would reveal your IP address to them for that one request.</p>
   <p>Your data is never sold, and it's never shared with advertisers. It would only be
   disclosed otherwise if the law required it.</p>
 

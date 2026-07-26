@@ -4,7 +4,7 @@
 // Bump when shipping something a user might need to confirm they've received.
 // It's shown in the load-failure message so a stale cached page is identifiable
 // from a screenshot instead of guessed at.
-const CLUTVI_BUILD = '2026-07-26e';
+const CLUTVI_BUILD = '2026-07-26f';
 
 const CLUTVI_CONFIG = {
   SUPABASE_URL: 'https://drpqugvauikvnnbsfmkr.supabase.co',

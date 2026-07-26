@@ -7,28 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
 
-<script>
-  window.tailwind = { config: {
-    darkMode: 'class',
-    theme: {
-      extend: {
-        fontFamily: {
-          sans:    ['DM Sans',  'ui-sans-serif', 'system-ui'],
-          display: ['Syne',     'ui-sans-serif'],
-        },
-        colors: {
-          brand: {
-            50:  '#f5f3ff', 100: '#ede9fe', 200: '#ddd6fe',
-            300: '#c4b5fd', 400: '#a78bfa', 500: '#8b5cf6',
-            600: '#7C3AED', 700: '#6d28d9', 800: '#5b21b6',
-            900: '#4c1d95', 950: '#2e1065',
-          },
-        },
-      },
-    },
-  }};
-</script>
-<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="/css/tailwind.css">
 
 <style>
 /* ── Theme tokens ─────────────────────────────────────────── */
@@ -407,7 +386,7 @@ body {
       <ul class="paywall-features">
         <li>✍️ Caption Writer — hooks &amp; hashtags in seconds</li>
         <li>📊 Algo Analyzer — score ideas <em>before</em> you film</li>
-        <li>📈 Post History — find what's actually working</li>
+        <li>📈 What's Working — find what's actually performing</li>
         <li>🧠 Brain Dump — raw ideas → content calendar</li>
         <li>💬 Comment Reply — on-brand replies at speed</li>
         <li>🔥 Viral Inspiration — save &amp; remix winning formats</li>
@@ -508,12 +487,15 @@ body {
   <div class="nav-item active" onclick="nav('home',this)">
     <span class="icon">🏠</span> Dashboard
   </div>
+  <div class="nav-item" onclick="nav('myhistory',this)">
+    <span class="icon">🗂️</span> My History
+  </div>
 
   <!-- Tools -->
   <div class="sidebar-section">AI Tools</div>
   <div class="nav-item" onclick="nav('caption',this)"><span class="icon">✍️</span> Caption Writer</div>
   <div class="nav-item" onclick="nav('algo',this)">   <span class="icon">📊</span> Algo Analyzer</div>
-  <div class="nav-item" onclick="nav('history',this)"><span class="icon">📈</span> Post History</div>
+  <div class="nav-item" onclick="nav('history',this)"><span class="icon">📈</span> What's Working</div>
   <div class="nav-item" onclick="nav('brain',this)">  <span class="icon">🧠</span> Brain Dump</div>
   <div class="nav-item" onclick="nav('comment',this)"><span class="icon">💬</span> Comment Reply</div>
   <div class="nav-item" onclick="nav('viral',this)">  <span class="icon">🔥</span> Viral Inspiration</div>
@@ -614,7 +596,7 @@ body {
       </div>
       <div class="tool-grid-card" onclick="nav('history')">
         <span class="tg-icon">📈</span>
-        <div class="tg-title">Post History</div>
+        <div class="tg-title">What's Working</div>
         <div class="tg-sub">Find what's actually working</div>
       </div>
       <div class="tool-grid-card" onclick="nav('brain')">
@@ -642,6 +624,27 @@ body {
           Your AI-generated content will appear here.<br>Start with a tool to see your history.
         </div>
       </div>
+    </div>
+  </div>
+
+  <!-- ── MY HISTORY ─────────────────────────────────────── -->
+  <div class="page" id="page-myhistory">
+    <div class="page-title">My History 🗂️</div>
+    <div class="page-sub">Everything you've generated. Tap any entry to read it again.</div>
+
+    <div class="chip-row" id="history-filters">
+      <span class="chip active" onclick="filterHistory('all',this)">All</span>
+      <span class="chip" onclick="filterHistory('saved',this)">★ Saved</span>
+      <span class="chip" onclick="filterHistory('caption',this)">Caption Writer</span>
+      <span class="chip" onclick="filterHistory('algo',this)">Algo Analyzer</span>
+      <span class="chip" onclick="filterHistory('history',this)">What's Working</span>
+      <span class="chip" onclick="filterHistory('brain',this)">Brain Dump</span>
+      <span class="chip" onclick="filterHistory('comment',this)">Comment Reply</span>
+      <span class="chip" onclick="filterHistory('viral',this)">Viral Inspiration</span>
+    </div>
+
+    <div class="tool-card">
+      <div id="history-page-list"></div>
     </div>
   </div>
 
@@ -712,7 +715,7 @@ body {
 
   <!-- ── POST HISTORY ───────────────────────────────────── -->
   <div class="page" id="page-history">
-    <div class="page-title">Post History Analyzer 📈</div>
+    <div class="page-title">What's Working 📈</div>
     <div class="page-sub">Paste your recent posts and find out what's actually working.</div>
     <div class="tool-card">
       <div class="field-label">Paste your recent posts (captions, stats, engagement — whatever you have)</div>

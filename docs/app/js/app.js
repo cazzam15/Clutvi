@@ -7,7 +7,7 @@ let contentHistory = [];
 let viralLibrary = [];
 
 function init() {
-  renderRecentList();
+  renderHistoryViews();
   renderViralLib();
   updateOnboarding();
   initAuth();
@@ -21,7 +21,7 @@ async function loadUserData() {
   try {
     await migrateLocalData();
     const [hist, viral, total] = await Promise.all([
-      fetchHistory(30),
+      fetchHistory(200),
       fetchViral(),
       countGenerations(),
     ]);
@@ -29,7 +29,7 @@ async function loadUserData() {
     viralLibrary = viral;
     contentCount = total;
     document.getElementById('content-count').textContent = contentCount;
-    renderRecentList();
+    renderHistoryViews();
     renderViralLib();
     updateOnboarding();
   } catch (e) {
@@ -332,7 +332,7 @@ function incrementCount() {
 const TOOL_META = {
   caption: { label: 'Caption Writer',    badge: 'badge-caption' },
   algo:    { label: 'Algo Analyzer',     badge: 'badge-algo'    },
-  history: { label: 'Post History',      badge: 'badge-history' },
+  history: { label: "What's Working",   badge: 'badge-history' },
   brain:   { label: 'Brain Dump',        badge: 'badge-brain'   },
   comment: { label: 'Comment Reply',     badge: 'badge-comment' },
   viral:   { label: 'Viral Inspiration', badge: 'badge-viral'   },
@@ -351,15 +351,14 @@ async function addToHistory(slug, input, output) {
     saved: false, created_at: new Date().toISOString(),
   };
   contentHistory.unshift(row);
-  if (contentHistory.length > 30) contentHistory.pop();
-  renderRecentList();
+  renderHistoryViews();
 
   const saved = await recordGeneration(slug, input, output, preview);
   if (saved) {
     row.id = saved.id;
     row.created_at = saved.created_at;
     lastGenIds[slug] = saved.id;
-    renderRecentList(); // it now has an id, so it becomes tappable
+    renderHistoryViews(); // it now has an id, so it becomes tappable
   }
 }
 
@@ -370,15 +369,26 @@ function renderRecentList() {
     return;
   }
   // Rows without an id haven't finished saving yet, so there's nothing to open.
-  list.innerHTML = contentHistory.slice(0, 8).map(r => {
-    const meta = TOOL_META[r.tool] || { label: r.tool, badge: 'badge-brain' };
-    const d = new Date(r.created_at);
-    const time = d.toDateString() === new Date().toDateString()
-      ? d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-      : d.toLocaleDateString([], { day: 'numeric', month: 'short' }) + ' · ' +
-        d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-    const open = r.id ? ` onclick="viewGeneration('${escapeAttr(r.id)}')" style="cursor:pointer"` : '';
-    return `
+  list.innerHTML = contentHistory.slice(0, 8).map(historyRow).join('');
+}
+
+// Both views read the same contentHistory array, so always redraw them together.
+function renderHistoryViews() {
+  renderRecentList();
+  renderHistoryPage();
+}
+
+// One row renderer shared by the dashboard's Recent Activity and the My History
+// page, so the two can never drift apart.
+function historyRow(r) {
+  const meta = TOOL_META[r.tool] || { label: r.tool, badge: 'badge-brain' };
+  const d = new Date(r.created_at);
+  const time = d.toDateString() === new Date().toDateString()
+    ? d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+    : d.toLocaleDateString([], { day: 'numeric', month: 'short' }) + ' · ' +
+      d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  const open = r.id ? ` onclick="viewGeneration('${escapeAttr(r.id)}')" style="cursor:pointer"` : '';
+  return `
     <div class="recent-item fade-in"${open}>
       <span class="recent-tool-badge ${meta.badge}">${escapeHtml(meta.label)}</span>
       <div class="recent-text">
@@ -386,7 +396,34 @@ function renderRecentList() {
         <div class="recent-time">${time}${r.saved ? ' · ★ saved' : ''}${r.id ? ' · tap to view' : ' · saving…'}</div>
       </div>
     </div>`;
-  }).join('');
+}
+
+// --- My History page ---------------------------------------------------------
+let historyFilter = 'all';
+
+function filterHistory(which, el) {
+  historyFilter = which;
+  document.querySelectorAll('#history-filters .chip').forEach(c => c.classList.remove('active'));
+  if (el) el.classList.add('active');
+  renderHistoryPage();
+}
+
+function renderHistoryPage() {
+  const list = document.getElementById('history-page-list');
+  if (!list) return;
+  const rows = contentHistory.filter(r =>
+    historyFilter === 'all' ? true :
+    historyFilter === 'saved' ? r.saved :
+    r.tool === historyFilter);
+
+  if (!rows.length) {
+    const msg = contentHistory.length
+      ? 'Nothing here yet with that filter.'
+      : "You haven't generated anything yet. Pick a tool and it'll show up here.";
+    list.innerHTML = `<div style="color:var(--muted);font-size:0.85rem;text-align:center;padding:40px 0;">${msg}</div>`;
+    return;
+  }
+  list.innerHTML = rows.map(historyRow).join('');
 }
 
 // --- generation viewer -------------------------------------------------------
@@ -443,7 +480,7 @@ async function toggleSavedFromModal() {
   await setSaved(row.id, next);
   row.saved = next;
   document.getElementById('gen-modal-star').textContent = next ? '★ Saved — unsave' : '☆ Save';
-  renderRecentList();
+  renderHistoryViews();
 }
 
 async function deleteFromModal() {
@@ -454,7 +491,7 @@ async function deleteFromModal() {
   contentCount = Math.max(0, contentCount - 1);
   document.getElementById('content-count').textContent = contentCount;
   hideGeneration();
-  renderRecentList();
+  renderHistoryViews();
   showToast('Deleted', 'success');
 }
 
@@ -485,7 +522,7 @@ async function saveToHistory(outputId, slug) {
   if (!id) { showToast("Still saving that one — try again in a moment"); return; }
   await setSaved(id, true);
   const row = contentHistory.find(r => r.id === id);
-  if (row) { row.saved = true; renderRecentList(); }
+  if (row) { row.saved = true; renderHistoryViews(); }
   showToast('✅ Saved to your history!', 'success');
 }
 
