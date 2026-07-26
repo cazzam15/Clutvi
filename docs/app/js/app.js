@@ -1,13 +1,40 @@
-let contentCount = parseInt(localStorage.getItem('rr_count') || '0');
-let contentHistory = JSON.parse(localStorage.getItem('rr_history') || '[]');
-let viralLibrary = JSON.parse(localStorage.getItem('rr_viral') || '[]');
+// History and the viral library live in Postgres (see history.js), scoped by RLS,
+// so they follow the user between devices. These are just the in-memory mirror of
+// what was last fetched — they start empty and are filled by loadUserData() once
+// there's a signed-in user. Nothing here reads localStorage any more.
+let contentCount = 0;
+let contentHistory = [];
+let viralLibrary = [];
 
 function init() {
-  document.getElementById('content-count').textContent = contentCount;
   renderRecentList();
   renderViralLib();
   updateOnboarding();
   initAuth();
+}
+
+// Called from updateScreens() once the user is signed in and subscribed.
+// Migrates any legacy per-browser blobs first, so a returning user doesn't
+// appear to have lost their old history the moment this ships.
+async function loadUserData() {
+  if (!currentUser) return;
+  try {
+    await migrateLocalData();
+    const [hist, viral, total] = await Promise.all([
+      fetchHistory(30),
+      fetchViral(),
+      countGenerations(),
+    ]);
+    contentHistory = hist;
+    viralLibrary = viral;
+    contentCount = total;
+    document.getElementById('content-count').textContent = contentCount;
+    renderRecentList();
+    renderViralLib();
+    updateOnboarding();
+  } catch (e) {
+    console.error('loadUserData', e);
+  }
 }
 
 function updateOnboarding() {
@@ -117,7 +144,7 @@ async function runCaption() {
     const data = await callClaude('caption', text, { platform: plat, tone });
     showOutput('caption', formatCaptions(data));
     incrementCount();
-    addToHistory('Caption Writer', text.substring(0,60), 'badge-caption');
+    addToHistory('caption', text, data);
   } catch(e) { if (!e.handled) showToast(e.message); }
   setLoading('caption', false);
 }
@@ -138,7 +165,7 @@ async function runAlgo() {
     showOutput('algo', formatAlgo(data));
     document.getElementById('algo-actions').style.display = 'flex';
     incrementCount();
-    addToHistory('Algo Analyzer', text.substring(0,60), 'badge-algo');
+    addToHistory('algo', text, data);
   } catch(e) { if (!e.handled) showToast(e.message); }
   setLoading('algo', false);
 }
@@ -151,7 +178,7 @@ async function runHistory() {
     const data = await callClaude('history', text);
     showOutput('history', formatHistoryAnalysis(data));
     incrementCount();
-    addToHistory('Post History', text.substring(0,60), 'badge-history');
+    addToHistory('history', text, data);
   } catch(e) { if (!e.handled) showToast(e.message); }
   setLoading('history', false);
 }
@@ -166,7 +193,7 @@ async function runBrain() {
     const data = await callClaude('brain', text, { platform: plat, plan: count });
     showOutput('brain', formatPlan(data));
     incrementCount();
-    addToHistory('Brain Dump', text.substring(0,60), 'badge-brain');
+    addToHistory('brain', text, data);
   } catch(e) { if (!e.handled) showToast(e.message); }
   setLoading('brain', false);
 }
@@ -181,19 +208,21 @@ async function runComment() {
     const data = await callClaude('comment', comments.join('\n'), { tone });
     showOutput('comment', formatReplies(data));
     incrementCount();
-    addToHistory('Comment Reply', comments[0].substring(0,60), 'badge-comment');
+    addToHistory('comment', comments.join('\n'), data);
   } catch(e) { if (!e.handled) showToast(e.message); }
   setLoading('comment', false);
 }
 
-function saveViralPost() {
+async function saveViralPost() {
   const text = document.getElementById('viral-save-input').value.trim();
   if (!text) { showToast('Paste a post to save'); return; }
   const plat = getActiveChip('viral-plat');
   const note = document.getElementById('viral-note-input').value.trim();
-  const post = { id: Date.now(), platform: plat, text, note, saved: new Date().toLocaleDateString() };
-  viralLibrary.unshift(post);
-  localStorage.setItem('rr_viral', JSON.stringify(viralLibrary));
+
+  const id = await saveViral(plat, text, note || null);
+  if (!id) return; // saveViral() already toasted
+
+  viralLibrary.unshift({ id, platform: plat, text, note, created_at: new Date().toISOString() });
   document.getElementById('viral-save-input').value = '';
   document.getElementById('viral-note-input').value = '';
   renderViralLib();
@@ -206,15 +235,16 @@ function renderViralLib() {
     el.innerHTML = '<div style="color:var(--muted);font-size:0.85rem;text-align:center;padding:40px 0;">No saved posts yet. Save a viral post to start your library.</div>';
     return;
   }
+  // ids are uuids now, so they go into the handlers quoted and escaped.
   el.innerHTML = '<div class="viral-lib">' + viralLibrary.map(p => `
     <div class="viral-card">
-      <div class="viral-card-platform">${p.platform} · ${p.saved}</div>
+      <div class="viral-card-platform">${escapeHtml(p.platform || '—')} · ${new Date(p.created_at).toLocaleDateString()}</div>
       <div class="viral-card-text">${escapeHtml(p.text.substring(0,120))}${p.text.length > 120 ? '...' : ''}</div>
       ${p.note ? `<div style="font-size:0.75rem;color:var(--muted);margin-bottom:10px;">💡 ${escapeHtml(p.note)}</div>` : ''}
       <div class="viral-card-actions">
         <button class="btn-sm" data-text="${escapeAttr(p.text)}" onclick="copyText(this)">Copy</button>
-        <button class="btn-sm" onclick="prefillRemix(${p.id})">Remix</button>
-        <button class="btn-sm" onclick="deleteViral(${p.id})" style="color:var(--red)">Delete</button>
+        <button class="btn-sm" onclick="prefillRemix('${escapeAttr(p.id)}')">Remix</button>
+        <button class="btn-sm" onclick="removeViralPost('${escapeAttr(p.id)}')" style="color:var(--red)">Delete</button>
       </div>
     </div>
   `).join('') + '</div>';
@@ -227,9 +257,11 @@ function prefillRemix(id) {
   switchTab('remix', document.querySelector('.tab-btn:last-child'));
 }
 
-function deleteViral(id) {
+// Renamed from deleteViral() — that name collided with history.js's DB helper,
+// which loads second and silently replaced this handler.
+async function removeViralPost(id) {
+  if (!await deleteViralRow(id)) return;
   viralLibrary = viralLibrary.filter(p => p.id !== id);
-  localStorage.setItem('rr_viral', JSON.stringify(viralLibrary));
   renderViralLib();
 }
 
@@ -242,7 +274,7 @@ async function runRemix() {
     const data = await callClaude('viral', text, { niche: niche || 'general' });
     showOutput('remix', formatRemixes(data));
     incrementCount();
-    addToHistory('Viral Inspiration', text.substring(0,60), 'badge-viral');
+    addToHistory('viral', text, data);
   } catch(e) { if (!e.handled) showToast(e.message); }
   setLoading('remix', false);
 }
@@ -256,17 +288,43 @@ function switchTab(id, btn) {
 
 function incrementCount() {
   contentCount++;
-  localStorage.setItem('rr_count', contentCount);
   document.getElementById('content-count').textContent = contentCount;
   updateOnboarding();
 }
 
-function addToHistory(tool, preview, badgeClass) {
-  const record = { tool, preview, badgeClass, time: new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'}) };
-  contentHistory.unshift(record);
-  if (contentHistory.length > 20) contentHistory.pop();
-  localStorage.setItem('rr_history', JSON.stringify(contentHistory));
+// Slug -> display metadata. The slug is what goes in generations.tool and is the
+// same one callClaude() uses, so the DB, the API and the UI all agree on one key.
+const TOOL_META = {
+  caption: { label: 'Caption Writer',    badge: 'badge-caption' },
+  algo:    { label: 'Algo Analyzer',     badge: 'badge-algo'    },
+  history: { label: 'Post History',      badge: 'badge-history' },
+  brain:   { label: 'Brain Dump',        badge: 'badge-brain'   },
+  comment: { label: 'Comment Reply',     badge: 'badge-comment' },
+  viral:   { label: 'Viral Inspiration', badge: 'badge-viral'   },
+};
+
+// Most recent inserted row per tool, so the Save button can flag that row
+// instead of writing a second, duplicate history entry.
+const lastGenIds = {};
+
+// Renders optimistically, then persists. A slow insert never blocks the creator,
+// and recordGeneration() surfaces its own toast if the save genuinely fails.
+async function addToHistory(slug, input, output) {
+  const preview = String(input ?? '').substring(0, 60);
+  const row = {
+    id: null, tool: slug, input, output, preview,
+    saved: false, created_at: new Date().toISOString(),
+  };
+  contentHistory.unshift(row);
+  if (contentHistory.length > 30) contentHistory.pop();
   renderRecentList();
+
+  const saved = await recordGeneration(slug, input, output, preview);
+  if (saved) {
+    row.id = saved.id;
+    row.created_at = saved.created_at;
+    lastGenIds[slug] = saved.id;
+  }
 }
 
 function renderRecentList() {
@@ -275,16 +333,19 @@ function renderRecentList() {
     list.innerHTML = '<div style="color:var(--muted);font-size:0.85rem;text-align:center;padding:24px 0;">Your AI-generated content will appear here.<br>Start with a tool to see your history.</div>';
     return;
   }
-  list.innerHTML = contentHistory.slice(0,5).map(r => `
+  list.innerHTML = contentHistory.slice(0,5).map(r => {
+    const meta = TOOL_META[r.tool] || { label: r.tool, badge: 'badge-brain' };
+    const time = new Date(r.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    return `
     <div class="recent-item fade-in">
-      <span class="recent-tool-badge ${r.badgeClass}">${r.tool}</span>
+      <span class="recent-tool-badge ${meta.badge}">${escapeHtml(meta.label)}</span>
       <div class="recent-text">
-        <strong>${escapeHtml(r.tool)}</strong>
-        ${escapeHtml(r.preview)}...
-        <div class="recent-time">${r.time}</div>
+        <strong>${escapeHtml(meta.label)}</strong>
+        ${escapeHtml(r.preview || '')}...
+        <div class="recent-time">${time}${r.saved ? ' · ★ saved' : ''}</div>
       </div>
-    </div>
-  `).join('');
+    </div>`;
+  }).join('');
 }
 
 function copyOutput(id) {
@@ -302,18 +363,14 @@ function copyText(btn) {
   });
 }
 
-const toolBadges = {
-  'Caption Writer': 'badge-caption',
-  'Algo Analyzer': 'badge-algo',
-  'Post History': 'badge-history',
-  'Brain Dump': 'badge-brain',
-  'Comment Reply': 'badge-comment',
-  'Viral Inspiration': 'badge-viral'
-};
-
-function saveToHistory(id, tool) {
-  const text = document.getElementById(id)?.textContent;
-  if (text) addToHistory(tool, text.substring(0,60), toolBadges[tool] || 'badge-brain');
+// Every generation is already in history, so "Save" stars the existing row rather
+// than inserting a duplicate. Takes the tool slug (see TOOL_META).
+async function saveToHistory(outputId, slug) {
+  const id = lastGenIds[slug];
+  if (!id) { showToast("Still saving that one — try again in a moment"); return; }
+  await setSaved(id, true);
+  const row = contentHistory.find(r => r.id === id);
+  if (row) { row.saved = true; renderRecentList(); }
   showToast('✅ Saved to your history!', 'success');
 }
 

@@ -56,15 +56,13 @@ Write every TikTok caption **using Clutvi Caption Writer**. Screenshot the tool 
 
 ### Link in bio
 
-TikTok → Linktree/Beacons (free) or direct to:
-`https://clutvi.com/app/?signup=1`
+**No Linktree** — link straight to `https://clutvi.com`. Every extra hop loses people.
+TikTok needs a **Business account** for a clickable bio link under 1k followers; see
+`social-launch-plan.md` §1 for the sound-library trade-off that comes with it.
 
-Bio text:
-```
-6 AI tools for UK TikTok creators 🇬🇧
-Score ideas · write captions · plan content
-👇 3 days free
-```
+Accounts: TikTok **@getclutviapp** · Instagram **@getclutvi**
+
+Bio text and full profile setup for both platforms: `social-launch-plan.md` §1.
 
 ### Posting cadence (week 1)
 
@@ -82,7 +80,7 @@ Score ideas · write captions · plan content
 
 - **3-sec hold rate** — hook working?
 - **Profile clicks** — CTA landing?
-- **Link clicks** (Linktree analytics) — bio converting?
+- **Link clicks** (TikTok analytics / IG insights) — bio converting?
 - **Which script got most saves** — remake 3 versions of that one
 
 ---
@@ -311,7 +309,7 @@ Copy-paste demo text for every screen record: **`filming-inputs.md`**
 ## What NOT to do
 
 - Don't claim "800+ creators" or fake testimonials on video
-- Don't say "unlimited" — say "hundred generations a day on Pro"
+- Don't say "unlimited" — say "forty generations a day on Pro" (trial is 10/day, 25 total)
 - Don't film landscape — always 9:16
 - Don't post the same video to TikTok and Reels same day without changing hook text slightly (algorithm dedupes)
 - Don't hard-sell every video — 2 soft / 5 demo mix per week

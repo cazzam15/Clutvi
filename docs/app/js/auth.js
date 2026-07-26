@@ -84,7 +84,12 @@ function updateScreens() {
   document.getElementById('account-email').textContent = currentUser.email;
   document.getElementById('paywall-email').textContent = currentUser.email;
   paywall.style.display = isSubscribed() ? 'none' : 'flex';
-  if (isSubscribed()) loadUsageIndicator();
+  if (isSubscribed()) {
+    loadUsageIndicator();
+    // Pulls history + viral library from Postgres and migrates any legacy
+    // localStorage blobs. Must run after the session exists, so RLS sees a user.
+    loadUserData();
+  }
 }
 
 function showPaywall() {

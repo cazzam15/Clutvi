@@ -179,9 +179,13 @@ tailwind.config = {
 
   <h2>9. Cookies and local storage</h2>
   <p><strong>Clutvi uses no analytics, no advertising trackers, and no third-party cookies.</strong></p>
-  <p>The app stores one thing in your browser's local storage: the login token that keeps you
-  signed in. It's strictly necessary for the service to work, which is why you aren't asked to
-  consent to it. Signing out removes it.</p>
+  <p>The app stores three things in your browser's local storage: the login token that keeps you
+  signed in, your light/dark theme choice, and whether you've dismissed the "new here?" tip on the
+  dashboard. The login token is strictly necessary for the service to work and the other two are
+  display preferences that contain no personal data, which is why you aren't asked to consent to
+  any of them. Signing out removes the token.</p>
+  <p>Your generated content and saved posts are <em>not</em> kept in your browser — they're stored
+  in the database described in section 3, so they're available on any device you sign in from.</p>
 
   <h2>10. Complaints</h2>
   <p>If you're unhappy with how your data has been handled, please email

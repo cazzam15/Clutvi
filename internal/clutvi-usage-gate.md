@@ -395,7 +395,7 @@ trial users toward upgrading without being aggressive about it.
 Once you've read through this, paste this into Claude Code to build it:
 
 ```
-Read docs/clutvi-usage-gate.md in full.
+Read internal/clutvi-usage-gate.md in full.
 
 Build the usage gate exactly as specced:
 

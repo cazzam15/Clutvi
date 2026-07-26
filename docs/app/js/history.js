@@ -58,14 +58,38 @@ async function saveViral(platform, text, note) {
   if (error) { console.error('saveViral', error); showToast("Couldn't save that"); return null; }
   return data.id;
 }
-async function deleteViral(id) {
+// NB: named ...Row to avoid colliding with app.js's deleteViral() UI handler.
+// Both are plain globals, and this file loads second, so the old name silently
+// overwrote the handler — clicks sent a Date.now() int to a uuid column.
+async function deleteViralRow(id) {
   const { error } = await sb.from('viral_posts').delete().eq('id', id);
-  if (error) console.error('deleteViral', error);
+  if (error) { console.error('deleteViralRow', error); showToast("Couldn't delete that"); return false; }
+  return true;
+}
+
+// Lifetime generation count for the dashboard stat. Kept server-side so the
+// number follows the user between devices instead of resetting per browser.
+async function countGenerations() {
+  const { count, error } = await sb
+    .from('generations')
+    .select('id', { count: 'exact', head: true });
+  if (error) { console.error('countGenerations', error); return 0; }
+  return count ?? 0;
 }
 
 // --- one-time migration of legacy localStorage data -------------------------
 // Run once after the first authenticated load. Lifts any old per-browser
 // history/library into Postgres, then clears it so we never double-import.
+// Legacy rows stored the display label in `tool`; the column now holds the slug.
+const LEGACY_TOOL_SLUGS = {
+  'Caption Writer': 'caption',
+  'Algo Analyzer': 'algo',
+  'Post History': 'history',
+  'Brain Dump': 'brain',
+  'Comment Reply': 'comment',
+  'Viral Inspiration': 'viral',
+};
+
 async function migrateLocalData() {
   if (!currentUser) return;
 
@@ -75,7 +99,7 @@ async function migrateLocalData() {
       const rows = JSON.parse(legacyHist)
         .filter(r => r && (r.output || r.preview))
         .map(r => ({
-          tool: r.tool ?? 'caption',
+          tool: LEGACY_TOOL_SLUGS[r.tool] ?? r.tool ?? 'caption',
           input: null,
           // old rows stored text; wrap it so the column stays valid jsonb
           output: typeof r.output === 'string' ? { text: r.output } : (r.output ?? { text: r.preview ?? '' }),

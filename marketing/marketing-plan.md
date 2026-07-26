@@ -1,6 +1,27 @@
 # Clutvi Marketing Plan
 **Solo founder · UK micro-creators · £9.99/mo · Jul–Oct 2026**
 
+## Update — 2026-07-26 (v3) — corrections, read this first
+
+Several facts below are now out of date. Where they conflict, this block wins.
+
+| Below says | Actually |
+|---|---|
+| Reserve `@clutvi` | **Live:** TikTok **@getclutviapp**, Instagram **@getclutvi** |
+| Domain `clutvi.co.uk` / `clutvi.io` | **clutvi.com**, live on Netlify. She does *not* own clutvi.co.uk |
+| `hello@clutvi.co.uk` | **getclutvi@gmail.com** |
+| Pro 100 generations/day | **40/day.** Trial is 10/day + **25 total** |
+| Stripe test → live pending | **Live since 2026-07-04.** But no real purchase has ever completed — do that before driving traffic |
+| Privacy + Terms pending | **Live** at clutvi.com/terms and /privacy |
+
+**New asset:** `ad/out/clutvi-ad-9x16.mp4` — 20s vertical product ad, silent. It is *not*
+post #1; see `social-launch-plan.md` §2.
+
+**Execution doc:** profile setup, the Instagram half of the strategy, the both-platforms
+calendar and kill criteria are in **`social-launch-plan.md`**.
+
+---
+
 ## Update — 2026-07-08 (v2)
 
 **Positioning shift:** Lead with **pre-post intelligence** ("Score it before you film") instead of generic "go viral" language. Emphasise £9.99 vs tool sprawl.
@@ -27,7 +48,7 @@
 2. [x] Publish `/docs/tools/tiktok-caption-generator.html` SEO page
 3. Post in r/Tiktokhelp with genuine value-first comment strategy
 
-**Content kit:** `docs/marketing/tiktok-content-kit.md` — 10 scripts + batch filming workflow
+**Content kit:** `tiktok-content-kit.md` — 10 scripts + batch filming workflow
 
 **Conversion Layer tease:** Added to landing "Why Clutvi" section — ship Tool 1 as marketing event in Week 10.
 
