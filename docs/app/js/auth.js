@@ -25,7 +25,17 @@ function fatalLoadError(what) {
   const show = () => {
     const hint = document.getElementById('auth-hint');
     if (!hint) return;
-    hint.textContent = "⚠️ Clutvi couldn't finish loading — check your connection and reload the page.";
+    // The specific reason and build id go on screen, not just the console —
+    // there's no console on a phone, and a screenshot has to be enough to tell
+    // a stale cached page from a genuinely failed request.
+    const build = typeof CLUTVI_BUILD === 'string' ? CLUTVI_BUILD : 'unknown-build';
+    const fallbackTag = document.querySelector('script[src*="jsdelivr"]') ? 'fallback:yes' : 'fallback:no';
+    // Local escape: app.js (where escapeHtml lives) loads after this file, and
+    // this handler must not depend on anything that might not be there yet.
+    const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+    hint.innerHTML = "⚠️ Clutvi couldn't finish loading — check your connection and reload the page."
+      + '<br><span style="font-size:.72rem;opacity:.8">' + esc(what)
+      + ' · build ' + esc(build) + ' · ' + fallbackTag + '</span>';
     hint.style.color = 'var(--red)';
     document.querySelectorAll('#auth-screen button').forEach(b => { b.disabled = true; });
   };

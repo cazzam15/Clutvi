@@ -1,6 +1,11 @@
 // Fill these in from your Supabase dashboard: Project Settings → API.
 // The anon key is safe to ship in the frontend — access is controlled by
 // Row Level Security and the Edge Functions, never by this key.
+// Bump when shipping something a user might need to confirm they've received.
+// It's shown in the load-failure message so a stale cached page is identifiable
+// from a screenshot instead of guessed at.
+const CLUTVI_BUILD = '2026-07-26e';
+
 const CLUTVI_CONFIG = {
   SUPABASE_URL: 'https://drpqugvauikvnnbsfmkr.supabase.co',
   SUPABASE_ANON_KEY: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRycHF1Z3ZhdWlrdm5uYnNmbWtyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODEyODEzNTcsImV4cCI6MjA5Njg1NzM1N30.mGa2DSmRWawCAacsjS2EP0WwrVFMHtZMfEX7lj1rOlE',
