@@ -8,8 +8,9 @@ Several facts below are now out of date. Where they conflict, this block wins.
 | Below says | Actually |
 |---|---|
 | Reserve `@clutvi` | **Live:** TikTok **@getclutviapp**, Instagram **@getclutvi** |
-| Domain `clutvi.co.uk` / `clutvi.io` | **clutvi.com**, live on Netlify. She does *not* own clutvi.co.uk |
+| Domain `clutvi.co.uk` / `clutvi.io` | **clutvi.com**, live on Netlify. She does *not* own clutvi.co.uk. **`clutvi.io` / `app.clutvi.io` abandoned — do not register; app lives at https://clutvi.com/app/** |
 | `hello@clutvi.co.uk` | **getclutvi@gmail.com** |
+| `app.clutvi.io` as app host | **Abandoned.** Canonical app URL is **https://clutvi.com/app/** (relative `/app/` on marketing). Do **not** buy/register `clutvi.io`. |
 | Pro 100 generations/day | **40/day.** Trial is 10/day + **25 total** |
 | Stripe test → live pending | **Live since 2026-07-04.** But no real purchase has ever completed — do that before driving traffic |
 | Privacy + Terms pending | **Live** at clutvi.com/terms and /privacy |
@@ -133,7 +134,7 @@ Clutvi is not "another caption writer." It's the **pre-post intelligence + conte
 - [x] Nav: `ReelRocket` → `Clutvi`
 - [ ] Favicon, OG image, Stripe business name = **Clutvi**
 - [ ] Reserve social handles: `@clutvi` (TikTok, IG, X)
-- [ ] Custom domain: `clutvi.co.uk` or `clutvi.io`
+- [ ] Optional later: custom domain `clutvi.co.uk` only — **do not** register `clutvi.io` / `app.clutvi.io` (abandoned; app is `clutvi.com/app/`)
 - [x] Remove or replace **800+ creators** stat until true
 - [x] Replace testimonials with comparison cards + early-access beta CTA
 - [x] Align pricing copy with usage gate (10/day trial, 100/day Pro)
@@ -293,7 +294,7 @@ User scores an idea OR generates a caption they actually post within first sessi
 |-----|------|
 | **1** | Fix ReelRocket nav → Clutvi; remove fake stats; fix usage copy |
 | **1** | Stripe live mode + test trial → cancel flow |
-| **2** | Register domain; set up analytics |
+| **2** | Keep **clutvi.com** (already live); do **not** register `clutvi.io`; set up analytics |
 | **3** | Create `@clutvi` TikTok + IG; record 3 demo videos |
 | **4** | Post video #1; DM 5 creator friends for beta |
 | **5** | Join 3 communities; add email capture to footer |
