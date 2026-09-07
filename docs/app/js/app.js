@@ -1,1 +1,1 @@
-// PLACEHOLDER_WILL_REPLACE_WITH_FULL_CONTENT_VIA_SHELL_LOAD
+@file:///workspace/clutvi-activation/out/app.js
