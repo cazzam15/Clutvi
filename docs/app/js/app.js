@@ -1,1 +1,1 @@
-PLACEHOLDER_LOAD_FROM_FILE
+__LOAD__/workspace/clutvi-activation/out/app.js
