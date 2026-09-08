@@ -1,29 +1,29 @@
 :root {
-  --bg: #08080e;
-  --surface: #0f0f18;
-  --surface2: #16161f;
-  --surface3: #1c1c28;
-  --border: rgba(255,255,255,0.07);
-  --border2: rgba(255,255,255,0.12);
-  --pink: #ff3cac;
-  --purple: #7b2fff;
-  --cyan: #00d4ff;
-  --grad: linear-gradient(135deg, #ff3cac, #7b2fff, #00d4ff);
-  --grad2: linear-gradient(135deg, #ff3cac, #7b2fff);
-  --text: #eeeeff;
-  --muted: #6b6b8a;
-  --muted2: #9494b8;
-  --green: #00e87a;
-  --yellow: #ffd700;
-  --red: #ff4f4f;
+  --bg: #1C1915;
+  --surface: #241F1C;
+  --surface2: #2A2622;
+  --surface3: #322C27;
+  --border: #3A342E;
+  --border2: #4A433C;
+  --pink: #C23A22;
+  --purple: #C23A22;
+  --cyan: #C23A22;
+  --grad: #C23A22;
+  --grad2: #C23A22;
+  --text: #F4EFE6;
+  --muted: #6B645A;
+  --muted2: #A39A8F;
+  --green: #7A9A7A;
+  --yellow: #C4A35A;
+  --red: #C23A22;
   --sidebar-w: 240px;
-  --radius: 16px;
-  --radius-sm: 10px;
+  --radius: 2px;
+  --radius-sm: 2px;
 }
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html, body { height: 100%; }
 body {
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Source Sans 3', sans-serif;
   background: var(--bg);
   color: var(--text);
   font-size: 15px;
@@ -41,11 +41,10 @@ body {
 .setup-card {
   background: var(--surface);
   border: 1px solid var(--border2);
-  border-radius: 24px;
+  border-radius: 2px;
   padding: 48px;
   width: 100%;
   max-width: 480px;
-  box-shadow: 0 40px 80px rgba(0,0,0,0.5);
   position: relative;
   overflow: hidden;
 }
@@ -56,13 +55,13 @@ body {
   background: var(--grad);
 }
 .setup-logo {
-  font-family: 'Syne', sans-serif;
-  font-weight: 800;
+  font-family: 'Newsreader', Georgia, serif;
+  font-weight: 600;
   font-size: 1.8rem;
   letter-spacing: -0.03em;
   margin-bottom: 8px;
 }
-.setup-logo .g, .sidebar-logo .g { background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.setup-logo .g, .sidebar-logo .g { color: inherit; }
 .setup-sub { color: var(--muted2); font-size: 0.95rem; margin-bottom: 32px; }
 .setup-label { font-size: 0.8rem; font-weight: 500; color: var(--muted2); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 8px; }
 .setup-input {
@@ -72,7 +71,7 @@ body {
   border-radius: var(--radius-sm);
   padding: 14px 16px;
   color: var(--text);
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Source Sans 3', sans-serif;
   font-size: 0.95rem;
   outline: none;
   margin-bottom: 16px;
@@ -87,8 +86,8 @@ body {
   background: var(--grad2);
   border: none;
   border-radius: var(--radius-sm);
-  color: #fff;
-  font-family: 'Syne', sans-serif;
+  color: #F4EFE6;
+  font-family: 'Source Sans 3', sans-serif;
   font-weight: 700;
   font-size: 1rem;
   cursor: pointer;
@@ -104,10 +103,10 @@ body {
   flex: 1;
   padding: 9px;
   border: none;
-  border-radius: 7px;
+  border-radius: 2px;
   background: none;
   color: var(--muted2);
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Source Sans 3', sans-serif;
   font-size: 0.88rem;
   font-weight: 500;
   cursor: pointer;
@@ -135,8 +134,8 @@ body {
 }
 .sidebar-logo {
   padding: 24px 20px 20px;
-  font-family: 'Syne', sans-serif;
-  font-weight: 800;
+  font-family: 'Newsreader', Georgia, serif;
+  font-weight: 600;
   font-size: 1.3rem;
   letter-spacing: -0.03em;
   border-bottom: 1px solid var(--border);
@@ -203,8 +202,8 @@ body {
 .page { display: none; padding: 32px; max-width: 900px; }
 .page.active { display: block; }
 .page-title {
-  font-family: 'Syne', sans-serif;
-  font-weight: 800;
+  font-family: 'Newsreader', Georgia, serif;
+  font-weight: 600;
   font-size: 1.6rem;
   letter-spacing: -0.03em;
   margin-bottom: 4px;
@@ -220,9 +219,9 @@ body {
   padding: 20px;
 }
 .stat-label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px; }
-.stat-value { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 2rem; }
-.stat-value.pink { background: var(--grad2); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-.section-title { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1rem; margin-bottom: 16px; }
+.stat-value { font-family: 'Newsreader', Georgia, serif; font-weight: 600; font-size: 2rem; }
+.stat-value.pink { color: var(--red); }
+.section-title { font-family: 'Newsreader', Georgia, serif; font-weight: 600; font-size: 1rem; margin-bottom: 16px; }
 .recent-card {
   background: var(--surface);
   border: 1px solid var(--border);
@@ -243,16 +242,16 @@ body {
   text-transform: uppercase;
   letter-spacing: 0.06em;
   padding: 3px 8px;
-  border-radius: 20px;
+  border-radius: 2px;
   white-space: nowrap;
   flex-shrink: 0;
 }
-.badge-caption { background: rgba(255,60,172,0.15); color: var(--pink); }
-.badge-algo { background: rgba(123,47,255,0.15); color: var(--purple); }
-.badge-history { background: rgba(0,212,255,0.15); color: var(--cyan); }
-.badge-brain { background: rgba(0,232,122,0.15); color: var(--green); }
-.badge-comment { background: rgba(255,215,0,0.15); color: var(--yellow); }
-.badge-viral { background: rgba(255,79,79,0.15); color: var(--red); }
+.badge-caption { background: rgba(194,58,34,0.15); color: var(--pink); }
+.badge-algo { background: rgba(194,58,34,0.12); color: var(--purple); }
+.badge-history { background: var(--surface3); color: var(--cyan); }
+.badge-brain { background: var(--surface3); color: var(--green); }
+.badge-comment { background: var(--surface3); color: var(--yellow); }
+.badge-viral { background: rgba(194,58,34,0.12); color: var(--red); }
 .recent-text { font-size: 0.85rem; color: var(--muted2); line-height: 1.4; }
 .recent-text strong { color: var(--text); display: block; font-size: 0.9rem; }
 .recent-time { font-size: 0.75rem; color: var(--muted); margin-top: 2px; }
@@ -273,7 +272,7 @@ textarea {
   border-radius: var(--radius-sm);
   padding: 14px 16px;
   color: var(--text);
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Source Sans 3', sans-serif;
   font-size: 0.92rem;
   line-height: 1.6;
   outline: none;
@@ -285,24 +284,24 @@ textarea:focus { border-color: var(--purple); }
 .chip-row { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
 .chip {
   padding: 6px 14px;
-  border-radius: 20px;
+  border-radius: 2px;
   border: 1px solid var(--border2);
   background: var(--surface2);
   color: var(--muted2);
   font-size: 0.82rem;
   cursor: pointer;
   transition: all 0.15s;
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Source Sans 3', sans-serif;
 }
 .chip:hover { border-color: var(--purple); color: var(--text); }
-.chip.active { background: rgba(123,47,255,0.2); border-color: var(--purple); color: var(--text); }
+.chip.active { background: rgba(194,58,34,0.2); border-color: var(--purple); color: var(--text); }
 .btn-run {
   padding: 12px 28px;
   background: var(--grad2);
   border: none;
   border-radius: var(--radius-sm);
-  color: #fff;
-  font-family: 'Syne', sans-serif;
+  color: #F4EFE6;
+  font-family: 'Source Sans 3', sans-serif;
   font-weight: 700;
   font-size: 0.9rem;
   cursor: pointer;
@@ -334,7 +333,7 @@ textarea:focus { border-color: var(--purple); }
   color: var(--muted2);
   font-size: 0.8rem;
   cursor: pointer;
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Source Sans 3', sans-serif;
   transition: all 0.15s;
 }
 .btn-sm:hover { border-color: var(--purple); color: var(--text); }
@@ -352,7 +351,7 @@ textarea:focus { border-color: var(--purple); }
   border: none;
   background: none;
   color: var(--muted2);
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Source Sans 3', sans-serif;
   font-size: 0.88rem;
   cursor: pointer;
   border-bottom: 2px solid transparent;
@@ -381,7 +380,7 @@ textarea:focus { border-color: var(--purple); }
 .score-wrap { display: flex; align-items: center; gap: 16px; margin: 16px 0; }
 .score-bar-bg { flex: 1; height: 8px; background: var(--surface3); border-radius: 4px; overflow: hidden; }
 .score-bar-fill { height: 100%; border-radius: 4px; background: var(--grad); transition: width 0.6s ease; }
-.score-num { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.4rem; min-width: 48px; text-align: right; }
+.score-num { font-family: 'Newsreader', Georgia, serif; font-weight: 600; font-size: 1.4rem; min-width: 48px; text-align: right; }
 .score-num.high { color: var(--green); }
 .score-num.mid { color: var(--yellow); }
 .score-num.low { color: var(--red); }
@@ -414,7 +413,7 @@ select {
   border-radius: var(--radius-sm);
   padding: 10px 14px;
   color: var(--text);
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Source Sans 3', sans-serif;
   font-size: 0.92rem;
   outline: none;
   cursor: pointer;

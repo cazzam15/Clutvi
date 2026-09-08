@@ -3,8 +3,7 @@
  * This replaces the runtime Play CDN (cdn.tailwindcss.com), which Tailwind
  * itself warns against in production: it shipped the whole compiler to every
  * visitor, compiled the CSS on their device, and made the site depend on a third
- * party being reachable. The `theme.extend` block below is the same config that
- * used to sit inline in docs/app/index.html.
+ * party being reachable.
  *
  * Regenerate after changing any markup or class names:
  *   npm run build:css      (see package.json)
@@ -21,15 +20,18 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        sans:    ['DM Sans', 'ui-sans-serif', 'system-ui'],
-        display: ['Syne', 'ui-sans-serif'],
+        sans:    ['Source Sans 3', 'ui-sans-serif', 'system-ui'],
+        display: ['Newsreader', 'Georgia', 'serif'],
       },
       colors: {
         brand: {
-          50:  '#f5f3ff', 100: '#ede9fe', 200: '#ddd6fe',
-          300: '#c4b5fd', 400: '#a78bfa', 500: '#8b5cf6',
-          600: '#7C3AED', 700: '#6d28d9', 800: '#5b21b6',
-          900: '#4c1d95', 950: '#2e1065',
+          50:  '#F4EFE6',
+          100: '#E8E0D2',
+          200: '#C9C0B2',
+          500: '#C23A22',
+          600: '#A32F1C',
+          900: '#1C1915',
+          950: '#141210',
         },
       },
     },

@@ -1,4 +1,4 @@
-# Clutvi 🚀
+# Clutvi
 
 AI-powered tool suite for Instagram & TikTok creators. Six Claude-powered tools
 (Caption Writer, Algo Analyzer, Post History Analyzer, Brain Dump to Content,

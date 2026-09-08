@@ -3,13 +3,15 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Clutvi — AI Tools for Instagram &amp; TikTok Creators</title>
-<meta name="description" content="Score your TikTok and Reels ideas before you film. 6 AI tools for UK creators — captions, algo scores, content plans. Try free for 3 days, then £9.99/mo."/>
+<title>Clutvi — Score it before you film</title>
+<meta name="description" content="Score TikTok and Reels ideas before you film. Captions, algo scores and content plans for UK creators. 3-day trial, then £9.99/mo."/>
 <meta property="og:title" content="Clutvi — Score it before you film"/>
-<meta property="og:description" content="6 AI tools for UK TikTok &amp; Reels creators. Captions in seconds, algo scores before you post. 3-day free trial."/>
+<meta property="og:description" content="Score TikTok and Reels ideas before you film. Captions, algo scores and content plans for UK creators. 3-day trial, then £9.99/mo."/>
 <link rel="canonical" href="https://clutvi.com/"/>
 <meta property="og:url" content="https://clutvi.com/"/>
-<meta name="theme-color" content="#07070e"/>
+<meta name="theme-color" content="#F4EFE6"/>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
+<link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
 
 <!-- Deep-link forward for auth hashes -->
 <script>
@@ -19,176 +21,85 @@ if (/access_token|type=recovery|error_description|type=signup/.test(location.has
 </script>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,500;6..72,600;6..72,700&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
 
 <link rel="stylesheet" href="/css/tailwind.css">
 
 <style>
-/* ─── Gradient text ──────────────────────────────────────── */
-.g {
-  background: linear-gradient(135deg, #c4b5fd 0%, #7C3AED 40%, #2DD4BF 100%);
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-.g-teal {
-  background: linear-gradient(135deg, #2DD4BF, #7C3AED);
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-/* ─── CTA button ──────────────────────────────────────────── */
 .btn-primary {
-  background: linear-gradient(135deg, #7C3AED 0%, #6B21A8 40%, #0d9488 100%);
-  background-size: 200% auto;
-  transition: background-position .45s ease, transform .12s, box-shadow .2s;
-  box-shadow: 0 0 32px rgba(107,33,168,.45), 0 4px 16px rgba(0,0,0,.4);
+  background: #C23A22;
+  color: #F4EFE6;
+  border-radius: 2px;
+  font-family: 'Source Sans 3', sans-serif;
+  font-weight: 600;
 }
-.btn-primary:hover {
-  background-position: right center;
-  box-shadow: 0 0 48px rgba(107,33,168,.6), 0 8px 24px rgba(0,0,0,.5);
-}
-.btn-primary:active { transform: scale(.97); }
+.btn-primary:hover { background: #A32F1C; }
+.btn-primary:active { transform: scale(.98); }
 
 .btn-secondary {
-  background: rgba(255,255,255,.05);
-  border: 1px solid rgba(255,255,255,.12);
-  transition: background .2s, border-color .2s, color .2s;
+  background: transparent;
+  color: #1C1915;
+  border: 1px solid #C9C0B2;
+  border-radius: 2px;
 }
-.btn-secondary:hover {
-  background: rgba(255,255,255,.09);
-  border-color: rgba(255,255,255,.22);
-}
+.btn-secondary:hover { border-color: #1C1915; }
 
-/* ─── Ambient / glow ─────────────────────────────────────── */
-.hero-glow {
-  background:
-    radial-gradient(ellipse 90% 70% at 50% -5%, rgba(107,33,168,.38) 0%, transparent 65%),
-    radial-gradient(ellipse 50% 40% at 80% 60%, rgba(45,212,191,.08) 0%, transparent 55%);
-}
-.section-glow {
-  background: radial-gradient(ellipse 70% 55% at 50% 50%, rgba(107,33,168,.18) 0%, transparent 65%);
-}
-
-/* ─── Grid texture ───────────────────────────────────────── */
-.grid-tex {
-  background-image:
-    linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
-  background-size: 56px 56px;
-}
-
-/* ─── Tool cards ─────────────────────────────────────────── */
 .tool-card {
-  background: rgba(12,12,22,.95);
-  border: 1px solid rgba(255,255,255,.07);
-  transition: transform .25s ease, border-color .25s, box-shadow .25s;
-  position: relative;
-  overflow: hidden;
+  background: #E8E0D2;
+  border: 1px solid #C9C0B2;
+  transition: border-color .2s;
 }
-.tool-card::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  opacity: 0;
-  transition: opacity .3s;
-  background: radial-gradient(ellipse 80% 80% at 50% -10%, rgba(124,58,237,.12), transparent 70%);
-}
-.tool-card:hover {
-  transform: translateY(-5px);
-  border-color: rgba(124,58,237,.35);
-  box-shadow: 0 0 0 1px rgba(124,58,237,.2), 0 24px 48px -12px rgba(107,33,168,.3);
-}
-.tool-card:hover::before { opacity: 1; }
+.tool-card:hover { border-color: #1C1915; }
 
-.tool-bar {
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 2px;
-  opacity: 0;
-  transition: opacity .3s;
-}
-.tool-card:hover .tool-bar { opacity: 1; }
-
-/* ─── Shimmer badge ──────────────────────────────────────── */
-@keyframes shimmer { to { background-position: -200% center; } }
-.shimmer {
-  background: linear-gradient(90deg,
-    rgba(167,139,250,.55) 20%, rgba(196,181,253,1) 50%, rgba(167,139,250,.55) 80%);
-  background-size: 200%;
-  animation: shimmer 2.8s linear infinite;
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-/* ─── Float ──────────────────────────────────────────────── */
-@keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-9px)} }
-.float { animation: float 5.5s ease-in-out infinite; }
-
-/* ─── Pulse dot ──────────────────────────────────────────── */
-@keyframes pdot { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.35;transform:scale(.75)} }
-.pdot { animation: pdot 2.2s ease-in-out infinite; }
-
-/* ─── Ticker ─────────────────────────────────────────────── */
 @keyframes ticker { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
 .ticker-inner { animation: ticker 22s linear infinite; display: flex; width: max-content; }
 
-/* ─── Testimonial card ───────────────────────────────────── */
 .tcard {
-  background: rgba(12,12,22,.95);
-  border: 1px solid rgba(255,255,255,.07);
-  transition: border-color .25s, box-shadow .25s, transform .25s;
+  background: #E8E0D2;
+  border: 1px solid #C9C0B2;
+  transition: border-color .2s;
 }
-.tcard:hover {
-  border-color: rgba(124,58,237,.3);
-  box-shadow: 0 12px 40px -10px rgba(107,33,168,.22);
-  transform: translateY(-3px);
-}
+.tcard:hover { border-color: #1C1915; }
 
-/* ─── Pricing glow ───────────────────────────────────────── */
 .price-card {
-  background: rgba(11,11,20,.99);
-  box-shadow:
-    0 0 0 1px rgba(124,58,237,.28),
-    0 0 80px -20px rgba(107,33,168,.45),
-    0 40px 80px -24px rgba(0,0,0,.7);
+  background: #E8E0D2;
+  border: 1px solid #C9C0B2;
 }
 
-/* ─── Scroll + scrollbar ─────────────────────────────────── */
 html { scroll-behavior: smooth; }
 ::-webkit-scrollbar { width: 4px; }
-::-webkit-scrollbar-track { background: #07070e; }
-::-webkit-scrollbar-thumb { background: rgba(124,58,237,.35); border-radius: 4px; }
+::-webkit-scrollbar-track { background: #F4EFE6; }
+::-webkit-scrollbar-thumb { background: #C9C0B2; }
 
-/* ─── Reduced motion ─────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
-  .float, .pdot, .shimmer, .ticker-inner { animation: none; }
+  .ticker-inner { animation: none; }
 }
 </style>
 </head>
-<body class="bg-[#07070e] text-zinc-100 font-sans antialiased overflow-x-hidden">
+<body class="bg-brand-50 text-brand-900 font-sans antialiased overflow-x-hidden">
 
 <!-- ══════════════════════════════════════════════════════════
      NAV
 ══════════════════════════════════════════════════════════ -->
-<nav class="sticky top-0 z-50 border-b border-white/[0.065]"
-     style="background:rgba(7,7,14,.86);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px)">
+<nav class="sticky top-0 z-50 border-b border-brand-200 bg-brand-50">
   <div class="max-w-6xl mx-auto px-5 sm:px-8 flex items-center justify-between h-16">
 
-    <a href="#" class="font-display font-extrabold text-xl tracking-tight text-zinc-100 no-underline flex items-center gap-1">
-      Clut<span class="g">vi</span>&nbsp;🚀
+    <a href="#" class="font-display font-semibold text-xl tracking-tight text-brand-900 no-underline">
+      clutvi
     </a>
 
     <div class="hidden md:flex items-center gap-7">
-      <a href="#tools"   class="text-sm text-zinc-400 hover:text-zinc-100 transition-colors no-underline">Tools</a>
-      <a href="#how"     class="text-sm text-zinc-400 hover:text-zinc-100 transition-colors no-underline">How it works</a>
-      <a href="#stories" class="text-sm text-zinc-400 hover:text-zinc-100 transition-colors no-underline">Stories</a>
-      <a href="#pricing" class="text-sm text-zinc-400 hover:text-zinc-100 transition-colors no-underline">Pricing</a>
+      <a href="#tools"   class="text-sm text-[#6B645A] hover:text-brand-900 transition-colors no-underline">Tools</a>
+      <a href="#how"     class="text-sm text-[#6B645A] hover:text-brand-900 transition-colors no-underline">How it works</a>
+      <a href="#stories" class="text-sm text-[#6B645A] hover:text-brand-900 transition-colors no-underline">Stories</a>
+      <a href="#pricing" class="text-sm text-[#6B645A] hover:text-brand-900 transition-colors no-underline">Pricing</a>
     </div>
 
     <div class="flex items-center gap-3">
-      <a href="app/" class="hidden sm:inline text-sm text-zinc-400 hover:text-zinc-100 transition-colors no-underline">Sign in</a>
+      <a href="app/" class="hidden sm:inline text-sm text-[#6B645A] hover:text-brand-900 transition-colors no-underline">Sign in</a>
       <a href="app/?signup=1"
-         class="btn-primary inline-block px-5 py-2.5 rounded-xl text-white font-display font-bold text-sm no-underline">
+         class="btn-primary inline-block px-5 py-2.5 text-sm no-underline">
         Start free trial
       </a>
     </div>
@@ -198,27 +109,26 @@ html { scroll-behavior: smooth; }
 <!-- ══════════════════════════════════════════════════════════
      TICKER
 ══════════════════════════════════════════════════════════ -->
-<div class="overflow-hidden border-b border-white/[0.05] py-2.5 select-none"
-     style="background:rgba(124,58,237,.06)">
-  <div class="ticker-inner text-[11px] font-bold tracking-widest text-zinc-500 uppercase">
+<div class="overflow-hidden border-b border-brand-200 py-2.5 select-none bg-brand-100">
+  <div class="ticker-inner text-[11px] font-semibold tracking-widest text-[#6B645A] uppercase">
     <span class="flex gap-12 px-6">
-      <span>✍️ Caption Writer</span><span>·</span>
-      <span>📊 Algo Analyzer</span><span>·</span>
-      <span>📈 What's Working</span><span>·</span>
-      <span>🧠 Brain Dump to Content</span><span>·</span>
-      <span>💬 Comment Reply Assistant</span><span>·</span>
-      <span>🔥 Viral Inspiration</span><span>·</span>
-      <span class="text-violet-500">6 Tools · One Dashboard · £9.99/mo</span><span>·</span>
+      <span>Caption Writer</span><span>·</span>
+      <span>Algo Analyzer</span><span>·</span>
+      <span>What's Working</span><span>·</span>
+      <span>Brain Dump to Content</span><span>·</span>
+      <span>Comment Reply Assistant</span><span>·</span>
+      <span>Viral Inspiration</span><span>·</span>
+      <span>6 Tools · One Dashboard · <span class="text-brand-500">£9.99/mo</span></span><span>·</span>
     </span>
     <!-- duplicate for seamless loop -->
     <span class="flex gap-12 px-6" aria-hidden="true">
-      <span>✍️ Caption Writer</span><span>·</span>
-      <span>📊 Algo Analyzer</span><span>·</span>
-      <span>📈 What's Working</span><span>·</span>
-      <span>🧠 Brain Dump to Content</span><span>·</span>
-      <span>💬 Comment Reply Assistant</span><span>·</span>
-      <span>🔥 Viral Inspiration</span><span>·</span>
-      <span class="text-violet-500">6 Tools · One Dashboard · £9.99/mo</span><span>·</span>
+      <span>Caption Writer</span><span>·</span>
+      <span>Algo Analyzer</span><span>·</span>
+      <span>What's Working</span><span>·</span>
+      <span>Brain Dump to Content</span><span>·</span>
+      <span>Comment Reply Assistant</span><span>·</span>
+      <span>Viral Inspiration</span><span>·</span>
+      <span>6 Tools · One Dashboard · <span class="text-brand-500">£9.99/mo</span></span><span>·</span>
     </span>
   </div>
 </div>
@@ -228,140 +138,115 @@ html { scroll-behavior: smooth; }
 ══════════════════════════════════════════════════════════ -->
 <section class="relative pt-20 pb-28 sm:pt-28 sm:pb-36 overflow-hidden">
 
-  <div class="hero-glow absolute inset-0 pointer-events-none"></div>
-  <div class="grid-tex absolute inset-0 pointer-events-none"></div>
-
-  <!-- Decorative orbs -->
-  <div class="absolute -top-32 -left-32 w-96 h-96 rounded-full pointer-events-none"
-       style="background:radial-gradient(circle,rgba(107,33,168,.18),transparent 70%);filter:blur(40px)"></div>
-  <div class="absolute top-40 -right-20 w-72 h-72 rounded-full pointer-events-none"
-       style="background:radial-gradient(circle,rgba(45,212,191,.1),transparent 70%);filter:blur(40px)"></div>
-
   <div class="relative max-w-5xl mx-auto px-5 sm:px-8 text-center">
 
     <!-- Badge -->
-    <div class="inline-flex items-center gap-2.5 rounded-full px-4 py-1.5 text-[11px] font-bold tracking-widest mb-8 border"
-         style="background:rgba(124,58,237,.1);border-color:rgba(124,58,237,.28)">
-      <span class="w-1.5 h-1.5 rounded-full bg-teal-400 pdot"></span>
-      <span class="shimmer">BUILT FOR UK CREATORS · TIKTOK &amp; REELS</span>
+    <div class="inline-flex items-center rounded-[2px] px-3 py-1.5 text-[11px] font-semibold tracking-widest uppercase mb-8 bg-brand-100 text-brand-900">
+      For UK creators · TikTok &amp; Reels
     </div>
 
     <!-- Headline -->
-    <h1 class="font-display font-extrabold tracking-tight leading-[1.08] mb-6">
-      <span class="block text-[clamp(2.5rem,6.5vw,4.75rem)] text-zinc-50">Score it before you film.</span>
-      <span class="block text-[clamp(2.5rem,6.5vw,4.75rem)] g mt-1">Post with confidence.</span>
+    <h1 class="font-display font-semibold tracking-tight leading-[1.08] mb-6">
+      <span class="block text-[clamp(2.5rem,6.5vw,4.75rem)] text-brand-900">Score it before you film.</span>
+      <span class="block text-[clamp(2.5rem,6.5vw,4.75rem)] text-brand-500 mt-1">Post with confidence.</span>
     </h1>
 
     <!-- Subheadline -->
-    <p class="text-zinc-400 text-lg sm:text-xl max-w-[620px] mx-auto mb-10 leading-relaxed">
-      <strong class="text-zinc-200 font-semibold">6 AI tools, one dashboard, £9.99/mo</strong> — captions in seconds,
-      algorithm scores before you hit record, and content plans from a brain dump.
-      Less than most creators spend on ChatGPT alone.
+    <p class="text-[#6B645A] text-lg sm:text-xl max-w-[620px] mx-auto mb-10 leading-relaxed">
+      Captions, scores and a plan from a brain dump. Built for UK Reels and TikTok. £9.99/mo after 3 days.
     </p>
 
     <!-- CTAs -->
     <div class="flex flex-col sm:flex-row gap-3 justify-center items-stretch sm:items-center mb-5">
       <a href="app/?signup=1"
-         class="btn-primary px-9 py-4 rounded-xl text-white font-display font-bold text-base no-underline text-center">
+         class="btn-primary px-9 py-4 text-base no-underline text-center">
         Try free for 3 days →
       </a>
       <a href="#tools"
-         class="btn-secondary px-9 py-4 rounded-xl font-medium text-base no-underline text-center text-zinc-300 hover:text-white">
+         class="btn-secondary px-9 py-4 font-semibold text-base no-underline text-center">
         See all 6 tools ↓
       </a>
     </div>
-    <p class="text-sm text-zinc-600">No charge for 3 days · then £9.99/mo · cancel in one click</p>
+    <p class="text-sm text-[#6B645A]">No charge for 3 days · then £9.99/mo · cancel in one click</p>
 
     <!-- Hero mockup -->
-    <div class="float mt-16 sm:mt-20 max-w-lg mx-auto">
-      <div class="rounded-2xl border border-white/[0.09] overflow-hidden text-left"
-           style="background:rgba(11,11,20,.99);box-shadow:0 0 0 1px rgba(124,58,237,.15),0 32px 80px -16px rgba(107,33,168,.4),0 0 120px -40px rgba(45,212,191,.08)">
+    <div class="mt-16 sm:mt-20 max-w-lg mx-auto">
+      <div class="overflow-hidden text-left bg-brand-50 border border-brand-200" style="border-radius:2px">
 
         <!-- Browser chrome -->
-        <div class="flex items-center gap-1.5 px-4 py-3 border-b border-white/[0.06]"
-             style="background:rgba(255,255,255,.025)">
-          <div class="w-2.5 h-2.5 rounded-full" style="background:#ff5f56"></div>
-          <div class="w-2.5 h-2.5 rounded-full" style="background:#ffbd2e"></div>
-          <div class="w-2.5 h-2.5 rounded-full" style="background:#27c93f"></div>
-          <div class="flex-1 mx-3 rounded-md px-3 py-1 text-[10px] text-zinc-600 font-mono"
-               style="background:rgba(255,255,255,.04)">clutvi.com/app &nbsp;·&nbsp; Caption Writer</div>
+        <div class="flex items-center gap-1.5 px-4 py-3 border-b border-brand-200 bg-brand-100">
+          <div class="w-2.5 h-2.5 bg-brand-200"></div>
+          <div class="w-2.5 h-2.5 bg-brand-200"></div>
+          <div class="w-2.5 h-2.5 bg-brand-200"></div>
+          <div class="flex-1 mx-3 px-3 py-1 text-[10px] text-[#6B645A] font-mono bg-brand-50">clutvi.com/app &nbsp;·&nbsp; Caption Writer</div>
           <div class="flex items-center gap-1.5">
-            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 pdot"></span>
-            <span class="text-[10px] font-bold text-emerald-400">LIVE</span>
+            <span class="text-[10px] font-bold text-brand-500 tracking-widest">LIVE</span>
           </div>
         </div>
 
         <!-- Sidebar + content -->
         <div class="flex">
-          <!-- Mini sidebar -->
-          <div class="hidden sm:flex flex-col gap-0.5 p-3 border-r border-white/[0.06] w-36 flex-shrink-0"
-               style="background:rgba(255,255,255,.01)">
-            <div class="text-[9px] font-bold uppercase tracking-widest text-zinc-600 px-2 py-1 mb-1">Your tools</div>
-            <div class="flex items-center gap-2 px-2 py-1.5 rounded-lg text-[11px] font-semibold text-zinc-100"
-                 style="background:rgba(124,58,237,.2);border:1px solid rgba(124,58,237,.25)">
-              <span>✍️</span> Caption
+          <!-- Mini sidebar — ink, like the working desk -->
+          <div class="hidden sm:flex flex-col gap-0.5 p-3 w-36 flex-shrink-0 bg-brand-900">
+            <div class="text-[9px] font-bold uppercase tracking-widest text-[#A39A8F] px-2 py-1 mb-1">Your tools</div>
+            <div class="flex items-center gap-2 px-2 py-1.5 text-[11px] font-semibold text-brand-50 bg-brand-500">
+              Caption
             </div>
-            <div class="flex items-center gap-2 px-2 py-1.5 rounded-md text-[11px] text-zinc-500">
-              <span>📊</span> Algo Score
+            <div class="flex items-center gap-2 px-2 py-1.5 text-[11px] text-[#A39A8F]">
+              Algo Score
             </div>
-            <div class="flex items-center gap-2 px-2 py-1.5 rounded-md text-[11px] text-zinc-500">
-              <span>📈</span> What's Working
+            <div class="flex items-center gap-2 px-2 py-1.5 text-[11px] text-[#A39A8F]">
+              What's Working
             </div>
-            <div class="flex items-center gap-2 px-2 py-1.5 rounded-md text-[11px] text-zinc-500">
-              <span>🧠</span> Brain Dump
+            <div class="flex items-center gap-2 px-2 py-1.5 text-[11px] text-[#A39A8F]">
+              Brain Dump
             </div>
-            <div class="flex items-center gap-2 px-2 py-1.5 rounded-md text-[11px] text-zinc-500">
-              <span>💬</span> Replies
+            <div class="flex items-center gap-2 px-2 py-1.5 text-[11px] text-[#A39A8F]">
+              Replies
             </div>
-            <div class="flex items-center gap-2 px-2 py-1.5 rounded-md text-[11px] text-zinc-500">
-              <span>🔥</span> Viral Inspo
+            <div class="flex items-center gap-2 px-2 py-1.5 text-[11px] text-[#A39A8F]">
+              Viral Inspo
             </div>
           </div>
 
           <!-- Main content -->
-          <div class="p-5 flex-1 min-w-0">
+          <div class="p-5 flex-1 min-w-0 bg-brand-50">
             <div class="flex items-center gap-2 mb-4">
-              <div class="w-7 h-7 rounded-lg flex items-center justify-center text-sm flex-shrink-0"
-                   style="background:linear-gradient(135deg,rgba(124,58,237,.4),rgba(45,212,191,.2))">✍️</div>
               <div class="min-w-0">
-                <div class="text-sm font-display font-bold text-zinc-100 truncate">Caption Writer</div>
-                <div class="text-[10px] text-zinc-500">3 options ready in 4s</div>
+                <div class="text-sm font-display font-semibold text-brand-900 truncate">Caption Writer</div>
+                <div class="text-[10px] text-[#6B645A]">3 options ready in 4s</div>
               </div>
               <div class="ml-auto flex gap-1.5 flex-shrink-0">
-                <span class="text-[10px] px-2 py-0.5 rounded-full font-semibold"
-                      style="background:rgba(124,58,237,.18);color:#a78bfa;border:1px solid rgba(124,58,237,.3)">TikTok</span>
-                <span class="text-[10px] px-2 py-0.5 rounded-full font-semibold"
-                      style="background:rgba(255,255,255,.06);color:#a1a1aa;border:1px solid rgba(255,255,255,.1)">Casual</span>
+                <span class="text-[10px] px-2 py-0.5 font-semibold border border-brand-200 text-brand-900">TikTok</span>
+                <span class="text-[10px] px-2 py-0.5 font-semibold border border-brand-200 text-[#6B645A]">Casual</span>
               </div>
             </div>
 
             <!-- Caption output -->
-            <div class="rounded-xl p-4 mb-3 border border-white/[0.07]" style="background:rgba(255,255,255,.03)">
-              <div class="text-[9px] font-bold uppercase tracking-widest text-zinc-600 mb-2">Caption 1 of 3</div>
-              <p class="text-[13px] text-zinc-200 leading-relaxed mb-0.5">
-                POV: you finally cracked the morning skincare code ✨
+            <div class="p-4 mb-3 border border-brand-200 bg-brand-100">
+              <div class="text-[9px] font-bold uppercase tracking-widest text-[#6B645A] mb-2">Caption 1 of 3</div>
+              <p class="text-[13px] text-brand-900 leading-relaxed mb-0.5">
+                POV: you finally cracked the morning skincare code
               </p>
-              <p class="text-[13px] text-zinc-400 leading-relaxed mb-3">
-                5 steps. 10 minutes. Zero greasy skin. Save this before your next Sephora run 🙋‍♀️
+              <p class="text-[13px] text-[#6B645A] leading-relaxed mb-3">
+                5 steps. 10 minutes. Zero greasy skin. Save this before your next Sephora run
               </p>
               <div class="flex flex-wrap gap-x-1.5 gap-y-1">
-                <span class="text-[11px] text-violet-400">#skintok</span>
-                <span class="text-[11px] text-violet-400">#oilyskin</span>
-                <span class="text-[11px] text-violet-400">#morningroutine</span>
-                <span class="text-[11px] text-zinc-600">+9 more</span>
+                <span class="text-[11px] text-brand-500">#skintok</span>
+                <span class="text-[11px] text-brand-500">#oilyskin</span>
+                <span class="text-[11px] text-brand-500">#morningroutine</span>
+                <span class="text-[11px] text-[#6B645A]">+9 more</span>
               </div>
             </div>
 
             <div class="flex items-center gap-2">
-              <button class="text-[11px] px-3 py-1.5 rounded-lg border border-white/[0.08] text-zinc-400 font-medium"
-                      style="background:rgba(255,255,255,.04)">Copy ↗</button>
-              <button class="text-[11px] px-3 py-1.5 rounded-lg border border-white/[0.08] text-zinc-400 font-medium"
-                      style="background:rgba(255,255,255,.04)">Save</button>
+              <button class="text-[11px] px-3 py-1.5 border border-brand-200 text-[#6B645A] font-medium bg-brand-50">Copy</button>
+              <button class="text-[11px] px-3 py-1.5 border border-brand-200 text-[#6B645A] font-medium bg-brand-50">Save</button>
               <div class="ml-auto flex gap-1 items-center">
-                <span class="text-[10px] text-zinc-600 mr-1">1/3</span>
-                <div class="w-1.5 h-1.5 rounded-full bg-violet-500"></div>
-                <div class="w-1.5 h-1.5 rounded-full bg-violet-800/60"></div>
-                <div class="w-1.5 h-1.5 rounded-full bg-violet-800/60"></div>
+                <span class="text-[10px] text-[#6B645A] mr-1">1/3</span>
+                <div class="w-1.5 h-1.5 bg-brand-500"></div>
+                <div class="w-1.5 h-1.5 bg-brand-200"></div>
+                <div class="w-1.5 h-1.5 bg-brand-200"></div>
               </div>
             </div>
           </div>
@@ -374,24 +259,24 @@ html { scroll-behavior: smooth; }
 <!-- ══════════════════════════════════════════════════════════
      STATS BAR
 ══════════════════════════════════════════════════════════ -->
-<div class="border-y border-white/[0.06] py-12" style="background:rgba(255,255,255,.017)">
+<div class="border-y border-brand-200 py-12 bg-brand-100">
   <div class="max-w-5xl mx-auto px-5 sm:px-8">
     <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
       <div>
-        <div class="font-display font-extrabold text-[2.2rem] g leading-none">6</div>
-        <div class="text-sm text-zinc-500 mt-2">AI tools included</div>
+        <div class="font-display font-semibold text-[2.2rem] text-brand-900 leading-none">6</div>
+        <div class="text-sm text-[#6B645A] mt-2">tools included</div>
       </div>
       <div>
-        <div class="font-display font-extrabold text-[2.2rem] g leading-none">&lt;5s</div>
-        <div class="text-sm text-zinc-500 mt-2">avg. generation time</div>
+        <div class="font-display font-semibold text-[2.2rem] text-brand-900 leading-none">&lt;5s</div>
+        <div class="text-sm text-[#6B645A] mt-2">avg. generation time</div>
       </div>
       <div>
-        <div class="font-display font-extrabold text-[2.2rem] g leading-none">3 days</div>
-        <div class="text-sm text-zinc-500 mt-2">free trial</div>
+        <div class="font-display font-semibold text-[2.2rem] text-brand-900 leading-none">3 days</div>
+        <div class="text-sm text-[#6B645A] mt-2">free trial</div>
       </div>
       <div>
-        <div class="font-display font-extrabold text-[2.2rem] g leading-none">£9.99</div>
-        <div class="text-sm text-zinc-500 mt-2">per month, all tools</div>
+        <div class="font-display font-semibold text-[2.2rem] text-brand-500 leading-none">£9.99</div>
+        <div class="text-sm text-[#6B645A] mt-2">per month, all tools</div>
       </div>
     </div>
   </div>
@@ -404,11 +289,11 @@ html { scroll-behavior: smooth; }
   <div class="max-w-6xl mx-auto px-5 sm:px-8">
 
     <div class="text-center mb-16">
-      <div class="text-[11px] font-bold uppercase tracking-widest text-violet-400 mb-3">The Toolkit</div>
-      <h2 class="font-display font-extrabold text-[clamp(2rem,4.5vw,3.2rem)] tracking-tight mb-5">
-        Six tools. One <span class="g">creator engine.</span>
+      <div class="text-[11px] font-semibold uppercase tracking-widest text-[#6B645A] mb-3">The Toolkit</div>
+      <h2 class="font-display font-semibold text-[clamp(2rem,4.5vw,3.2rem)] tracking-tight mb-5 text-brand-900">
+        Six tools. One creator engine.
       </h2>
-      <p class="text-zinc-400 text-lg max-w-[520px] mx-auto">
+      <p class="text-[#6B645A] text-lg max-w-[520px] mx-auto">
         Built for creators who post daily and can't afford to waste time on content that doesn't perform.
       </p>
     </div>
@@ -416,91 +301,73 @@ html { scroll-behavior: smooth; }
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
 
       <!-- 1. Caption Writer -->
-      <a href="tools/tiktok-caption-generator.html" class="tool-card rounded-2xl p-6 block no-underline group cursor-pointer">
-        <div class="tool-bar" style="background:linear-gradient(90deg,#7C3AED,#2DD4BF)"></div>
-        <div class="w-12 h-12 rounded-2xl flex items-center justify-center text-2xl mb-5 flex-shrink-0"
-             style="background:linear-gradient(135deg,rgba(124,58,237,.35),rgba(45,212,191,.15))">✍️</div>
-        <h3 class="font-display font-bold text-lg mb-2 text-zinc-100">Caption Writer</h3>
-        <p class="text-zinc-400 text-sm leading-relaxed mb-5">
+      <a href="tools/tiktok-caption-generator.html" class="tool-card p-6 block no-underline group cursor-pointer">
+        <h3 class="font-display font-semibold text-lg mb-2 text-brand-900">Caption Writer</h3>
+        <p class="text-[#6B645A] text-sm leading-relaxed mb-5">
           Scroll-stopping captions with hooks and hashtags, tuned to your platform and vibe.
           Pick Casual, Funny, or Motivational — you get three options every time.
         </p>
-        <span class="inline-flex items-center gap-1.5 text-xs font-bold text-violet-400 group-hover:gap-2.5 transition-all">
+        <span class="inline-flex items-center gap-1.5 text-xs font-bold text-brand-500">
           Try it free <span>→</span>
         </span>
       </a>
 
       <!-- 2. Algo Analyzer -->
-      <a href="tools/tiktok-algorithm-checker.html" class="tool-card rounded-2xl p-6 block no-underline group cursor-pointer">
-        <div class="tool-bar" style="background:linear-gradient(90deg,#2DD4BF,#7C3AED)"></div>
-        <div class="w-12 h-12 rounded-2xl flex items-center justify-center text-2xl mb-5"
-             style="background:linear-gradient(135deg,rgba(45,212,191,.3),rgba(124,58,237,.15))">📊</div>
-        <h3 class="font-display font-bold text-lg mb-2 text-zinc-100">Algo Analyzer</h3>
-        <p class="text-zinc-400 text-sm leading-relaxed mb-5">
+      <a href="tools/tiktok-algorithm-checker.html" class="tool-card p-6 block no-underline group cursor-pointer">
+        <h3 class="font-display font-semibold text-lg mb-2 text-brand-900">Algo Analyzer</h3>
+        <p class="text-[#6B645A] text-sm leading-relaxed mb-5">
           Score any content idea out of 100 for algorithm performance — before you film a single second.
           Get specific, actionable tips to boost your reach.
         </p>
-        <span class="inline-flex items-center gap-1.5 text-xs font-bold text-teal-400 group-hover:gap-2.5 transition-all">
+        <span class="inline-flex items-center gap-1.5 text-xs font-bold text-brand-500">
           Try it free <span>→</span>
         </span>
       </a>
 
       <!-- 3. What's Working -->
-      <a href="app/?signup=1" class="tool-card rounded-2xl p-6 block no-underline group cursor-pointer">
-        <div class="tool-bar" style="background:linear-gradient(90deg,#fbbf24,#7C3AED)"></div>
-        <div class="w-12 h-12 rounded-2xl flex items-center justify-center text-2xl mb-5"
-             style="background:linear-gradient(135deg,rgba(251,191,36,.22),rgba(124,58,237,.15))">📈</div>
-        <h3 class="font-display font-bold text-lg mb-2 text-zinc-100">What's Working</h3>
-        <p class="text-zinc-400 text-sm leading-relaxed mb-5">
+      <a href="app/?signup=1" class="tool-card p-6 block no-underline group cursor-pointer">
+        <h3 class="font-display font-semibold text-lg mb-2 text-brand-900">What's Working</h3>
+        <p class="text-[#6B645A] text-sm leading-relaxed mb-5">
           Paste your recent posts and get a brutally honest breakdown of what's working, what to drop,
           and your next best move based on your actual data.
         </p>
-        <span class="inline-flex items-center gap-1.5 text-xs font-bold text-amber-400 group-hover:gap-2.5 transition-all">
+        <span class="inline-flex items-center gap-1.5 text-xs font-bold text-brand-500">
           Try it free <span>→</span>
         </span>
       </a>
 
       <!-- 4. Brain Dump to Content -->
-      <a href="tools/tiktok-content-calendar.html" class="tool-card rounded-2xl p-6 block no-underline group cursor-pointer">
-        <div class="tool-bar" style="background:linear-gradient(90deg,#34d399,#2DD4BF)"></div>
-        <div class="w-12 h-12 rounded-2xl flex items-center justify-center text-2xl mb-5"
-             style="background:linear-gradient(135deg,rgba(52,211,153,.25),rgba(45,212,191,.15))">🧠</div>
-        <h3 class="font-display font-bold text-lg mb-2 text-zinc-100">Brain Dump to Content</h3>
-        <p class="text-zinc-400 text-sm leading-relaxed mb-5">
+      <a href="tools/tiktok-content-calendar.html" class="tool-card p-6 block no-underline group cursor-pointer">
+        <h3 class="font-display font-semibold text-lg mb-2 text-brand-900">Brain Dump to Content</h3>
+        <p class="text-[#6B645A] text-sm leading-relaxed mb-5">
           Word-vomit your ideas into one textarea. Get back a structured, ready-to-post content plan
           — 5 posts, 10 posts, or a full 30-day calendar.
         </p>
-        <span class="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-400 group-hover:gap-2.5 transition-all">
+        <span class="inline-flex items-center gap-1.5 text-xs font-bold text-brand-500">
           Try it free <span>→</span>
         </span>
       </a>
 
       <!-- 5. Comment Reply Assistant -->
-      <a href="app/?signup=1" class="tool-card rounded-2xl p-6 block no-underline group cursor-pointer">
-        <div class="tool-bar" style="background:linear-gradient(90deg,#60a5fa,#7C3AED)"></div>
-        <div class="w-12 h-12 rounded-2xl flex items-center justify-center text-2xl mb-5"
-             style="background:linear-gradient(135deg,rgba(96,165,250,.25),rgba(124,58,237,.15))">💬</div>
-        <h3 class="font-display font-bold text-lg mb-2 text-zinc-100">Comment Reply Assistant</h3>
-        <p class="text-zinc-400 text-sm leading-relaxed mb-5">
+      <a href="app/?signup=1" class="tool-card p-6 block no-underline group cursor-pointer">
+        <h3 class="font-display font-semibold text-lg mb-2 text-brand-900">Comment Reply Assistant</h3>
+        <p class="text-[#6B645A] text-sm leading-relaxed mb-5">
           Paste a batch of comments and get on-brand, genuine replies in seconds. Friendly, Funny, or Hype —
           and reply to 100% of your comments without burning out.
         </p>
-        <span class="inline-flex items-center gap-1.5 text-xs font-bold text-blue-400 group-hover:gap-2.5 transition-all">
+        <span class="inline-flex items-center gap-1.5 text-xs font-bold text-brand-500">
           Try it free <span>→</span>
         </span>
       </a>
 
       <!-- 6. Viral Inspiration -->
-      <a href="app/?signup=1" class="tool-card rounded-2xl p-6 block no-underline group cursor-pointer">
-        <div class="tool-bar" style="background:linear-gradient(90deg,#fb7185,#7C3AED)"></div>
-        <div class="w-12 h-12 rounded-2xl flex items-center justify-center text-2xl mb-5"
-             style="background:linear-gradient(135deg,rgba(251,113,133,.25),rgba(124,58,237,.15))">🔥</div>
-        <h3 class="font-display font-bold text-lg mb-2 text-zinc-100">Viral Inspiration</h3>
-        <p class="text-zinc-400 text-sm leading-relaxed mb-5">
+      <a href="app/?signup=1" class="tool-card p-6 block no-underline group cursor-pointer">
+        <h3 class="font-display font-semibold text-lg mb-2 text-brand-900">Viral Inspiration</h3>
+        <p class="text-[#6B645A] text-sm leading-relaxed mb-5">
           Save viral posts you love into a personal library. Then remix any of them for your niche —
           same format and hook structure, your voice, your audience.
         </p>
-        <span class="inline-flex items-center gap-1.5 text-xs font-bold text-rose-400 group-hover:gap-2.5 transition-all">
+        <span class="inline-flex items-center gap-1.5 text-xs font-bold text-brand-500">
           Try it free <span>→</span>
         </span>
       </a>
@@ -510,7 +377,7 @@ html { scroll-behavior: smooth; }
     <!-- Bottom CTA under grid -->
     <div class="text-center mt-12">
       <a href="app/?signup=1"
-         class="btn-primary inline-block px-8 py-4 rounded-xl text-white font-display font-bold text-base no-underline">
+         class="btn-primary inline-block px-8 py-4 text-base no-underline">
         Start free trial →
       </a>
     </div>
@@ -520,52 +387,40 @@ html { scroll-behavior: smooth; }
 <!-- ══════════════════════════════════════════════════════════
      HOW IT WORKS
 ══════════════════════════════════════════════════════════ -->
-<section id="how" class="py-24 sm:py-32 border-t border-white/[0.06] relative overflow-hidden">
-  <div class="section-glow absolute inset-0 pointer-events-none"></div>
-  <div class="grid-tex absolute inset-0 pointer-events-none opacity-50"></div>
+<section id="how" class="py-24 sm:py-32 border-t border-brand-200">
 
   <div class="relative max-w-5xl mx-auto px-5 sm:px-8">
     <div class="text-center mb-16">
-      <div class="text-[11px] font-bold uppercase tracking-widest text-teal-400 mb-3">How it works</div>
-      <h2 class="font-display font-extrabold text-[clamp(2rem,4.5vw,3.2rem)] tracking-tight">
-        From zero to <span class="g">posting in 2 minutes.</span>
+      <div class="text-[11px] font-semibold uppercase tracking-widest text-[#6B645A] mb-3">How it works</div>
+      <h2 class="font-display font-semibold text-[clamp(2rem,4.5vw,3.2rem)] tracking-tight text-brand-900">
+        From zero to posting in 2 minutes.
       </h2>
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 relative">
 
-      <!-- connector lines desktop -->
-      <div class="hidden md:block absolute top-12 left-0 right-0 h-px pointer-events-none"
-           style="background:linear-gradient(90deg,transparent 10%,rgba(124,58,237,.3) 30%,rgba(45,212,191,.3) 70%,transparent 90%);top:3rem"></div>
-
-      <div class="relative rounded-2xl p-7 border border-white/[0.07]"
-           style="background:rgba(12,12,22,.8)">
-        <div class="inline-flex w-12 h-12 rounded-2xl items-center justify-center font-display font-extrabold text-lg text-white mb-5"
-             style="background:linear-gradient(135deg,#7C3AED,#5b21b6)">1</div>
-        <h3 class="font-display font-bold text-lg mb-2 text-zinc-100">Sign up free</h3>
-        <p class="text-zinc-400 text-sm leading-relaxed">
+      <div class="relative p-7 border border-brand-200 bg-brand-100">
+        <div class="inline-flex w-10 h-10 items-center justify-center font-display font-semibold text-lg text-brand-50 mb-5 bg-brand-900">1</div>
+        <h3 class="font-display font-semibold text-lg mb-2 text-brand-900">Sign up free</h3>
+        <p class="text-[#6B645A] text-sm leading-relaxed">
           No friction. Create your account and you're inside the dashboard in under 30 seconds,
           ready to start your 3-day free trial.
         </p>
       </div>
 
-      <div class="relative rounded-2xl p-7 border border-white/[0.07]"
-           style="background:rgba(12,12,22,.8)">
-        <div class="inline-flex w-12 h-12 rounded-2xl items-center justify-center font-display font-extrabold text-lg text-white mb-5"
-             style="background:linear-gradient(135deg,#5b21b6,#0d9488)">2</div>
-        <h3 class="font-display font-bold text-lg mb-2 text-zinc-100">Pick a tool and go</h3>
-        <p class="text-zinc-400 text-sm leading-relaxed">
+      <div class="relative p-7 border border-brand-200 bg-brand-100">
+        <div class="inline-flex w-10 h-10 items-center justify-center font-display font-semibold text-lg text-brand-50 mb-5 bg-brand-900">2</div>
+        <h3 class="font-display font-semibold text-lg mb-2 text-brand-900">Pick a tool and go</h3>
+        <p class="text-[#6B645A] text-sm leading-relaxed">
           Choose from 6 tools in your sidebar. Type in your content idea or paste your posts —
           the AI generates results in seconds. No prompting skill required.
         </p>
       </div>
 
-      <div class="relative rounded-2xl p-7 border border-white/[0.07]"
-           style="background:rgba(12,12,22,.8)">
-        <div class="inline-flex w-12 h-12 rounded-2xl items-center justify-center font-display font-extrabold text-lg text-zinc-900 mb-5"
-             style="background:linear-gradient(135deg,#2DD4BF,#0d9488)">3</div>
-        <h3 class="font-display font-bold text-lg mb-2 text-zinc-100">Post smarter. Grow faster.</h3>
-        <p class="text-zinc-400 text-sm leading-relaxed">
+      <div class="relative p-7 border border-brand-200 bg-brand-100">
+        <div class="inline-flex w-10 h-10 items-center justify-center font-display font-semibold text-lg text-brand-50 mb-5 bg-brand-900">3</div>
+        <h3 class="font-display font-semibold text-lg mb-2 text-brand-900">Post smarter. Grow faster.</h3>
+        <p class="text-[#6B645A] text-sm leading-relaxed">
           Better captions. Higher-scoring ideas. More comments replied. Your strategy compounds —
           the more you use it, the more your content improves.
         </p>
@@ -577,16 +432,15 @@ html { scroll-behavior: smooth; }
 <!-- ══════════════════════════════════════════════════════════
      WHY CLUTVI
 ══════════════════════════════════════════════════════════ -->
-<section id="stories" class="py-24 sm:py-32 border-t border-white/[0.06]"
-         style="background:rgba(255,255,255,.014)">
+<section id="stories" class="py-24 sm:py-32 border-t border-brand-200 bg-brand-100">
   <div class="max-w-6xl mx-auto px-5 sm:px-8">
 
     <div class="text-center mb-16">
-      <div class="text-[11px] font-bold uppercase tracking-widest text-violet-400 mb-3">Why Clutvi</div>
-      <h2 class="font-display font-extrabold text-[clamp(2rem,4.5vw,3.2rem)] tracking-tight">
-        Not another caption app. <span class="g">A creator workflow.</span>
+      <div class="text-[11px] font-semibold uppercase tracking-widest text-[#6B645A] mb-3">Why Clutvi</div>
+      <h2 class="font-display font-semibold text-[clamp(2rem,4.5vw,3.2rem)] tracking-tight text-brand-900">
+        Not another caption app. A creator workflow.
       </h2>
-      <p class="text-zinc-400 text-lg max-w-[540px] mx-auto mt-4">
+      <p class="text-[#6B645A] text-lg max-w-[540px] mx-auto mt-4">
         Most tools stop at the caption. Clutvi helps you decide <em>what</em> to post,
         <em>whether it'll land</em>, and <em>how to reply</em> — before and after you hit publish.
       </p>
@@ -594,38 +448,38 @@ html { scroll-behavior: smooth; }
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
 
-      <div class="tcard rounded-2xl p-7">
-        <div class="text-teal-400 text-sm mb-4 font-bold tracking-wider">VS CHATGPT</div>
-        <p class="text-zinc-300 text-[15px] leading-relaxed">
+      <div class="tcard p-7">
+        <div class="text-brand-500 text-sm mb-4 font-bold tracking-wider">VS CHATGPT</div>
+        <p class="text-brand-900 text-[15px] leading-relaxed">
           No prompting. Pick a tool, fill one box, get platform-ready output in seconds.
-          <strong class="text-zinc-100">Built for TikTok and Reels</strong>, not generic "social media" fluff.
+          <strong>Built for TikTok and Reels</strong>, not generic "social media" fluff.
         </p>
       </div>
 
-      <div class="tcard rounded-2xl p-7">
-        <div class="text-violet-400 text-sm mb-4 font-bold tracking-wider">VS CAPTION.AI</div>
-        <p class="text-zinc-300 text-[15px] leading-relaxed">
+      <div class="tcard p-7">
+        <div class="text-brand-500 text-sm mb-4 font-bold tracking-wider">VS CAPTION.AI</div>
+        <p class="text-brand-900 text-[15px] leading-relaxed">
           Captions are one of six tools. Score ideas <em>before</em> you film, analyse what's working,
-          and plan a month of content from a brain dump — <strong class="text-zinc-100">all for £9.99/mo</strong>.
+          and plan a month of content from a brain dump — <strong>all for £9.99/mo</strong>.
         </p>
       </div>
 
-      <div class="tcard rounded-2xl p-7">
-        <div class="text-emerald-400 text-sm mb-4 font-bold tracking-wider">COMING SOON</div>
-        <p class="text-zinc-300 text-[15px] leading-relaxed">
-          The <strong class="text-zinc-100">Conversion Layer</strong> — CTA builder, lead magnets, and
+      <div class="tcard p-7">
+        <div class="text-[#6B645A] text-sm mb-4 font-bold tracking-wider">COMING SOON</div>
+        <p class="text-brand-900 text-[15px] leading-relaxed">
+          The <strong>Conversion Layer</strong> — CTA builder, lead magnets, and
           offer-to-content funnels. The only toolkit that walks you from hook to sale.
         </p>
       </div>
 
-      <div class="tcard rounded-2xl p-7">
-        <div class="text-amber-400 text-sm mb-4 font-bold tracking-wider">EARLY ACCESS</div>
-        <p class="text-zinc-300 text-[15px] leading-relaxed mb-5">
+      <div class="tcard p-7">
+        <div class="text-[#6B645A] text-sm mb-4 font-bold tracking-wider">EARLY ACCESS</div>
+        <p class="text-brand-900 text-[15px] leading-relaxed mb-5">
           We're recruiting UK creators for beta feedback. Try free for 3 days and tell us what lands.
-          <strong class="text-zinc-100">First 20 beta users get a shout-out when we launch publicly.</strong>
+          <strong>First 20 beta users get a shout-out when we launch publicly.</strong>
         </p>
         <a href="app/?signup=1"
-           class="inline-flex items-center gap-1.5 text-sm font-bold text-violet-400 no-underline hover:gap-2.5 transition-all">
+           class="inline-flex items-center gap-1.5 text-sm font-bold text-brand-500 no-underline">
           Join the beta <span>→</span>
         </a>
       </div>
@@ -637,93 +491,89 @@ html { scroll-behavior: smooth; }
 <!-- ══════════════════════════════════════════════════════════
      PRICING
 ══════════════════════════════════════════════════════════ -->
-<section id="pricing" class="py-24 sm:py-32 border-t border-white/[0.06]">
+<section id="pricing" class="py-24 sm:py-32 border-t border-brand-200">
   <div class="max-w-5xl mx-auto px-5 sm:px-8">
 
     <div class="text-center mb-14">
-      <div class="text-[11px] font-bold uppercase tracking-widest text-teal-400 mb-3">Pricing</div>
-      <h2 class="font-display font-extrabold text-[clamp(2rem,4.5vw,3.2rem)] tracking-tight">
-        One plan. <span class="g">Everything unlocked.</span>
+      <div class="text-[11px] font-semibold uppercase tracking-widest text-[#6B645A] mb-3">Pricing</div>
+      <h2 class="font-display font-semibold text-[clamp(2rem,4.5vw,3.2rem)] tracking-tight text-brand-900">
+        One plan. Everything unlocked.
       </h2>
-      <p class="text-zinc-500 text-base mt-4 max-w-md mx-auto">
+      <p class="text-[#6B645A] text-base mt-4 max-w-md mx-auto">
         Every tool unlocked. Fair-use limits that keep it fast for everyone. New tools included free.
       </p>
     </div>
 
-    <div class="price-card max-w-[420px] mx-auto rounded-3xl border border-violet-800/35 overflow-hidden">
-      <div class="h-1" style="background:linear-gradient(90deg,#7C3AED,#2DD4BF)"></div>
-
+    <div class="price-card max-w-[420px] mx-auto overflow-hidden">
       <div class="p-8 sm:p-10">
 
         <!-- Trial badge -->
-        <div class="inline-flex items-center gap-2 rounded-full px-4 py-1.5 mb-7 text-[11px] font-bold uppercase tracking-wider text-emerald-300"
-             style="background:rgba(52,211,153,.09);border:1px solid rgba(52,211,153,.22)">
-          <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 pdot"></span>
+        <div class="inline-flex items-center gap-2 px-3 py-1.5 mb-7 text-[11px] font-bold uppercase tracking-wider text-brand-900 bg-brand-50 border border-brand-200">
           3 days free — cancel anytime
         </div>
 
         <div class="flex items-baseline gap-1.5 mb-1">
-          <span class="font-display font-extrabold text-5xl tracking-tight text-zinc-50">£9.99</span>
-          <span class="text-zinc-500 text-base">/&nbsp;month</span>
+          <span class="font-display font-semibold text-5xl tracking-tight text-brand-500">£9.99</span>
+          <span class="text-[#6B645A] text-base">/&nbsp;month</span>
         </div>
-        <p class="text-zinc-600 text-sm mb-8">Billed monthly. Cancel in one click, any time.</p>
+        <p class="text-[#6B645A] text-sm mb-8">Billed monthly. Cancel in one click, any time.</p>
 
         <ul class="space-y-3.5 mb-9">
           <li class="flex items-start gap-3 text-sm">
-            <span class="text-teal-400 font-bold flex-shrink-0 mt-0.5">✓</span>
-            <span class="text-zinc-300">All 6 AI tools — 40 generations/day on Pro</span>
+            <span class="text-brand-500 font-bold flex-shrink-0 mt-0.5">✓</span>
+            <span class="text-brand-900">All 6 AI tools — 40 generations/day on Pro</span>
           </li>
           <li class="flex items-start gap-3 text-sm">
-            <span class="text-teal-400 font-bold flex-shrink-0 mt-0.5">✓</span>
-            <span class="text-zinc-300">3-day trial — 10 generations/day to explore</span>
+            <span class="text-brand-500 font-bold flex-shrink-0 mt-0.5">✓</span>
+            <span class="text-brand-900">3-day trial — 10 generations/day to explore</span>
           </li>
           <li class="flex items-start gap-3 text-sm">
-            <span class="text-teal-400 font-bold flex-shrink-0 mt-0.5">✓</span>
-            <span class="text-zinc-300">Instagram &amp; TikTok support across every tool</span>
+            <span class="text-brand-500 font-bold flex-shrink-0 mt-0.5">✓</span>
+            <span class="text-brand-900">Instagram &amp; TikTok support across every tool</span>
           </li>
           <li class="flex items-start gap-3 text-sm">
-            <span class="text-teal-400 font-bold flex-shrink-0 mt-0.5">✓</span>
-            <span class="text-zinc-300">Viral post library &amp; AI remixing</span>
+            <span class="text-brand-500 font-bold flex-shrink-0 mt-0.5">✓</span>
+            <span class="text-brand-900">Viral post library &amp; AI remixing</span>
           </li>
           <li class="flex items-start gap-3 text-sm">
-            <span class="text-teal-400 font-bold flex-shrink-0 mt-0.5">✓</span>
-            <span class="text-zinc-300">Algo scores + full recommendations</span>
+            <span class="text-brand-500 font-bold flex-shrink-0 mt-0.5">✓</span>
+            <span class="text-brand-900">Algo scores + full recommendations</span>
           </li>
           <li class="flex items-start gap-3 text-sm">
-            <span class="text-teal-400 font-bold flex-shrink-0 mt-0.5">✓</span>
-            <span class="text-zinc-300">Content history synced across devices</span>
+            <span class="text-brand-500 font-bold flex-shrink-0 mt-0.5">✓</span>
+            <span class="text-brand-900">Content history synced across devices</span>
           </li>
           <li class="flex items-start gap-3 text-sm">
-            <span class="text-teal-400 font-bold flex-shrink-0 mt-0.5">✓</span>
-            <span class="text-zinc-300">Every new tool added — free, forever</span>
+            <span class="text-brand-500 font-bold flex-shrink-0 mt-0.5">✓</span>
+            <span class="text-brand-900">Every new tool added — free, forever</span>
           </li>
         </ul>
 
         <a href="app/?signup=1"
-           class="btn-primary block w-full py-4 rounded-xl text-white font-display font-bold text-base no-underline text-center">
+           class="btn-primary block w-full py-4 text-base no-underline text-center">
           Start free trial →
         </a>
-        <p class="text-center text-xs text-zinc-700 mt-4">Card required · no charge for 3 days · cancel anytime</p>
+        <p class="text-center text-xs text-[#6B645A] mt-4">Card required · no charge for 3 days · cancel anytime</p>
       </div>
     </div>
 
     <!-- FAQ strip -->
     <div class="mt-14 max-w-2xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-5">
-      <div class="rounded-xl p-5 border border-white/[0.06]" style="background:rgba(255,255,255,.02)">
-        <div class="text-sm font-semibold text-zinc-200 mb-1">What counts as a "generation"?</div>
-        <div class="text-sm text-zinc-500">Each tool run is one generation. Trial: 10/day, 25 total. Pro: 40/day fair use — plenty for daily posting.</div>
+      <div class="p-5 border border-brand-200 bg-brand-100">
+        <div class="text-sm font-semibold text-brand-900 mb-1">What counts as a "generation"?</div>
+        <div class="text-sm text-[#6B645A]">Each tool run is one generation. Trial: 10/day, 25 total. Pro: 40/day fair use — plenty for daily posting.</div>
       </div>
-      <div class="rounded-xl p-5 border border-white/[0.06]" style="background:rgba(255,255,255,.02)">
-        <div class="text-sm font-semibold text-zinc-200 mb-1">Can I cancel mid-month?</div>
-        <div class="text-sm text-zinc-500">Yes. Cancel any time from your account settings and you won't be charged again. You keep access until the period ends.</div>
+      <div class="p-5 border border-brand-200 bg-brand-100">
+        <div class="text-sm font-semibold text-brand-900 mb-1">Can I cancel mid-month?</div>
+        <div class="text-sm text-[#6B645A]">Yes. Cancel any time from your account settings and you won't be charged again. You keep access until the period ends.</div>
       </div>
-      <div class="rounded-xl p-5 border border-white/[0.06]" style="background:rgba(255,255,255,.02)">
-        <div class="text-sm font-semibold text-zinc-200 mb-1">Does it work for both platforms?</div>
-        <div class="text-sm text-zinc-500">All 6 tools support Instagram and TikTok, with platform-specific tone and hashtag logic baked in.</div>
+      <div class="p-5 border border-brand-200 bg-brand-100">
+        <div class="text-sm font-semibold text-brand-900 mb-1">Does it work for both platforms?</div>
+        <div class="text-sm text-[#6B645A]">All 6 tools support Instagram and TikTok, with platform-specific tone and hashtag logic baked in.</div>
       </div>
-      <div class="rounded-xl p-5 border border-white/[0.06]" style="background:rgba(255,255,255,.02)">
-        <div class="text-sm font-semibold text-zinc-200 mb-1">Will new tools cost extra?</div>
-        <div class="text-sm text-zinc-500">Never. Every tool we add in the future is included in your subscription at no extra charge.</div>
+      <div class="p-5 border border-brand-200 bg-brand-100">
+        <div class="text-sm font-semibold text-brand-900 mb-1">Will new tools cost extra?</div>
+        <div class="text-sm text-[#6B645A]">Never. Every tool we add in the future is included in your subscription at no extra charge.</div>
       </div>
     </div>
   </div>
@@ -732,53 +582,51 @@ html { scroll-behavior: smooth; }
 <!-- ══════════════════════════════════════════════════════════
      FINAL CTA
 ══════════════════════════════════════════════════════════ -->
-<section class="py-24 sm:py-32 relative overflow-hidden border-t border-white/[0.06]">
-  <div class="section-glow absolute inset-0 pointer-events-none"></div>
-  <div class="grid-tex absolute inset-0 pointer-events-none opacity-40"></div>
+<section class="py-24 sm:py-32 border-t border-brand-200">
 
   <div class="relative max-w-3xl mx-auto px-5 sm:px-8 text-center">
-    <div class="text-[11px] font-bold uppercase tracking-widest text-violet-400 mb-4">Ready when you are</div>
-    <h2 class="font-display font-extrabold text-[clamp(2.2rem,5.5vw,3.8rem)] tracking-tight leading-tight mb-6">
-      Your next post is<br><span class="g">two minutes away.</span>
+    <div class="text-[11px] font-semibold uppercase tracking-widest text-[#6B645A] mb-4">Ready when you are</div>
+    <h2 class="font-display font-semibold text-[clamp(2.2rem,5.5vw,3.8rem)] tracking-tight leading-tight mb-6 text-brand-900">
+      Your next post is<br>two minutes away.
     </h2>
-    <p class="text-zinc-400 text-lg max-w-xl mx-auto mb-10">
+    <p class="text-[#6B645A] text-lg max-w-xl mx-auto mb-10">
       Score your idea, write the caption, plan the week — without six tabs open
       and forty minutes lost to a blank screen.
     </p>
     <div class="flex flex-col sm:flex-row gap-3 justify-center">
       <a href="app/?signup=1"
-         class="btn-primary px-10 py-4 rounded-xl text-white font-display font-bold text-base no-underline text-center">
+         class="btn-primary px-10 py-4 text-base no-underline text-center">
         Try free for 3 days →
       </a>
       <a href="app/"
-         class="btn-secondary px-10 py-4 rounded-xl font-medium text-base no-underline text-center text-zinc-400 hover:text-zinc-100">
+         class="btn-secondary px-10 py-4 font-semibold text-base no-underline text-center">
         Sign in instead
       </a>
     </div>
-    <p class="text-sm text-zinc-600 mt-5">3-day free trial &nbsp;·&nbsp; £9.99/month &nbsp;·&nbsp; cancel anytime</p>
+    <p class="text-sm text-[#6B645A] mt-5">3-day free trial &nbsp;·&nbsp; £9.99/month &nbsp;·&nbsp; cancel anytime</p>
   </div>
 </section>
 
 <!-- ══════════════════════════════════════════════════════════
      FOOTER
 ══════════════════════════════════════════════════════════ -->
-<footer class="border-t border-white/[0.06] py-10" style="background:rgba(0,0,0,.28)">
+<footer class="border-t border-brand-200 py-10 bg-brand-100">
   <div class="max-w-6xl mx-auto px-5 sm:px-8">
     <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
-      <a href="#" class="font-display font-extrabold text-lg tracking-tight text-zinc-100 no-underline">
-        Clut<span class="g">vi</span> 🚀
+      <a href="#" class="font-display font-semibold text-lg tracking-tight text-brand-900 no-underline">
+        clutvi
       </a>
-      <div class="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-sm text-zinc-500">
-        <a href="#tools"   class="hover:text-zinc-300 transition-colors no-underline">Tools</a>
-        <a href="tools/"    class="hover:text-zinc-300 transition-colors no-underline">Free tools</a>
-        <a href="#how"     class="hover:text-zinc-300 transition-colors no-underline">How it works</a>
-        <a href="#pricing" class="hover:text-zinc-300 transition-colors no-underline">Pricing</a>
-        <a href="app/"     class="hover:text-zinc-300 transition-colors no-underline">Sign in</a>
-        <a href="app/?signup=1" class="hover:text-zinc-300 transition-colors no-underline">Sign up</a>
-        <a href="terms.html"   class="hover:text-zinc-300 transition-colors no-underline">Terms</a>
-        <a href="privacy.html" class="hover:text-zinc-300 transition-colors no-underline">Privacy</a>
+      <div class="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-sm text-[#6B645A]">
+        <a href="#tools"   class="hover:text-brand-900 transition-colors no-underline">Tools</a>
+        <a href="tools/"    class="hover:text-brand-900 transition-colors no-underline">Free tools</a>
+        <a href="#how"     class="hover:text-brand-900 transition-colors no-underline">How it works</a>
+        <a href="#pricing" class="hover:text-brand-900 transition-colors no-underline">Pricing</a>
+        <a href="app/"     class="hover:text-brand-900 transition-colors no-underline">Sign in</a>
+        <a href="app/?signup=1" class="hover:text-brand-900 transition-colors no-underline">Sign up</a>
+        <a href="terms.html"   class="hover:text-brand-900 transition-colors no-underline">Terms</a>
+        <a href="privacy.html" class="hover:text-brand-900 transition-colors no-underline">Privacy</a>
       </div>
-      <p class="text-xs text-zinc-700">© 2026 Clutvi · AI tools for creators</p>
+      <p class="text-xs text-[#6B645A]">© 2026 Clutvi · scoring desk for creators</p>
     </div>
   </div>
 </footer>
