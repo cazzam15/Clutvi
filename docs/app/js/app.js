@@ -133,13 +133,60 @@ function formatCaptions(d) {
   ).join(DIVIDER);
 }
 
+function asLines(v) {
+  return Array.isArray(v) ? v.filter(Boolean).map(String) : [];
+}
+
 function formatAlgo(d) {
-  return [
-    d.verdict,
-    'How to boost it:\n' + d.improvements.map(x => '• ' + x).join('\n'),
-    `Best time to post: ${d.best_time}`,
-    `Recommended format: ${d.format}`,
-  ].join('\n\n');
+  d = d || {};
+  const why = asLines(d.why);
+  const improvements = asLines(d.improvements);
+  const parts = [];
+  if (why.length) parts.push('Why this score:\n' + why.map(x => '• ' + x).join('\n'));
+  else if (d.verdict) parts.push(d.verdict);
+  if (d.change_this) parts.push('Change this:\n' + d.change_this);
+  if (d.rewritten_hook) parts.push('Rewritten hook:\n' + d.rewritten_hook);
+  if (improvements.length && !d.change_this) {
+    parts.push('How to boost it:\n' + improvements.map(x => '• ' + x).join('\n'));
+  }
+  if (d.best_time) parts.push('Best time to post: ' + d.best_time);
+  if (d.format) parts.push('Recommended format: ' + d.format);
+  if (d.verdict && why.length) parts.push(d.verdict);
+  return parts.filter(Boolean).join('\n\n');
+}
+
+let lastAlgoInput = '';
+let lastAlgoData = null;
+
+function improveAlgoIdea() {
+  if (!lastAlgoData) { showToast('Analyse an idea first'); return; }
+  const hook = String(lastAlgoData.rewritten_hook || '').trim();
+  const fix = String(lastAlgoData.change_this || '').trim();
+  if (!hook && !fix) { showToast('No improvement to apply yet'); return; }
+  const box = document.getElementById('algo-input');
+  if (!box) return;
+  box.value = [hook, fix].filter(Boolean).join('\n\n');
+  box.focus();
+  showToast('Idea updated — tap Analyse to rescore');
+}
+
+function writeCaptionFromAlgo() {
+  if (!lastAlgoData && !lastAlgoInput) { showToast('Analyse an idea first'); return; }
+  const hook = String(lastAlgoData?.rewritten_hook || '').trim();
+  const idea = (lastAlgoInput || '').trim();
+  const lines = [];
+  if (hook) lines.push(hook);
+  if (idea && idea !== hook) lines.push(idea);
+  const box = document.getElementById('caption-input');
+  if (!box || !lines.length) { showToast('Nothing to send to Caption Writer yet'); return; }
+  box.value = lines.join('\n\n');
+  const plat = getActiveChip('algo-plat');
+  if (plat) {
+    document.querySelectorAll('#page-caption [onclick*="\'plat\'"]').forEach(c => {
+      c.classList.toggle('active', c.textContent.trim() === plat);
+    });
+  }
+  nav('caption');
 }
 
 function formatHistoryAnalysis(d) {
@@ -191,12 +238,19 @@ async function runAlgo() {
   setLoading('algo', true);
   try {
     const data = await callClaude('algo', text, { platform: plat });
-    const score = data.score;
-    document.getElementById('algo-score-wrap').style.display = 'block';
-    document.getElementById('algo-bar').style.width = score + '%';
-    const numEl = document.getElementById('algo-score-num');
-    numEl.textContent = score + '/100';
-    numEl.className = 'score-num ' + (score >= 70 ? 'high' : score >= 45 ? 'mid' : 'low');
+    lastAlgoInput = text;
+    lastAlgoData = data;
+    const score = Number(data.score ?? data.overall_score);
+    const wrap = document.getElementById('algo-score-wrap');
+    if (Number.isFinite(score)) {
+      wrap.style.display = 'block';
+      document.getElementById('algo-bar').style.width = Math.max(0, Math.min(100, score)) + '%';
+      const numEl = document.getElementById('algo-score-num');
+      numEl.textContent = score + '/100';
+      numEl.className = 'score-num ' + (score >= 70 ? 'high' : score >= 45 ? 'mid' : 'low');
+    } else {
+      wrap.style.display = 'none';
+    }
     showOutput('algo', formatAlgo(data));
     document.getElementById('algo-actions').style.display = 'flex';
     incrementCount();

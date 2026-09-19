@@ -153,7 +153,7 @@ body {
   border-radius: 2px; padding: 18px; margin-top: 16px;
 }
 .output-box.visible { display: block; }
-.output-actions { display: flex; gap: 8px; margin-top: 12px; }
+.output-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
 
 /* ── Algo score bar ───────────────────────────────────────── */
 .score-wrap { display: flex; align-items: center; gap: 12px; margin: 12px 0 16px; }
@@ -681,7 +681,7 @@ body {
   <!-- ── ALGO ANALYZER ──────────────────────────────────── -->
   <div class="page" id="page-algo">
     <div class="page-title">Algo Analyzer 📊</div>
-    <div class="page-sub">Score your content idea for algorithm performance before you post.</div>
+    <div class="page-sub">Score the idea, see why, then improve it or write the caption.</div>
     <div class="tool-card">
       <div class="field-label">Platform</div>
       <div class="chip-row">
@@ -705,6 +705,8 @@ body {
       <div class="output-box" id="algo-output"></div>
       <div class="output-actions" id="algo-actions" style="display:none">
         <button class="btn-sm" onclick="copyOutput('algo-output')">Copy</button>
+        <button class="btn-sm" onclick="improveAlgoIdea()">Improve this idea</button>
+        <button class="btn-sm" onclick="writeCaptionFromAlgo()">Write a caption for this</button>
       </div>
     </div>
   </div>

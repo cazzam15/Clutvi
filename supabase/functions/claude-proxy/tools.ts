@@ -42,21 +42,25 @@ export const TOOLS: Record<string, ToolSpec> = {
   },
 
   algo: {
-    description: 'Score the content idea and explain how to improve it.',
+    description: 'Coach the creator: score the idea, explain why, give one fix, rewrite the hook.',
     schema: {
       type: 'object',
       properties: {
         score: { type: 'integer', minimum: 0, maximum: 100, description: 'Predicted algorithm performance, 0–100.' },
+        why: { ...list('Exactly three short bullets explaining the score.'), minItems: 3, maxItems: 3 },
+        change_this: s('One concrete fix the creator should make before filming.'),
+        rewritten_hook: s('One stronger opening line / hook for the idea.'),
+        // Optional extras — older history rows still have these; new runs may too.
         verdict: s('One or two sentences on why it will or will not perform.'),
         improvements: { ...list('2–4 concrete, specific improvements.'), minItems: 2, maxItems: 4 },
         best_time: s('Best day/time window to post.'),
         format: s('Recommended format, e.g. "6–8 slide carousel".'),
       },
-      required: ['score', 'verdict', 'improvements', 'best_time', 'format'],
+      required: ['score', 'why', 'change_this', 'rewritten_hook'],
     },
     build: (input, o) => ({
-      system: `You are a ${o.platform ?? 'Instagram'} algorithm expert. Be direct and specific.`,
-      userPrompt: `Score this content idea out of 100 and explain how to make it perform better: "${input}".`,
+      system: `You are a ${o.platform ?? 'Instagram'} algorithm coach. Be direct, specific, and encouraging — like a sharp creative director. Always return exactly three why-bullets, one concrete change_this fix, and one rewritten_hook.`,
+      userPrompt: `Coach this content idea. Score it 0–100, give exactly 3 short why-bullets, one concrete "change this" fix, and one stronger rewritten_hook:\n\n"${input}"`,
     }),
   },
 
