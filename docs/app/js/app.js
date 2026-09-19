@@ -1,1 +1,1 @@
-PLACEHOLDER_WILL_FAIL
+file:///workspace/Clutvi/docs/app/js/app.js
