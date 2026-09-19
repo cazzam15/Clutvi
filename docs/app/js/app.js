@@ -1,1 +1,1 @@
-__LOAD_FROM__:/workspace/clutvi-algo/app.js
+PLACEHOLDER_WILL_REPLACE
