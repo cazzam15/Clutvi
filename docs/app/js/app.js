@@ -1,1 +1,2 @@
-LOAD_FROM_FILE:/workspace/clutvi-algo/app.js
+// TEMP - will replace with full file in next call
+console.log('algo app.js loading');
