@@ -48,15 +48,18 @@ export const TOOLS: Record<string, ToolSpec> = {
       properties: {
         score: { type: 'integer', minimum: 0, maximum: 100, description: 'Predicted algorithm performance, 0–100.' },
         verdict: s('One or two sentences on why it will or will not perform.'),
+        why: { ...list('Exactly 3 short reasons for the score.'), minItems: 3, maxItems: 3 },
+        change_this: s('One concrete thing to change before filming.'),
+        rewritten_hook: s('One stronger opening line the creator can film.'),
         improvements: { ...list('2–4 concrete, specific improvements.'), minItems: 2, maxItems: 4 },
         best_time: s('Best day/time window to post.'),
         format: s('Recommended format, e.g. "6–8 slide carousel".'),
       },
-      required: ['score', 'verdict', 'improvements', 'best_time', 'format'],
+      required: ['score', 'verdict', 'why', 'change_this', 'rewritten_hook', 'improvements', 'best_time', 'format'],
     },
     build: (input, o) => ({
-      system: `You are a ${o.platform ?? 'Instagram'} algorithm expert. Be direct and specific.`,
-      userPrompt: `Score this content idea out of 100 and explain how to make it perform better: "${input}".`,
+      system: `You are a ${o.platform ?? 'Instagram'} algorithm expert and a content coach. Be direct and specific. Do not invent platform features.`,
+      userPrompt: `Score this content idea out of 100. Give 3 short reasons (why), ONE concrete fix (change_this), and one stronger hook (rewritten_hook). Then say how to make it perform better.\n\nIdea: "${input}"`,
     }),
   },
 
