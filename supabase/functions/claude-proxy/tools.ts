@@ -47,16 +47,20 @@ export const TOOLS: Record<string, ToolSpec> = {
       type: 'object',
       properties: {
         score: { type: 'integer', minimum: 0, maximum: 100, description: 'Predicted algorithm performance, 0–100.' },
+        why: { ...list('Exactly 3 short bullets on why this score.'), minItems: 3, maxItems: 3 },
+        change_this: s('One concrete fix that would raise the score most.'),
+        rewritten_hook: s('One stronger opening line the creator can use instead.'),
+        // Kept for older history rows / any UI that still reads them.
         verdict: s('One or two sentences on why it will or will not perform.'),
         improvements: { ...list('2–4 concrete, specific improvements.'), minItems: 2, maxItems: 4 },
         best_time: s('Best day/time window to post.'),
         format: s('Recommended format, e.g. "6–8 slide carousel".'),
       },
-      required: ['score', 'verdict', 'improvements', 'best_time', 'format'],
+      required: ['score', 'why', 'change_this', 'rewritten_hook', 'verdict', 'improvements', 'best_time', 'format'],
     },
     build: (input, o) => ({
-      system: `You are a ${o.platform ?? 'Instagram'} algorithm expert. Be direct and specific.`,
-      userPrompt: `Score this content idea out of 100 and explain how to make it perform better: "${input}".`,
+      system: `You are a ${o.platform ?? 'Instagram'} algorithm expert. Be direct and specific. Always give exactly 3 short why-bullets, one concrete change_this fix, and one rewritten_hook line.`,
+      userPrompt: `Score this content idea out of 100 and explain how to make it perform better: "${input}". Return why (3 bullets), change_this (1 fix), and rewritten_hook (1 stronger opening line), plus verdict, improvements, best_time, and format.`,
     }),
   },
 
