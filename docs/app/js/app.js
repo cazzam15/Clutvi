@@ -1,1 +1,1 @@
-PLACEHOLDER_FULL_CONTENT_SEE_NEXT
+LOAD_FROM_FILE:/workspace/clutvi-algo/app.js
