@@ -1,1 +1,1 @@
-@file:/workspace/clutvi-algo/app.js.only
+__CONTENT_FROM_FILE__:/workspace/clutvi-algo/app.js.only
