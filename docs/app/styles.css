@@ -372,7 +372,7 @@ textarea:focus { border-color: var(--purple); }
   font-size: 0.85rem;
   color: var(--muted2);
 }
-.viral-card-platform { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--pink); }
+.viral-card-platform { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--pink); margin-bottom: 6px; }
 .viral-card-text { color: var(--text); margin-bottom: 10px; line-height: 1.5; }
 .viral-card-actions { display: flex; gap: 8px; }
 
